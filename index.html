@@ -972,10 +972,10 @@
     }
 
     /* ── ROLE VISIBILITY ── */
-    body[data-role="admin"] .role-pasien, body[data-role="admin"] .role-kasir, body[data-role="admin"] .role-terapis { display:none!important; }
-    body[data-role="kasir"] .role-admin, body[data-role="kasir"] .role-pasien, body[data-role="kasir"] .role-terapis { display:none!important; }
-    body[data-role="pasien"] .role-admin, body[data-role="pasien"] .role-kasir, body[data-role="pasien"] .role-terapis { display:none!important; }
-    body[data-role="terapis"] .role-admin, body[data-role="terapis"] .role-kasir, body[data-role="terapis"] .role-pasien { display:none!important; }
+    body[data-role="admin"] :is(.role-pasien, .role-kasir, .role-terapis):not(.role-admin) { display: none !important; }
+    body[data-role="kasir"] :is(.role-admin, .role-pasien, .role-terapis):not(.role-kasir) { display: none !important; }
+    body[data-role="pasien"] :is(.role-admin, .role-kasir, .role-terapis):not(.role-pasien) { display: none !important; }
+    body[data-role="terapis"] :is(.role-admin, .role-kasir, .role-pasien):not(.role-terapis) { display: none !important; }
 
     /* ── RESPONSIVE ── */
     @media(max-width:992px) {

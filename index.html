@@ -1743,35 +1743,14 @@
 
       <!-- TAB 1 CONTENT: LOGIN (MASUK AKUN) -->
       <div class="modal-tab-content active" id="modal-content-login">
-        <div class="login-tabs">
-          <button class="login-tab active" id="tab-pasien" onclick="switchLoginTab('pasien')">
-            <iconify-icon icon="lucide:user"></iconify-icon> Pasien
-          </button>
-          <button class="login-tab" id="tab-staf" onclick="switchLoginTab('staf')">
-            <iconify-icon icon="lucide:shield-alert"></iconify-icon> Staf
-          </button>
-        </div>
+        <h4 style="font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--primary);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Akses Masuk Staf &amp; Kasir</h4>
+        <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-bottom:14px;line-height:1.5;">Masukkan nama pengguna dan kata sandi Anda untuk mengakses dashboard manajemen.</p>
         
         <div class="login-form">
           <div class="login-error" id="loginError">Kredensial salah!</div>
     
-          <!-- Pasien Login Form -->
-          <div id="pasienLoginForm" style="display:flex;flex-direction:column;gap:12px;">
-            <div class="login-input-group">
-              <iconify-icon icon="lucide:id-card"></iconify-icon>
-              <input type="text" class="login-input" id="loginIdentifier" placeholder="NIK atau No. Telepon" onkeydown="if(event.key==='Enter')handleLoginPasien()">
-            </div>
-            <div class="login-input-group">
-              <iconify-icon icon="lucide:lock"></iconify-icon>
-              <input type="password" class="login-input" id="loginPassword" placeholder="Kata Sandi (Password)" onkeydown="if(event.key==='Enter')handleLoginPasien()">
-            </div>
-            <button class="login-btn" onclick="handleLoginPasien()">
-              <span>Masuk</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
-            </button>
-          </div>
-    
           <!-- Staf Login Form -->
-          <div id="stafLoginForm" style="display:none;flex-direction:column;gap:12px;">
+          <div id="stafLoginForm" style="display:flex;flex-direction:column;gap:12px;">
             <div class="login-input-group">
               <iconify-icon icon="lucide:user"></iconify-icon>
               <input type="text" class="login-input" id="adminUsername" placeholder="Nama Pengguna" onkeydown="if(event.key==='Enter')handleLoginAdmin()">
@@ -2585,14 +2564,6 @@ function showPage(pageId) {
 function goHome() { showPage(currentRole==='admin'?'admin-dashboard':currentRole==='kasir'?'kasir-dashboard':'pasien-portal'); }
 
 // ── LOGIN ──
-function switchLoginTab(tab) {
-  document.querySelectorAll('.login-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelector(`.login-tab[onclick*="${tab}"]`).classList.add('active');
-  document.getElementById('pasienLoginForm').style.display = tab==='pasien'?'flex':'none';
-  document.getElementById('stafLoginForm').style.display = tab==='staf'?'flex':'none';
-  document.getElementById('loginError').style.display='none';
-}
-
 function initials(name) { return name ? name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : 'U'; }
 
 function doLogin(user, role) {
@@ -2614,18 +2585,6 @@ function doLogin(user, role) {
   showToast('Selamat datang, '+user.nama+'!', '👋');
 }
 
-async function handleLoginPasien() {
-  const id = document.getElementById('loginIdentifier').value.trim();
-  const pw = document.getElementById('loginPassword').value;
-  if(!id||!pw) return;
-  document.getElementById('loginError').style.display='none';
-  try {
-    const r = await runServer('loginPatient', id, pw);
-    if(r.success) { doLogin(r.patient, 'pasien'); }
-    else { document.getElementById('loginError').textContent=r.message; document.getElementById('loginError').style.display='block'; }
-  } catch(e) { document.getElementById('loginError').textContent='Terjadi kesalahan.'; document.getElementById('loginError').style.display='block'; }
-}
-
 async function handleLoginAdmin() {
   const u = document.getElementById('adminUsername').value.trim();
   const p = document.getElementById('adminPassword').value;
@@ -2636,12 +2595,6 @@ async function handleLoginAdmin() {
     if(r.success) { doLogin(r.admin, r.admin.role); }
     else { document.getElementById('loginError').textContent=r.message; document.getElementById('loginError').style.display='block'; }
   } catch(e) { document.getElementById('loginError').textContent='Terjadi kesalahan.'; document.getElementById('loginError').style.display='block'; }
-}
-
-function quickLogin(role) {
-  if(role==='admin') { document.getElementById('adminUsername').value='admin'; document.getElementById('adminPassword').value='admin123'; switchLoginTab('staf'); handleLoginAdmin(); }
-  else if(role==='kasir') { document.getElementById('adminUsername').value='kasir'; document.getElementById('adminPassword').value='kasir123'; switchLoginTab('staf'); handleLoginAdmin(); }
-  else { document.getElementById('loginIdentifier').value='3326012405950001'; document.getElementById('loginPassword').value='123456'; switchLoginTab('pasien'); handleLoginPasien(); }
 }
 
 function handleLogout() {

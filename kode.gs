@@ -92,26 +92,27 @@ function initializeSheets() {
   const patientHeaders = ['PatientID', 'Nama', 'NIK', 'NoTelepon', 'Email', 'TanggalLahir', 'JenisKelamin', 'Alamat', 'Password', 'TanggalDaftar', 'Role'];
   const patientSheet = setupSheet(SHEET_NAMES.PATIENTS, patientHeaders);
   const samplePatients = [
-    ['P001', 'Siti Aminah', '3326012405950001', '081234567890', 'siti@mail.com', '1995-05-24', 'Perempuan', 'Jl. Mawar No. 12, Pekalongan', '123456', now, 'pasien'],
-    ['P002', 'Budi Utomo', '3326012405950002', '081234567891', 'budi@mail.com', '1988-11-12', 'Laki-laki', 'Jl. Melati No. 45, Semarang', '123456', now, 'pasien'],
-    ['P003', 'Ahmad Fauzi', '3326012405950003', '081234567892', 'fauzi@mail.com', '1990-02-15', 'Laki-laki', 'Jl. Dahlia No. 7, Bandung', '123456', now, 'pasien'],
-    ['P004', 'Rini Lestari', '3326012405950004', '081234567893', 'rini@mail.com', '1993-07-22', 'Perempuan', 'Jl. Kenanga No. 89, Surabaya', '123456', now, 'pasien'],
-    ['P005', 'Hendra Wijaya', '3326012405950005', '081234567894', 'hendra@mail.com', '1985-04-30', 'Laki-laki', 'Jl. Anggrek No. 101, Yogyakarta', '123456', now, 'pasien'],
-    ['P006', 'Dewi Sartika', '3326012405950006', '081234567895', 'dewi@mail.com', '1997-09-08', 'Perempuan', 'Jl. Flamboyan No. 34, Solo', '123456', now, 'pasien'],
-    ['P007', 'Bambang Sugeng', '3326012405950007', '081234567896', 'bambang@mail.com', '1978-01-25', 'Laki-laki', 'Jl. Kamboja No. 56, Malang', '123456', now, 'pasien'],
-    ['P008', 'Lilis Suryani', '3326012405950008', '081234567897', 'lilis@mail.com', '1982-06-18', 'Perempuan', 'Jl. Tulip No. 23, Bogor', '123456', now, 'pasien'],
-    ['P009', 'Joko Widodo', '3326012405950009', '081234567898', 'joko@mail.com', '1961-06-21', 'Laki-laki', 'Jl. Solo No. 10, Depok', '123456', now, 'pasien'],
-    ['P010', 'Megawati Putri', '3326012405950010', '081234567899', 'mega@mail.com', '1972-01-23', 'Perempuan', 'Jl. Teuku Umar No. 27, Tangerang', '123456', now, 'pasien'],
-    ['P011', 'Prabowo Subianto', '3326012405950011', '081234567811', 'prabowo@mail.com', '1951-10-17', 'Laki-laki', 'Jl. Kertanegara No. 4, Jakarta', '123456', now, 'pasien'],
-    ['P012', 'Ganjar Pranowo', '3326012405950012', '081234567812', 'ganjar@mail.com', '1968-10-28', 'Laki-laki', 'Jl. Gajah Mada No. 8, Semarang', '123456', now, 'pasien'],
-    ['P013', 'Anies Baswedan', '3326012405950013', '081234567813', 'anies@mail.com', '1969-05-07', 'Laki-laki', 'Jl. Lebak Bulus No. 2, Jakarta', '123456', now, 'pasien'],
-    ['P014', 'Susi Pudjiastuti', '3326012405950014', '081234567814', 'susi@mail.com', '1965-01-15', 'Perempuan', 'Jl. Pananjung No. 13, Pangandaran', '123456', now, 'pasien'],
-    ['P015', 'Sri Mulyani', '3326012405950015', '081234567815', 'sri@mail.com', '1962-08-26', 'Perempuan', 'Jl. Sudirman No. 1, Jakarta', '123456', now, 'pasien'],
-    ['P016', 'Basuki Hadimuljono', '3326012405950016', '081234567816', 'basuki@mail.com', '1954-11-05', 'Laki-laki', 'Jl. Pattimura No. 20, Jakarta', '123456', now, 'pasien'],
-    ['P017', 'Retno Marsudi', '3326012405950017', '081234567817', 'retno@mail.com', '1962-11-27', 'Perempuan', 'Jl. Pejambon No. 6, Jakarta', '123456', now, 'pasien'],
-    ['P018', 'Erick Thohir', '3326012405950018', '081234567818', 'erick@mail.com', '1970-05-30', 'Laki-laki', 'Jl. Merdeka Barat No. 8, Jakarta', '123456', now, 'pasien'],
-    ['P019', 'Sandiaga Uno', '3326012405950019', '081234567819', 'sandi@mail.com', '1969-06-28', 'Laki-laki', 'Jl. Senopati No. 12, Jakarta', '123456', now, 'pasien'],
-    ['P020', 'Gibran Rakabuming', '3326012405950020', '081234567820', 'gibran@mail.com', '1987-10-01', 'Laki-laki', 'Jl. Solo No. 1, Surakarta', '123456', now, 'pasien']
+  const samplePatients = [
+    ['P001', 'Siti Aminah', '3326012405950001', '081234567890', 'siti@mail.com', '1995-05-24', 'Perempuan', 'Jl. Mawar No. 12, Pekalongan', '123', now, 'pasien'],
+    ['P002', 'Budi Utomo', '3326012405950002', '081234567891', 'budi@mail.com', '1988-11-12', 'Laki-laki', 'Jl. Melati No. 45, Semarang', '123', now, 'pasien'],
+    ['P003', 'Ahmad Fauzi', '3326012405950003', '081234567892', 'fauzi@mail.com', '1990-02-15', 'Laki-laki', 'Jl. Dahlia No. 7, Bandung', '123', now, 'pasien'],
+    ['P004', 'Rini Lestari', '3326012405950004', '081234567893', 'rini@mail.com', '1993-07-22', 'Perempuan', 'Jl. Kenanga No. 89, Surabaya', '123', now, 'pasien'],
+    ['P005', 'Hendra Wijaya', '3326012405950005', '081234567894', 'hendra@mail.com', '1985-04-30', 'Laki-laki', 'Jl. Anggrek No. 101, Yogyakarta', '123', now, 'pasien'],
+    ['P006', 'Dewi Sartika', '3326012405950006', '081234567895', 'dewi@mail.com', '1997-09-08', 'Perempuan', 'Jl. Flamboyan No. 34, Solo', '123', now, 'pasien'],
+    ['P007', 'Bambang Sugeng', '3326012405950007', '081234567896', 'bambang@mail.com', '1978-01-25', 'Laki-laki', 'Jl. Kamboja No. 56, Malang', '123', now, 'pasien'],
+    ['P008', 'Lilis Suryani', '3326012405950008', '081234567897', 'lilis@mail.com', '1982-06-18', 'Perempuan', 'Jl. Tulip No. 23, Bogor', '123', now, 'pasien'],
+    ['P009', 'Joko Widodo', '3326012405950009', '081234567898', 'joko@mail.com', '1961-06-21', 'Laki-laki', 'Jl. Solo No. 10, Depok', '123', now, 'pasien'],
+    ['P010', 'Megawati Putri', '3326012405950010', '081234567899', 'mega@mail.com', '1972-01-23', 'Perempuan', 'Jl. Teuku Umar No. 27, Tangerang', '123', now, 'pasien'],
+    ['P011', 'Prabowo Subianto', '3326012405950011', '081234567811', 'prabowo@mail.com', '1951-10-17', 'Laki-laki', 'Jl. Kertanegara No. 4, Jakarta', '123', now, 'pasien'],
+    ['P012', 'Ganjar Pranowo', '3326012405950012', '081234567812', 'ganjar@mail.com', '1968-10-28', 'Laki-laki', 'Jl. Gajah Mada No. 8, Semarang', '123', now, 'pasien'],
+    ['P013', 'Anies Baswedan', '3326012405950013', '081234567813', 'anies@mail.com', '1969-05-07', 'Laki-laki', 'Jl. Lebak Bulus No. 2, Jakarta', '123', now, 'pasien'],
+    ['P014', 'Susi Pudjiastuti', '3326012405950014', '081234567814', 'susi@mail.com', '1965-01-15', 'Perempuan', 'Jl. Pananjung No. 13, Pangandaran', '123', now, 'pasien'],
+    ['P015', 'Sri Mulyani', '3326012405950015', '081234567815', 'sri@mail.com', '1962-08-26', 'Perempuan', 'Jl. Sudirman No. 1, Jakarta', '123', now, 'pasien'],
+    ['P016', 'Basuki Hadimuljono', '3326012405950016', '081234567816', 'basuki@mail.com', '1954-11-05', 'Laki-laki', 'Jl. Pattimura No. 20, Jakarta', '123', now, 'pasien'],
+    ['P017', 'Retno Marsudi', '3326012405950017', '081234567817', 'retno@mail.com', '1962-11-27', 'Perempuan', 'Jl. Pejambon No. 6, Jakarta', '123', now, 'pasien'],
+    ['P018', 'Erick Thohir', '3326012405950018', '081234567818', 'erick@mail.com', '1970-05-30', 'Laki-laki', 'Jl. Merdeka Barat No. 8, Jakarta', '123', now, 'pasien'],
+    ['P019', 'Sandiaga Uno', '3326012405950019', '081234567819', 'sandi@mail.com', '1969-06-28', 'Laki-laki', 'Jl. Senopati No. 12, Jakarta', '123', now, 'pasien'],
+    ['P020', 'Gibran Rakabuming', '3326012405950020', '081234567820', 'gibran@mail.com', '1987-10-01', 'Laki-laki', 'Jl. Solo No. 1, Surakarta', '123', now, 'pasien']
   ];
   samplePatients.forEach(row => patientSheet.appendRow(row));
 

@@ -168,9 +168,9 @@ function initializeSheets() {
   const adminHeaders = ['AdminID', 'Username', 'Password', 'Nama', 'Role'];
   const adminSheet = setupSheet(SHEET_NAMES.ADMIN, adminHeaders);
   const sampleAdmin = [
-    ['A001', 'admin', 'admin123', 'Administrator', 'admin'],
-    ['A002', 'kasir', 'kasir123', 'Kasir Klinik', 'kasir'],
-    ['T001', 'terapis', 'terapis123', 'dr. Andi Pratama, Sp.FT', 'terapis']
+    ['A001', 'admin', '123', 'Administrator', 'admin'],
+    ['A002', 'kasir', '123', 'Kasir Klinik', 'kasir'],
+    ['T001', 'terapis', '123', 'dr. Andi Pratama, Sp.FT', 'terapis']
   ];
   sampleAdmin.forEach(row => adminSheet.appendRow(row));
 
@@ -180,7 +180,14 @@ function initializeSheets() {
   const sampleRecords = [
     ['REC001', 'P001', 'Siti Aminah', 'Low Back Pain', 'Fisioterapi Muskuloskeletal', 'Mengalami nyeri punggung bawah kronis. Dilakukan terapi manual, pemanasan infra-merah, dan edukasi posisi duduk tegak.', 'T001', 'dr. Andi Pratama, Sp.FT', today],
     ['REC002', 'P002', 'Budi Utomo', 'Hemiparese Dextra post Stroke', 'Fisioterapi Neuromuskular', 'Terapi latihan gerak pasif dan penguatan otot ekstremitas kanan atas dan bawah.', 'T002', 'dr. Sari Dewi, Sp.FT', today],
-    ['REC003', 'P004', 'Rini Lestari', 'Keterlambatan Motorik Kasar', 'Fisioterapi Pediatri', 'Terapi stimulasi merangkak dan berdiri tegak dengan penyangga.', 'T004', 'dr. Maya Putri, Sp.FT', today]
+    ['REC003', 'P004', 'Rini Lestari', 'Keterlambatan Motorik Kasar', 'Fisioterapi Pediatri', 'Terapi stimulasi merangkak dan berdiri tegak dengan penyangga.', 'T004', 'dr. Maya Putri, Sp.FT', today],
+    ['REC004', 'P003', 'Ahmad Fauzi', 'Asma Bronkial', 'Fisioterapi Kardiovaskulopulmonal', 'Terapi inhalasi (nebulisasi) diikuti dengan latihan teknik batuk efektif dan postural drainage. Kondisi dada mulai membaik.', 'T003', 'dr. Budi Santoso, Sp.FT', today],
+    ['REC005', 'P005', 'Hendra Wijaya', 'Osteoarthritis Genu', 'Fisioterapi Geriatri', 'Nyeri lutut kiri kronis karena faktor usia. Diberikan terapi TENS dan latihan penguatan otot kuadrisep.', 'T005', 'dr. Hendra Wijaya, Sp.FT', today],
+    ['REC006', 'P006', 'Dewi Sartika', 'Frozen Shoulder', 'Fisioterapi Kesehatan Wanita', 'Keterbatasan gerak sendi bahu kanan. Dilakukan mobilisasi sendi dan terapi ultrasound.', 'T006', 'dr. Linda Kusuma, Sp.FT', today],
+    ['REC007', 'P007', 'Bambang Sugeng', 'Ankle Sprain Grade II', 'Fisioterapi Sport', 'Cedera pergelangan kaki kanan saat bermain sepak bola. Dilakukan terapi kompres dingin, taping, dan latihan proprioseptif.', 'T007', 'dr. Riko Firmansyah, Sp.FT', today],
+    ['REC008', 'P008', 'Lilis Suryani', 'Cervical Syndrome', 'Fisioterapi Muskuloskeletal', 'Nyeri leher menjalar ke lengan kanan akibat spasme otot leher. Diberikan traksi leher dan infra-merah.', 'T001', 'dr. Andi Pratama, Sp.FT', today],
+    ['REC009', 'P009', 'Joko Widodo', 'Hernia Nucleus Pulposus (HNP)', 'Fisioterapi Neuromuskular', 'Saraf terjepit di pinggang. Diberikan terapi traksi lumbal dan edukasi core stability exercises.', 'T002', 'dr. Sari Dewi, Sp.FT', today],
+    ['REC010', 'P010', 'Megawati Putri', 'Post-Operative Pulmonary Complications', 'Fisioterapi Kardiovaskulopulmonal', 'Latihan pernapasan dalam (deep breathing exercises) dan ambulasi dini pasca operasi perut.', 'T003', 'dr. Budi Santoso, Sp.FT', today]
   ];
   sampleRecords.forEach(row => recordSheet.appendRow(row));
 

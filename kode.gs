@@ -92,7 +92,6 @@ function initializeSheets() {
   const patientHeaders = ['PatientID', 'Nama', 'NIK', 'NoTelepon', 'Email', 'TanggalLahir', 'JenisKelamin', 'Alamat', 'Password', 'TanggalDaftar', 'Role'];
   const patientSheet = setupSheet(SHEET_NAMES.PATIENTS, patientHeaders);
   const samplePatients = [
-  const samplePatients = [
     ['P001', 'Siti Aminah', '3326012405950001', '081234567890', 'siti@mail.com', '1995-05-24', 'Perempuan', 'Jl. Mawar No. 12, Pekalongan', '123', now, 'pasien'],
     ['P002', 'Budi Utomo', '3326012405950002', '081234567891', 'budi@mail.com', '1988-11-12', 'Laki-laki', 'Jl. Melati No. 45, Semarang', '123', now, 'pasien'],
     ['P003', 'Ahmad Fauzi', '3326012405950003', '081234567892', 'fauzi@mail.com', '1990-02-15', 'Laki-laki', 'Jl. Dahlia No. 7, Bandung', '123', now, 'pasien'],

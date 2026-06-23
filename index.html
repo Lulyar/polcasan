@@ -3248,13 +3248,13 @@ function openMedicalRecordModal() {
   document.getElementById('rmCatatan').value = '';
   document.getElementById('rmTanggal').value = todayStr;
   
+  const therapistSelect = document.getElementById('rmTherapistSelect');
   if (currentRole === 'terapis') {
-    const therapistSelect = document.getElementById('rmTherapistSelect');
     therapistSelect.value = currentUser.id;
     therapistSelect.disabled = true;
   } else {
-    document.getElementById('rmTherapistSelect').disabled = false;
-    document.getElementById('rmTherapistSelect').value = '';
+    therapistSelect.disabled = false;
+    therapistSelect.value = '';
   }
   
   openModal('medicalRecordModal');
@@ -3281,7 +3281,13 @@ async function loadPatientsDropdown() {
 
 async function loadTherapistsDropdown() {
   const select = document.getElementById('rmTherapistSelect');
-  if (select.children.length > 1) return;
+  if (select.children.length > 1) {
+    if (currentRole === 'terapis') {
+      select.value = currentUser.id;
+      select.disabled = true;
+    }
+    return;
+  }
   try {
     const r = await runServer('getTherapists');
     if (r.success) {
@@ -3292,6 +3298,10 @@ async function loadTherapistsDropdown() {
         opt.textContent = t.Nama;
         select.appendChild(opt);
       });
+      if (currentRole === 'terapis') {
+        select.value = currentUser.id;
+        select.disabled = true;
+      }
     }
   } catch (e) {
     console.error('Failed to load therapists for dropdown:', e);

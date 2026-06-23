@@ -170,7 +170,7 @@ function initializeSheets() {
   const sampleAdmin = [
     ['A001', 'admin', 'admin123', 'Administrator', 'admin'],
     ['A002', 'kasir', 'kasir123', 'Kasir Klinik', 'kasir'],
-    ['T000', 'terapis', 'terapis123', 'dr. Andi Pratama, Sp.FT', 'terapis']
+    ['T001', 'terapis', 'terapis123', 'dr. Andi Pratama, Sp.FT', 'terapis']
   ];
   sampleAdmin.forEach(row => adminSheet.appendRow(row));
 

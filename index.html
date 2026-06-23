@@ -1,0 +1,3104 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klinik Polcasan — Sistem Informasi Fisioterapi</title>
+  <meta name="description" content="Sistem Informasi Klinik Polcasan — Booking janji temu fisioterapi, manajemen antrean, dan pembayaran digital.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════
+       DESIGN SYSTEM — ART DECO & VINTAGE MODERN
+       Warna: Putih (utama), Hitam & Pink (sekunder) — TANPA GRADASI
+       ═══════════════════════════════════════════════════════════ */
+    :root {
+      --primary: #C44569;
+      --primary-light: #E8668B;
+      --primary-dark: #A33352;
+      --primary-glow: rgba(196, 69, 105, 0.12);
+      --primary-pale: #FDF0F3;
+
+      --accent: #1A1A1A;
+      --accent-light: #3D3D3D;
+      --accent-pale: #F5F5F5;
+
+      --bg-main: #F8F7F5;
+      --bg-sidebar: #FFFFFF;
+      --bg-card: #FFFFFF;
+
+      --text-main: #1A1A1A;
+      --text-muted: #6B6B6B;
+      --text-light: #9E9E9E;
+
+      --border-color: #E0DEDA;
+      --glass-bg: rgba(255, 255, 255, 0.75);
+      --glass-blur: blur(12px);
+
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 20px -2px rgba(0,0,0,0.07);
+      --shadow-lg: 0 12px 30px -4px rgba(0,0,0,0.10);
+
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-pill: 9999px;
+
+      --success: #2E7D32;
+      --success-pale: #E8F5E9;
+      --warning: #E65100;
+      --warning-pale: #FFF3E0;
+      --error: #C62828;
+      --error-pale: #FFEBEE;
+      --info: #0277BD;
+      --info-pale: #E1F5FE;
+
+      --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+      --font-heading: 'Outfit', sans-serif;
+    }
+
+    [data-theme="dark"] {
+      --primary: #E8668B;
+      --primary-light: #F48FB1;
+      --primary-dark: #C44569;
+      --primary-glow: rgba(232, 102, 139, 0.20);
+      --primary-pale: #2D1520;
+
+      --accent: #F5F5F5;
+      --accent-light: #E0E0E0;
+      --accent-pale: #1E1E1E;
+
+      --bg-main: #0A0A0A;
+      --bg-sidebar: #111111;
+      --bg-card: #161616;
+
+      --text-main: #F5F5F5;
+      --text-muted: #9E9E9E;
+      --text-light: #6B6B6B;
+
+      --border-color: #2A2A2A;
+      --glass-bg: rgba(16, 16, 16, 0.75);
+
+      --shadow-md: 0 4px 20px -2px rgba(0,0,0,0.35);
+      --shadow-lg: 0 12px 30px -4px rgba(0,0,0,0.45);
+
+      --success: #66BB6A;
+      --success-pale: #1B3A1E;
+      --warning: #FFA726;
+      --warning-pale: #3A2510;
+      --error: #EF5350;
+      --error-pale: #3A1515;
+      --info: #29B6F6;
+      --info-pale: #0A2A3A;
+    }
+
+    /* ── BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      transition: background var(--transition-normal), color var(--transition-normal);
+    }
+
+    ::-webkit-scrollbar { width: 7px; }
+    ::-webkit-scrollbar-track { background: var(--bg-main); }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: var(--radius-pill); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-light); }
+
+    h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: 700; letter-spacing: -0.01em; }
+    a { text-decoration: none; color: var(--primary); transition: color var(--transition-fast); }
+    a:hover { color: var(--primary-dark); }
+
+    /* ── ART DECO DECORATIVE ── */
+    .deco-diamond { color: var(--primary); letter-spacing: 6px; font-size: 10px; }
+    .deco-line { display: flex; align-items: center; gap: 12px; margin: 12px 0; }
+    .deco-line::before, .deco-line::after { content:''; flex:1; height:1px; background:var(--border-color); }
+    .deco-label {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--glass-bg);
+      backdrop-filter: var(--glass-blur);
+      -webkit-backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--border-color);
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: background var(--transition-normal), border var(--transition-normal);
+    }
+
+    .brand { display:flex; align-items:center; gap:12px; text-decoration:none; }
+    .brand-icon {
+      width: 40px; height: 40px;
+      background: var(--primary);
+      border-radius: var(--radius-sm);
+      display: flex; align-items:center; justify-content:center;
+      color: #FFF; font-size: 20px;
+      transition: transform var(--transition-fast);
+    }
+    .brand:hover .brand-icon { transform: rotate(-5deg) scale(1.05); }
+    .brand-name {
+      font-family: var(--font-display);
+      font-size: 22px; font-weight: 700;
+      color: var(--text-main);
+    }
+    .brand-name span { color: var(--primary); }
+
+    .header-controls { display:flex; align-items:center; gap:14px; }
+
+    .icon-btn {
+      background: var(--bg-main); border: 1px solid var(--border-color);
+      color: var(--text-muted); width:38px; height:38px;
+      border-radius: var(--radius-sm);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition: all var(--transition-fast); font-size:0;
+    }
+    .icon-btn iconify-icon { font-size: 18px; }
+    .icon-btn:hover { background:var(--primary-pale); border-color:var(--primary); color:var(--primary); transform:translateY(-1px); }
+
+    .icon-btn .sun-icon, [data-theme="dark"] .icon-btn .moon-icon { display:none; }
+    [data-theme="dark"] .icon-btn .sun-icon { display:block; }
+
+    .avatar-wrap {
+      display:flex; align-items:center; gap:10px;
+      padding-left:14px; border-left:1px solid var(--border-color); cursor:pointer;
+    }
+    .avatar-circle {
+      width:38px; height:38px; border-radius:var(--radius-pill);
+      background:var(--primary); display:flex; align-items:center; justify-content:center;
+      color:#FFF; font-weight:800; font-size:13px;
+    }
+    .avatar-info { display:flex; flex-direction:column; }
+    .avatar-title { font-size:13px; font-weight:700; color:var(--text-main); line-height:1.2; }
+    .avatar-sub { font-size:11px; color:var(--text-muted); }
+
+    /* ── HORIZONTAL NAV ── */
+    .nav-bar {
+      width:100%; background:var(--bg-sidebar);
+      border-bottom:1px solid var(--border-color);
+      padding:0 32px; display:flex; gap:6px;
+      position:sticky; top:68px; z-index:90;
+      overflow-x:auto; align-items:center; height:56px;
+      transition: background var(--transition-normal), border var(--transition-normal);
+      scrollbar-width: none;
+    }
+    .nav-bar::-webkit-scrollbar { display:none; }
+
+    .nav-item {
+      display:flex; align-items:center; gap:7px;
+      padding:8px 16px; border-radius:var(--radius-sm);
+      cursor:pointer; transition:all var(--transition-fast);
+      font-size:13px; font-weight:700;
+      color:var(--text-muted); border:1px solid transparent;
+      background:none; white-space:nowrap; font-family:var(--font-body);
+    }
+    .nav-item iconify-icon { font-size:17px; transition:transform var(--transition-fast); }
+    .nav-item:hover { background:var(--primary-pale); color:var(--primary); }
+    .nav-item:hover iconify-icon { transform:translateY(-1px); }
+    .nav-item.active { background:var(--accent); color:#FFF; }
+    [data-theme="dark"] .nav-item.active { background:var(--primary); color:#FFF; }
+    .nav-badge {
+      margin-left:4px; background:rgba(196,69,105,0.15); color:var(--primary);
+      font-size:10px; font-weight:800; padding:1px 6px; border-radius:var(--radius-pill);
+    }
+    .nav-item.active .nav-badge { background:rgba(255,255,255,0.2); color:#FFF; }
+
+    /* ── MAIN CONTENT ── */
+    .system-container { display:flex; flex-direction:column; flex:1; position:relative; }
+    main { flex:1; padding:28px 32px; overflow-y:auto; }
+    .page-view { display:none; animation:pageFade var(--transition-normal) forwards; }
+    .page-view.active { display:block; }
+
+    @keyframes pageFade {
+      from { opacity:0; transform:translateY(10px); }
+      to { opacity:1; transform:translateY(0); }
+    }
+
+    .page-header {
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:28px; gap:16px;
+    }
+    .page-headline h1 { font-size:28px; color:var(--text-main); line-height:1.2; }
+    .page-headline p { font-size:13px; color:var(--text-muted); margin-top:4px; }
+
+    /* ── BUTTONS ── */
+    .btn {
+      padding:10px 20px; border-radius:var(--radius-sm);
+      font-family:var(--font-body); font-size:13px; font-weight:700;
+      cursor:pointer; transition:all var(--transition-fast);
+      border:1.5px solid transparent; display:inline-flex;
+      align-items:center; justify-content:center; gap:7px;
+      text-decoration:none; outline:none;
+    }
+    .btn-primary {
+      background:var(--primary); color:#FFF; border-color:var(--primary);
+    }
+    .btn-primary:hover { background:var(--primary-dark); border-color:var(--primary-dark); transform:translateY(-1px); }
+    .btn-outline { background:transparent; border-color:var(--primary); color:var(--primary); }
+    .btn-outline:hover { background:var(--primary-pale); transform:translateY(-1px); }
+    .btn-secondary { background:var(--bg-card); border-color:var(--border-color); color:var(--text-main); }
+    .btn-secondary:hover { background:var(--bg-main); border-color:var(--text-light); }
+    .btn-dark { background:var(--accent); color:#FFF; border-color:var(--accent); }
+    .btn-dark:hover { opacity:0.85; transform:translateY(-1px); }
+    .btn-sm { padding:7px 14px; font-size:12px; }
+    .btn-lg { padding:14px 28px; font-size:14px; }
+    .btn:disabled { opacity:0.5; cursor:not-allowed; }
+
+    /* ── STAT CARDS ── */
+    .stats-grid {
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+      gap:18px; margin-bottom:28px;
+    }
+    .stat-card {
+      background:var(--bg-card); border-radius:var(--radius-lg);
+      padding:22px; border:1px solid var(--border-color);
+      box-shadow:var(--shadow-md); transition:all var(--transition-normal);
+      display:flex; flex-direction:column; position:relative; overflow:hidden;
+    }
+    .stat-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); border-color:var(--primary-light); }
+    .stat-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+    .stat-card-icon {
+      width:44px; height:44px; border-radius:var(--radius-md);
+      display:flex; align-items:center; justify-content:center;
+      transition:transform var(--transition-fast);
+    }
+    .stat-card:hover .stat-card-icon { transform:scale(1.08) rotate(2deg); }
+    .stat-card-icon iconify-icon { font-size:22px; }
+    .stat-card-icon.pink { background:var(--primary-pale); color:var(--primary); }
+    .stat-card-icon.dark { background:var(--accent-pale); color:var(--accent); }
+    .stat-card-icon.green { background:var(--success-pale); color:var(--success); }
+    .stat-card-icon.orange { background:var(--warning-pale); color:var(--warning); }
+    .stat-card-val { font-size:30px; font-weight:800; color:var(--text-main); font-family:var(--font-heading); }
+    .stat-card-label { font-size:12px; color:var(--text-muted); margin-top:4px; font-weight:500; }
+
+    /* ── LUXURY CARD / TABLE WRAPPER ── */
+    .luxury-card {
+      background:var(--bg-card); border-radius:var(--radius-lg);
+      border:1px solid var(--border-color); box-shadow:var(--shadow-md);
+      overflow:hidden; margin-bottom:24px;
+      transition:border var(--transition-normal), box-shadow var(--transition-normal);
+    }
+    .card-toolbar {
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 22px; border-bottom:1px solid var(--border-color);
+      gap:14px; flex-wrap:wrap;
+    }
+    .card-title { font-size:15px; font-weight:800; display:flex; align-items:center; gap:8px; }
+    .card-title a { font-size:12px; color:var(--primary); font-weight:700; }
+
+    .search-wrap { position:relative; flex:1; max-width:320px; }
+    .search-wrap iconify-icon {
+      position:absolute; left:12px; top:50%; transform:translateY(-50%);
+      font-size:17px; color:var(--text-light); pointer-events:none;
+    }
+    .search-input {
+      width:100%; padding:9px 14px 9px 38px; border-radius:var(--radius-md);
+      border:1.5px solid var(--border-color); background:var(--bg-main);
+      color:var(--text-main); font-family:var(--font-body); font-size:13px; outline:none;
+      transition:all var(--transition-fast);
+    }
+    .search-input:focus { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-glow); background:var(--bg-card); }
+
+    /* ── TABLE ── */
+    .table-container { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; text-align:left; }
+    thead { background:var(--bg-main); }
+    thead th {
+      padding:13px 20px; font-size:10px; font-weight:800;
+      color:var(--text-muted); text-transform:uppercase;
+      letter-spacing:1px; border-bottom:1px solid var(--border-color);
+    }
+    tbody tr { border-bottom:1px solid var(--border-color); transition:background var(--transition-fast); }
+    tbody tr:last-child { border-bottom:none; }
+    tbody tr:hover { background:var(--primary-pale); }
+    tbody td { padding:13px 20px; font-size:13px; color:var(--text-main); vertical-align:middle; }
+
+    .status-chip {
+      padding:5px 11px; border-radius:var(--radius-pill);
+      font-size:10px; font-weight:800; display:inline-flex;
+      align-items:center; gap:5px; text-transform:uppercase; letter-spacing:0.4px;
+    }
+    .status-chip::before { content:''; width:5px; height:5px; border-radius:50%; background:currentColor; }
+    .status-chip.menunggu { background:var(--warning-pale); color:var(--warning); }
+    .status-chip.proses, .status-chip.dipanggil { background:var(--info-pale); color:var(--info); }
+    .status-chip.selesai, .status-chip.lunas { background:var(--success-pale); color:var(--success); }
+    .status-chip.batal { background:var(--error-pale); color:var(--error); }
+    .status-chip.terjadwal { background:var(--primary-pale); color:var(--primary); }
+    .status-chip.checkin { background:var(--info-pale); color:var(--info); }
+
+    .action-btn {
+      padding:5px 12px; border-radius:var(--radius-sm);
+      font-size:11px; font-weight:700; cursor:pointer;
+      transition:all var(--transition-fast); border:none;
+      background:var(--primary-pale); color:var(--primary); font-family:var(--font-body);
+    }
+    .action-btn:hover { background:var(--primary); color:#FFF; transform:scale(1.04); }
+
+    /* ── GRID LAYOUTS ── */
+    .grid-2col { display:grid; grid-template-columns:2fr 1fr; gap:22px; }
+    .grid-cards { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:20px; }
+
+    /* ── THERAPIST CARDS ── */
+    .therapist-card {
+      background:var(--bg-card); border-radius:var(--radius-lg);
+      border:1px solid var(--border-color); padding:24px;
+      box-shadow:var(--shadow-md); transition:all var(--transition-normal);
+      display:flex; flex-direction:column; gap:14px; position:relative;
+    }
+    .therapist-card::before {
+      content:''; position:absolute; top:0; left:0; width:100%; height:4px;
+      background:var(--primary); border-radius:var(--radius-lg) var(--radius-lg) 0 0;
+    }
+    .therapist-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-lg); border-color:var(--primary-light); }
+    .therapist-top { display:flex; justify-content:space-between; align-items:center; }
+    .therapist-title h3 { font-size:16px; color:var(--text-main); }
+    .therapist-title span { font-size:12px; color:var(--primary); font-weight:700; display:block; margin-top:3px; }
+    .therapist-icon {
+      width:46px; height:46px; border-radius:var(--radius-pill);
+      background:var(--primary-pale); display:flex; align-items:center;
+      justify-content:center; font-size:22px;
+    }
+    .therapist-bio { font-size:12px; color:var(--text-muted); line-height:1.5; flex:1; }
+    .therapist-badges { display:flex; gap:5px; flex-wrap:wrap; margin-top:6px; }
+    .therapist-badge {
+      font-size:10px; font-weight:700; padding:3px 8px;
+      border-radius:var(--radius-pill); background:var(--accent-pale);
+      color:var(--text-muted);
+    }
+
+    /* ── QUEUE DISPLAY ── */
+    .queue-display {
+      border:2px solid var(--accent); text-align:center;
+      padding:36px; margin-bottom:24px; position:relative;
+      border-radius:var(--radius-lg); background:var(--bg-card);
+    }
+    .queue-display-label {
+      font-family:var(--font-display); font-size:11px;
+      letter-spacing:3px; text-transform:uppercase; color:var(--text-muted); display:block; margin-bottom:6px;
+    }
+    .queue-display-number {
+      font-family:var(--font-display); font-size:64px;
+      color:var(--primary); letter-spacing:4px; display:block; line-height:1.1;
+    }
+    .queue-display-name { font-size:18px; font-weight:700; color:var(--text-main); margin-top:8px; }
+    .queue-display-spec { font-size:13px; color:var(--text-muted); margin-top:2px; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position:fixed; inset:0; background:rgba(15,15,15,0.45);
+      backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+      display:flex; align-items:center; justify-content:center;
+      z-index:500; opacity:0; pointer-events:none;
+      transition:opacity var(--transition-normal); padding:20px;
+    }
+    .modal-overlay.open { opacity:1; pointer-events:all; }
+    .modal-box {
+      background:var(--bg-card); border:1px solid var(--border-color);
+      border-radius:var(--radius-lg); width:560px; max-width:95vw;
+      max-height:88vh; overflow-y:auto; box-shadow:var(--shadow-lg);
+      transform:scale(0.96) translateY(16px);
+      transition:transform var(--transition-normal); position:relative;
+    }
+    .modal-overlay.open .modal-box { transform:scale(1) translateY(0); }
+    .modal-header {
+      display:flex; justify-content:space-between; align-items:center;
+      padding:20px 24px; border-bottom:1px solid var(--border-color);
+    }
+    .modal-title { font-size:20px; color:var(--text-main); font-family:var(--font-display); }
+    .modal-close {
+      width:30px; height:30px; border-radius:var(--radius-sm);
+      border:none; background:var(--bg-main); cursor:pointer;
+      color:var(--text-muted); display:flex; align-items:center;
+      justify-content:center; transition:all var(--transition-fast); font-size:16px;
+    }
+    .modal-close:hover { background:var(--error-pale); color:var(--error); }
+    .modal-body { padding:24px; }
+    .modal-footer {
+      display:flex; justify-content:flex-end; gap:10px;
+      padding:16px 24px; border-top:1px solid var(--border-color);
+    }
+
+    /* ── FORMS ── */
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .form-full { grid-column:1/-1; }
+    .form-group { display:flex; flex-direction:column; gap:5px; }
+    .form-label {
+      font-size:10px; font-weight:800; color:var(--text-muted);
+      text-transform:uppercase; letter-spacing:0.5px;
+    }
+    .form-input, .form-select, .form-textarea {
+      padding:10px 14px; border:1.5px solid var(--border-color);
+      border-radius:var(--radius-md); font-family:var(--font-body);
+      font-size:13px; color:var(--text-main); outline:none;
+      transition:all var(--transition-fast); background:var(--bg-card);
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-glow);
+    }
+    .form-textarea { resize:vertical; min-height:70px; }
+    .form-divider {
+      font-size:10px; font-weight:800; color:var(--primary);
+      letter-spacing:1px; text-transform:uppercase;
+      margin:8px 0 2px; grid-column:1/-1; padding-top:10px;
+      border-top:1px solid var(--border-color);
+    }
+    .form-note { font-size:11px; color:var(--text-light); margin-top:2px; }
+
+    /* ── ALERT ── */
+    .alert {
+      padding:12px 16px; border-radius:var(--radius-md);
+      font-size:13px; margin-bottom:14px; display:flex;
+      align-items:center; gap:8px; font-weight:500;
+    }
+    .alert-success { background:var(--success-pale); color:var(--success); border:1px solid var(--success); }
+    .alert-error { background:var(--error-pale); color:var(--error); border:1px solid var(--error); }
+    .alert-info { background:var(--primary-pale); color:var(--primary); border:1px solid var(--primary); }
+
+    /* ── BOOKING STEPS ── */
+    .booking-progress {
+      display:flex; justify-content:center; gap:0; margin-bottom:20px;
+    }
+    .bk-step {
+      display:flex; align-items:center; gap:6px;
+      padding:8px 14px; font-size:10px; font-weight:800;
+      text-transform:uppercase; letter-spacing:0.5px;
+      color:var(--text-light); border-bottom:2px solid var(--border-color);
+    }
+    .bk-step.active { color:var(--primary); border-bottom-color:var(--primary); }
+    .bk-step.done { color:var(--text-main); border-bottom-color:var(--accent); }
+    .bk-step-num {
+      width:22px; height:22px; border:1px solid currentColor;
+      display:flex; align-items:center; justify-content:center;
+      font-size:10px; border-radius:var(--radius-sm);
+    }
+
+    .booking-panel { display:none; }
+    .booking-panel.active { display:block; animation:pageFade var(--transition-normal) forwards; }
+
+    .spec-select-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:10px; }
+    .spec-select-card {
+      border:1.5px solid var(--border-color); padding:14px; text-align:center;
+      cursor:pointer; transition:all var(--transition-fast); border-radius:var(--radius-md);
+    }
+    .spec-select-card:hover { border-color:var(--primary); }
+    .spec-select-card.selected { border-color:var(--primary); background:var(--primary-pale); }
+    .spec-select-card .spec-icon { font-size:24px; display:block; margin-bottom:6px; }
+    .spec-select-card h5 { font-size:11px; font-weight:700; }
+
+    .slot-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(110px, 1fr)); gap:8px; margin-top:12px; }
+    .slot-btn {
+      padding:10px; border:1.5px solid var(--border-color); background:var(--bg-card);
+      text-align:center; cursor:pointer; font-family:var(--font-body);
+      font-size:12px; transition:all var(--transition-fast); border-radius:var(--radius-md);
+    }
+    .slot-btn:hover { border-color:var(--primary); background:var(--primary-pale); }
+    .slot-btn.selected { border-color:var(--primary); background:var(--primary); color:#FFF; }
+    .slot-btn .slot-time { font-weight:700; display:block; }
+    .slot-btn .slot-therapist { font-size:10px; color:var(--text-muted); margin-top:3px; }
+    .slot-btn.selected .slot-therapist { color:rgba(255,255,255,0.7); }
+
+    /* ── CONFIRMATION ── */
+    .confirm-card {
+      border:2px solid var(--accent); padding:28px; text-align:center;
+      border-radius:var(--radius-lg); position:relative;
+    }
+    .confirm-icon { font-size:40px; margin-bottom:12px; }
+    .confirm-card h4 { font-size:22px; margin-bottom:6px; font-family:var(--font-display); }
+    .queue-number {
+      font-family:var(--font-display); font-size:52px;
+      color:var(--primary); letter-spacing:3px; display:block; margin:12px 0;
+    }
+    .confirm-details { text-align:left; margin-top:18px; padding-top:18px; border-top:1px solid var(--border-color); }
+    .detail-row {
+      display:flex; justify-content:space-between; padding:7px 0;
+      border-bottom:1px solid var(--accent-pale); font-size:13px;
+    }
+    .detail-row .label { color:var(--text-muted); }
+    .detail-row .value { font-weight:700; }
+
+    /* ── APPOINTMENT LIST (Patient) ── */
+    .apt-list { display:grid; gap:12px; }
+    .apt-item {
+      border:1px solid var(--border-color); padding:16px 20px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:14px; transition:all var(--transition-fast);
+      border-radius:var(--radius-md); background:var(--bg-card);
+    }
+    .apt-item:hover { border-color:var(--primary); }
+    .apt-info h4 { font-size:15px; margin-bottom:3px; }
+    .apt-info p { font-size:12px; color:var(--text-muted); }
+    .apt-meta { text-align:right; }
+    .apt-meta .antrean { font-family:var(--font-display); font-size:22px; color:var(--primary); display:block; }
+
+    /* ── SPINNER ── */
+    .spinner {
+      display:inline-block; width:18px; height:18px;
+      border:2px solid var(--border-color); border-top-color:var(--primary);
+      border-radius:50%; animation:spin 0.6s linear infinite;
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    /* ── TOAST ── */
+    .toast {
+      position:fixed; bottom:24px; right:24px;
+      background:var(--text-main); color:var(--bg-sidebar);
+      padding:12px 20px; border-radius:var(--radius-md);
+      font-size:13px; font-weight:700; box-shadow:var(--shadow-lg);
+      transform:translateY(70px); opacity:0;
+      transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);
+      z-index:999; display:flex; align-items:center; gap:8px;
+      border:1px solid var(--border-color);
+    }
+    .toast.show { transform:none; opacity:1; }
+
+    /* ── LOGIN PAGE ── */
+    body.not-logged-in header:not(.lp-header),
+    body.not-logged-in .system-container,
+    body.not-logged-in .toast { display:none !important; }
+    body:not(.not-logged-in) #loginPage { display:none !important; }
+
+    .login-container {
+      position:fixed; inset:0; background:rgba(15,15,15,0.6);
+      backdrop-filter:blur(8px); display:none; align-items:center; justify-content:center;
+      padding:24px; z-index:600; overflow:hidden;
+    }
+    .login-container.open {
+      display:flex !important;
+    }
+    
+    .login-card {
+      background: var(--bg-card);
+      border: 4px double var(--accent);
+      outline: 1.5px solid var(--primary);
+      outline-offset: 6px;
+      border-radius: var(--radius-sm);
+      padding: 0;
+      width: 100%;
+      max-width: 820px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      z-index: 10;
+      animation: pageFade var(--transition-normal) forwards;
+      display: flex;
+      overflow: hidden;
+    }
+    
+    .login-theme-toggle { position: absolute; top: 20px; right: 20px; z-index: 15; }
+    .modal-close { z-index: 15; }
+
+    /* LEFT ART PANEL */
+    .login-art-panel {
+      flex: 1;
+      background: var(--accent);
+      color: #FFFFFF;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      border-right: 3px double var(--border-color);
+      overflow: hidden;
+    }
+    [data-theme="dark"] .login-art-panel {
+      background: #121212;
+      color: #FFFFFF;
+      border-right: 3px double var(--border-color);
+    }
+    .login-art-panel::before {
+      content: '';
+      position: absolute;
+      inset: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      pointer-events: none;
+    }
+    .login-art-panel::after {
+      content: '◆';
+      position: absolute;
+      top: 24px;
+      font-size: 14px;
+      color: var(--primary);
+      opacity: 0.8;
+    }
+    .login-art-logo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      border: 2px solid var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      color: var(--primary);
+      margin-bottom: 20px;
+      background: rgba(196, 69, 105, 0.1);
+      position: relative;
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(196, 69, 105, 0.4); }
+      50% { box-shadow: 0 0 12px 4px rgba(196, 69, 105, 0.6); }
+    }
+    .login-art-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin: 0;
+    }
+    .login-art-title span {
+      color: var(--primary);
+      border-bottom: 2px double var(--primary);
+    }
+    .login-art-desc {
+      font-size: 12px;
+      line-height: 1.6;
+      max-width: 240px;
+      margin: 16px auto 0;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    /* RIGHT FORM PANEL */
+    .login-form-panel {
+      flex: 1.25;
+      padding: 40px 36px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      background: var(--bg-card);
+      position: relative;
+      min-height: 440px;
+    }
+
+    /* TOP MODAL TABS */
+    .modal-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--border-color);
+      width: 100%;
+    }
+    .modal-tab {
+      flex: 1;
+      padding: 12px 8px;
+      border: none;
+      background: transparent;
+      font-family: var(--font-heading);
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-bottom: 3px solid transparent;
+      margin-bottom: -2px;
+    }
+    .modal-tab.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    .modal-tab:not(.active):hover {
+      color: var(--primary);
+    }
+
+    .modal-tab-content {
+      display: none;
+      flex-direction: column;
+      animation: pageFade var(--transition-normal) forwards;
+    }
+    .modal-tab-content.active {
+      display: flex;
+    }
+
+    .login-tabs {
+      display: flex;
+      gap: 0;
+      margin-bottom: 16px;
+      border: 2px solid var(--accent);
+      background: var(--bg-main);
+      padding: 0;
+      border-radius: var(--radius-sm);
+    }
+    .login-tab {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .login-tab.active {
+      background: var(--accent);
+      color: #FFF;
+    }
+    [data-theme="dark"] .login-tab.active {
+      background: var(--primary);
+      color: #FFF;
+    }
+    .login-tab:not(.active):hover {
+      background: var(--primary-pale);
+      color: var(--primary);
+    }
+    
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .login-input-group {
+      position: relative;
+    }
+    .login-input-group iconify-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: var(--text-muted);
+    }
+    .login-input {
+      width: 100%;
+      padding: 11px 16px 11px 42px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid var(--border-color);
+      background: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-body);
+      font-size: 13px;
+      outline: none;
+      transition: all var(--transition-fast);
+    }
+    .login-input:focus {
+      border-color: var(--primary);
+      box-shadow: 3px 3px 0px var(--primary-glow);
+      background: var(--bg-card);
+    }
+    
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      background: var(--primary);
+      color: #FFF;
+      border: 2px solid var(--accent);
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    .login-btn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #FFF;
+      transform: translateY(-1px);
+    }
+    .login-btn.dark-btn {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .login-btn.dark-btn:hover {
+      background: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .login-error {
+      color: var(--error);
+      font-size: 12px;
+      font-weight: 700;
+      text-align: center;
+      display: none;
+      animation: shake 0.3s ease;
+      background: var(--error-pale);
+      padding: 8px;
+      border: 1px solid var(--error);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-3px); }
+      75% { transform: translateX(3px); }
+    }
+
+    /* DIRECT QUEUE SEARCH RESULT */
+    .search-result-card {
+      margin-top: 14px;
+      background: var(--primary-pale);
+      border: 2.5px solid var(--primary);
+      outline: 1.5px solid var(--accent);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      animation: pageFade var(--transition-normal) forwards;
+      display: none;
+    }
+    .search-result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1.5px solid var(--accent);
+      padding-bottom: 6px;
+    }
+    .search-result-title {
+      font-family: var(--font-display);
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .search-result-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px 14px;
+      font-size: 11.5px;
+    }
+    .search-result-body .detail-row {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .search-result-body .detail-label {
+      color: var(--text-muted);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+    .search-result-body .detail-value {
+      font-weight: 800;
+      color: var(--text-main);
+    }
+    .search-result-body .detail-value .status-chip {
+      display: inline-block;
+      padding: 2px 8px;
+      font-size: 9px;
+    }
+    .search-result-footer {
+      margin-top: 12px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--primary);
+      text-align: center;
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    @media(max-width: 768px) {
+      .login-card {
+        flex-direction: column;
+        max-width: 400px;
+        outline-offset: 4px;
+      }
+      .login-art-panel {
+        padding: 30px 20px;
+        border-right: none;
+        border-bottom: 3px double var(--border-color);
+      }
+      .login-art-panel::before {
+        inset: 10px;
+      }
+      .login-art-panel::after {
+        display: none;
+      }
+      .login-art-desc {
+        display: none;
+      }
+      .login-art-logo {
+        margin-bottom: 12px;
+        width: 48px;
+        height: 48px;
+        font-size: 24px;
+      }
+      .login-form-panel {
+        padding: 30px 24px;
+        min-height: auto;
+      }
+    }
+
+    /* ── ROLE VISIBILITY ── */
+    body[data-role="admin"] .role-pasien, body[data-role="admin"] .role-kasir { display:none!important; }
+    body[data-role="kasir"] .role-admin, body[data-role="kasir"] .role-pasien { display:none!important; }
+    body[data-role="pasien"] .role-admin, body[data-role="pasien"] .role-kasir { display:none!important; }
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:992px) {
+      .grid-2col { grid-template-columns:1fr; }
+      .page-header { flex-direction:column; align-items:stretch; gap:10px; }
+      .page-header .btn { width:100%; justify-content:center; }
+    }
+    @media(max-width:768px) {
+      header { padding:0 14px; height:54px; }
+      .brand-name { font-size:16px; }
+      .brand-icon { width:32px; height:32px; font-size:16px; }
+      .avatar-info { display:none; }
+      .nav-bar { padding:0 10px; top:54px; height:48px; gap:3px; }
+      .nav-item { padding:6px 11px; font-size:11px; }
+      main { padding:14px; }
+      .page-headline h1 { font-size:20px!important; }
+      .stats-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+      .stat-card { padding:14px; border-radius:var(--radius-md); }
+      .stat-card-val { font-size:22px; }
+      .form-grid { grid-template-columns:1fr; }
+      .form-grid .form-full { grid-column:1; }
+      .modal-box { max-height:92vh; padding:0; }
+      .queue-display-number { font-size:48px; }
+      .grid-cards { grid-template-columns:1fr; }
+      table { min-width:560px; }
+    }
+    @media(max-width:480px) {
+      .stats-grid { grid-template-columns:1fr 1fr; gap:8px; }
+      .stat-card-val { font-size:20px; }
+      .spec-select-grid { grid-template-columns:1fr 1fr; }
+      .slot-grid { grid-template-columns:repeat(2,1fr); }
+      .booking-progress { flex-wrap:wrap; }
+    }
+
+    /* ── LANDING PAGE CSS ── */
+    #landingPage {
+      background: var(--bg-main);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-body);
+      transition: background var(--transition-normal), color var(--transition-normal);
+    }
+    
+    body.not-logged-in #landingPage { display: block; }
+    body:not(.not-logged-in) #landingPage { display: none !important; }
+
+    .lp-header {
+      background: var(--bg-sidebar);
+      border-bottom: 2px solid var(--accent);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 76px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      transition: background var(--transition-normal), border var(--transition-normal);
+    }
+    
+    .lp-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    
+    .lp-brand-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--primary);
+      color: #FFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--accent);
+      transition: transform var(--transition-fast);
+    }
+    .lp-brand:hover .lp-brand-icon {
+      transform: rotate(-5deg) scale(1.05);
+    }
+    
+    .lp-brand-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: 0.5px;
+    }
+    
+    .lp-brand-name span {
+      color: var(--primary);
+    }
+    
+    .lp-nav {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+    
+    .lp-nav-link {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: color var(--transition-fast);
+    }
+    
+    .lp-nav-link:hover {
+      color: var(--primary);
+    }
+    
+    .lp-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .lp-btn-masuk {
+      border: 2px solid var(--accent);
+      background: transparent;
+      color: var(--text-main);
+      padding: 9px 18px;
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+      font-family: var(--font-body);
+    }
+    
+    .lp-btn-masuk:hover {
+      background: var(--accent);
+      color: #FFF;
+      transform: translateY(-1px);
+    }
+    
+    .lp-hero {
+      padding: 80px 24px;
+      text-align: center;
+      position: relative;
+      background: var(--bg-main);
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .lp-hero-frame {
+      max-width: 900px;
+      margin: 0 auto;
+      border: 2px solid var(--accent);
+      outline: 1px solid var(--accent);
+      outline-offset: 4px;
+      padding: 60px 40px;
+      background: var(--bg-card);
+      position: relative;
+      border-radius: var(--radius-sm);
+    }
+    
+    .lp-hero-tag {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--primary);
+      margin-bottom: 16px;
+      font-weight: 700;
+      display: block;
+    }
+    
+    .lp-hero-title {
+      font-family: var(--font-display);
+      font-size: 42px;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.15;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .lp-hero-title span {
+      color: var(--primary);
+      border-bottom: 3px double var(--accent);
+      padding-bottom: 4px;
+    }
+    
+    .lp-hero-desc {
+      font-size: 15px;
+      color: var(--text-muted);
+      max-width: 650px;
+      margin: 0 auto 30px;
+      line-height: 1.6;
+    }
+    
+    .lp-hero-ctas {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+    }
+    
+    .lp-btn-primary {
+      background: var(--primary);
+      color: #FFF;
+      border: 2.5px solid var(--primary);
+      padding: 12px 28px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-body);
+      border-radius: var(--radius-sm);
+    }
+    
+    .lp-btn-primary:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #FFF;
+      transform: translateY(-2px);
+    }
+    
+    .lp-btn-secondary {
+      background: transparent;
+      color: var(--text-main);
+      border: 2.5px solid var(--accent);
+      padding: 12px 28px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      font-family: var(--font-body);
+      border-radius: var(--radius-sm);
+    }
+    
+    .lp-btn-secondary:hover {
+      background: var(--accent);
+      color: #FFF;
+      transform: translateY(-2px);
+    }
+    
+    .lp-section {
+      padding: 80px 24px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-main);
+    }
+    
+    .lp-section:nth-child(even) {
+      background: var(--bg-sidebar);
+    }
+    
+    .lp-section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    
+    .lp-section-tag {
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: block;
+    }
+    
+    .lp-section-title {
+      font-family: var(--font-display);
+      font-size: 30px;
+      font-weight: 700;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .lp-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .lp-card {
+      background: var(--bg-card);
+      border: 2px solid var(--accent);
+      padding: 36px 30px;
+      position: relative;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-normal);
+      outline: 1px solid transparent;
+    }
+    
+    .lp-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 6px 6px 0px var(--primary);
+      border-color: var(--primary);
+    }
+    
+    .lp-card-icon {
+      font-size: 32px;
+      margin-bottom: 16px;
+      color: var(--primary);
+      display: inline-block;
+    }
+    
+    .lp-card-title {
+      font-family: var(--font-display);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    
+    .lp-card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+    
+    /* 7 Spesialisasi */
+    .lp-grid-specs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .lp-spec-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 24px;
+      border-top: 4px solid var(--primary);
+      transition: all var(--transition-normal);
+      border-radius: var(--radius-sm);
+    }
+    
+    .lp-spec-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .lp-spec-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+      display: block;
+    }
+    
+    .lp-spec-title {
+      font-family: var(--font-heading);
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+    
+    .lp-spec-desc {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    
+    /* Alur Pendaftaran */
+    .lp-steps-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+    }
+    
+    .lp-step {
+      flex: 1;
+      background: var(--bg-card);
+      border: 2px solid var(--accent);
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+    }
+    .lp-step:hover {
+      border-color: var(--primary);
+    }
+    
+    .lp-step-num {
+      width: 32px;
+      height: 32px;
+      border: 2px solid var(--primary);
+      background: var(--primary-pale);
+      color: var(--primary);
+      font-family: var(--font-display);
+      font-size: 16px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    
+    .lp-step-title {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    
+    .lp-step-desc {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    
+    
+    /* Footer */
+    .lp-footer {
+      background: var(--accent);
+      color: #FFF;
+      padding: 60px 24px 30px;
+      border-top: 3px solid var(--primary);
+    }
+    
+    .lp-footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 40px;
+      max-width: 1200px;
+      margin: 0 auto 40px;
+    }
+    
+    .lp-footer-brand h4 {
+      font-family: var(--font-display);
+      font-size: 24px;
+      margin-bottom: 12px;
+      letter-spacing: 0.5px;
+      color: #FFF;
+    }
+    
+    .lp-footer-brand h4 span {
+      color: var(--primary);
+    }
+    
+    .lp-footer-brand p {
+      font-size: 13px;
+      color: var(--text-light);
+      line-height: 1.6;
+      max-width: 350px;
+    }
+    
+    .lp-footer-links h5 {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--primary);
+    }
+    
+    .lp-footer-links ul {
+      list-style: none;
+    }
+    
+    .lp-footer-links li {
+      margin-bottom: 10px;
+    }
+    
+    .lp-footer-links a {
+      font-size: 13px;
+      color: var(--text-light);
+      transition: color var(--transition-fast);
+    }
+    
+    .lp-footer-links a:hover {
+      color: var(--primary-light);
+    }
+    
+    .lp-footer-bottom {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 24px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-light);
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    @media(max-width: 992px) {
+      .lp-grid-3 { grid-template-columns: 1fr; gap: 20px; }
+      .lp-grid-specs { grid-template-columns: repeat(2, 1fr); }
+      .lp-steps-container { flex-direction: column; gap: 16px; }
+      .lp-feature-grid { grid-template-columns: 1fr; }
+      .lp-footer-grid { grid-template-columns: 1fr; gap: 30px; }
+    }
+    @media(max-width: 768px) {
+      .lp-header { padding: 0 16px; }
+      .lp-nav { display: none; }
+      .lp-hero-title { font-size: 28px; }
+      .lp-hero-frame { padding: 40px 20px; }
+      .lp-grid-specs { grid-template-columns: 1fr; }
+    }
+
+    .hidden { display:none!important; }
+  </style>
+</head>
+<body class="not-logged-in">
+
+<!-- ═══════════════════════════════════════════════════════════
+     LANDING PAGE (PROMOSI)
+     ═══════════════════════════════════════════════════════════ -->
+<div id="landingPage">
+  <!-- Header -->
+  <header class="lp-header">
+    <a href="#" class="lp-brand" onclick="event.preventDefault()">
+      <div class="lp-brand-icon"><iconify-icon icon="lucide:heart-pulse"></iconify-icon></div>
+      <span class="lp-brand-name">Klinik <span>Polcasan</span></span>
+    </a>
+    <nav class="lp-nav">
+      <a href="#lp-masalah" class="lp-nav-link">Latar Belakang</a>
+      <a href="#lp-tujuan" class="lp-nav-link">Tujuan Solusi</a>
+      <a href="#lp-spesialisasi" class="lp-nav-link">Spesialisasi</a>
+      <a href="#lp-alur" class="lp-nav-link">Alur Pendaftaran</a>
+    </nav>
+    <div class="lp-controls">
+      <button class="icon-btn" onclick="toggleTheme()" title="Ubah Tema">
+        <iconify-icon class="moon-icon" icon="lucide:moon"></iconify-icon>
+        <iconify-icon class="sun-icon" icon="lucide:sun"></iconify-icon>
+      </button>
+      <button class="lp-btn-masuk" onclick="openLoginModal()">Masuk / Daftar</button>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="lp-hero">
+    <div class="lp-hero-frame">
+      <span class="lp-hero-tag">Sistem Informasi Klinik Polcasan</span>
+      <h1 class="lp-hero-title">Klinik <span>Fisioterapi</span> Terpadu &amp; Modern</h1>
+      <p class="lp-hero-desc">
+        Mendigitalisasi pelayanan rehabilitasi medik dengan sistem pendaftaran online cepat, transparansi nomor antrean waktu nyata (real-time), dan integrasi rekam medis digital terpadu.
+      </p>
+      <div class="lp-hero-ctas">
+        <button class="lp-btn-primary" onclick="openLoginModal()">Buat Janji Temu</button>
+        <a href="#lp-spesialisasi" class="lp-btn-secondary">Lihat Layanan</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Latar Belakang & Masalah -->
+  <section class="lp-section" id="lp-masalah">
+    <div class="lp-section-header">
+      <span class="lp-section-tag">Masalah Pelayanan</span>
+      <h2 class="lp-section-title">Latar Belakang &amp; Kendala Manual</h2>
+      <div class="deco-line" style="justify-content:center; max-width: 400px; margin: 12px auto;"><span class="deco-diamond">◆</span></div>
+    </div>
+    <div class="lp-grid-3">
+      <div class="lp-card">
+        <span class="lp-card-icon"><iconify-icon icon="lucide:hourglass"></iconify-icon></span>
+        <h3 class="lp-card-title">Antrean Manual yang Lama</h3>
+        <p class="lp-card-desc">Pasien menumpuk di area klinik untuk mendaftar secara manual, memicu kerumunan dan ketidakpastian estimasi waktu pelayanan.</p>
+      </div>
+      <div class="lp-card">
+        <span class="lp-card-icon"><iconify-icon icon="lucide:folder-open"></iconify-icon></span>
+        <h3 class="lp-card-title">Rekam Medis Tercecer</h3>
+        <p class="lp-card-desc">Pencatatan data terapi di kertas menyulitkan penyimpanan, rentan robek, basah, atau tercecer saat dipindahkan.</p>
+      </div>
+      <div class="lp-card">
+        <span class="lp-card-icon"><iconify-icon icon="lucide:calendar"></iconify-icon></span>
+        <h3 class="lp-card-title">Sulitnya Penjadwalan</h3>
+        <p class="lp-card-desc">Tidak adanya platform digital terpusat membuat pasien kesulitan memantau slot jadwal fisioterapis yang masih kosong.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tujuan Produk -->
+  <section class="lp-section" id="lp-tujuan">
+    <div class="lp-section-header">
+      <span class="lp-section-tag">Solusi Sistem</span>
+      <h2 class="lp-section-title">Tujuan Sistem Informasi</h2>
+      <div class="deco-line" style="justify-content:center; max-width: 400px; margin: 12px auto;"><span class="deco-diamond">◆</span></div>
+    </div>
+    <div class="lp-grid-3">
+      <div class="lp-card">
+        <span class="lp-card-icon"><iconify-icon icon="lucide:zap"></iconify-icon></span>
+        <h3 class="lp-card-title">Mengurangi Waktu Tunggu</h3>
+        <p class="lp-card-desc">Melalui sistem booking online teratur, pasien dapat datang sesuai jadwal yang dipilih tanpa perlu mengantre fisik terlalu lama.</p>
+      </div>
+      <div class="lp-card">
+        <span class="lp-card-icon"><iconify-icon icon="lucide:monitor"></iconify-icon></span>
+        <h3 class="lp-card-title">Digitalisasi Rekam Medis</h3>
+        <p class="lp-card-desc">Menyimpan dan mengelola rekam medis fisioterapi pasien secara elektronik, aman, dan mudah diakses kapan saja oleh terapis.</p>
+      </div>
+      <div class="lp-card">
+        <span class="lp-card-icon"><iconify-icon icon="lucide:package"></iconify-icon></span>
+        <h3 class="lp-card-title">Manajemen Stok Obat</h3>
+        <p class="lp-card-desc">Mempermudah kasir memantau serta memperbarui persediaan stok obat-obatan secara otomatis saat pasien melakukan checkout.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 Spesialisasi Fisioterapi -->
+  <section class="lp-section" id="lp-spesialisasi">
+    <div class="lp-section-header">
+      <span class="lp-section-tag">Fokus Rehabilitasi</span>
+      <h2 class="lp-section-title">7 Spesialisasi Fisioterapi</h2>
+      <div class="deco-line" style="justify-content:center; max-width: 400px; margin: 12px auto;"><span class="deco-diamond">◆</span></div>
+    </div>
+    <div class="lp-grid-specs">
+      <div class="lp-spec-card">
+        <span class="lp-spec-icon"><iconify-icon icon="lucide:bone"></iconify-icon></span>
+        <h3 class="lp-spec-title">Muskuloskeletal</h3>
+        <p class="lp-spec-desc">Terapi untuk pemulihan cedera otot, sendi, saraf kejepit, osteoporosis, osteoarthritis, serta rehabilitasi pasca operasi.</p>
+      </div>
+      <div class="lp-spec-card">
+        <span class="lp-spec-icon"><iconify-icon icon="lucide:brain"></iconify-icon></span>
+        <h3 class="lp-spec-title">Neuromuskular (Saraf)</h3>
+        <p class="lp-spec-desc">Fokus rehabilitasi penyakit saraf, stroke, kelumpuhan otot wajah (Bell's Palsy), dan cedera sumsum tulang belakang.</p>
+      </div>
+      <div class="lp-spec-card">
+        <span class="lp-spec-icon"><iconify-icon icon="lucide:heart-pulse"></iconify-icon></span>
+        <h3 class="lp-spec-title">Kardiovaskulopulmonal</h3>
+        <p class="lp-spec-desc">Terapi pernapasan dan pemulihan stamina pasca penyakit jantung, pasca operasi paru, asma, serta PPOK.</p>
+      </div>
+      <div class="lp-spec-card">
+        <span class="lp-spec-icon"><iconify-icon icon="lucide:baby"></iconify-icon></span>
+        <h3 class="lp-spec-title">Pediatri (Anak)</h3>
+        <p class="lp-spec-desc">Menangani tumbuh kembang anak, cerebral palsy, tortikolis, keterlambatan gerak motorik, serta autisme.</p>
+      </div>
+      <div class="lp-spec-card">
+        <span class="lp-spec-icon"><iconify-icon icon="lucide:user-round"></iconify-icon></span>
+        <h3 class="lp-spec-title">Geriatri (Lansia)</h3>
+        <p class="lp-spec-desc">Terapi keseimbangan, nyeri persendian lansia, pencegahan jatuh, dan pemeliharaan fungsional gerak hari tua.</p>
+      </div>
+      <div class="lp-spec-card">
+        <span class="lp-spec-icon"><iconify-icon icon="lucide:venus"></iconify-icon></span>
+        <h3 class="lp-spec-title">Kesehatan Wanita</h3>
+        <p class="lp-spec-desc">Terapi rehabilitasi otot dasar panggul, pre-natal, post-natal, inkontinensia urin, serta pereda nyeri menstruasi.</p>
+      </div>
+      <div class="lp-spec-card">
+        <span class="lp-spec-icon"><iconify-icon icon="lucide:award"></iconify-icon></span>
+        <h3 class="lp-spec-title">Sport (Olahraga)</h3>
+        <p class="lp-spec-desc">Rehabilitasi cedera olahraga (ACL, sprain, strain), analisis biomekanika gerak, serta pengembalian performa atlet.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Urutan Pendaftaran Pasien -->
+  <section class="lp-section" id="lp-alur">
+    <div class="lp-section-header">
+      <span class="lp-section-tag">Alur Reservasi</span>
+      <h2 class="lp-section-title">5 Langkah Pendaftaran Pasien</h2>
+      <div class="deco-line" style="justify-content:center; max-width: 400px; margin: 12px auto;"><span class="deco-diamond">◆</span></div>
+    </div>
+    <div class="lp-steps-container">
+      <div class="lp-step">
+        <div class="lp-step-num">1</div>
+        <h3 class="lp-step-title">Pasien Login</h3>
+        <p class="lp-step-desc">Masuk menggunakan NIK/Nomor Telepon Anda. Jika belum terdaftar, lakukan registrasi singkat.</p>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step-num">2</div>
+        <h3 class="lp-step-title">Pilih "Buat Janji"</h3>
+        <p class="lp-step-desc">Akses dashboard pribadi Anda lalu pilih menu reservasi janji temu fisioterapi baru.</p>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step-num">3</div>
+        <h3 class="lp-step-title">Pilih Spesialisasi</h3>
+        <p class="lp-step-desc">Pilih salah satu dari 7 spesialisasi pelayanan fisioterapi sesuai kebutuhan keluhan medis.</p>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step-num">4</div>
+        <h3 class="lp-step-title">Pilih Tanggal &amp; Jam</h3>
+        <p class="lp-step-desc">Pilih tanggal kunjungan dan klik slot waktu praktisi terapis yang berstatus kosong/tersedia.</p>
+      </div>
+      <div class="lp-step">
+        <div class="lp-step-num">5</div>
+        <h3 class="lp-step-title">Dapatkan Antrean</h3>
+        <p class="lp-step-desc">Periksa ulang jadwal, klik konfirmasi, dan nomor antrean digital klinik Anda diterbitkan instan.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Footer -->
+  <footer class="lp-footer">
+    <div class="lp-footer-grid">
+      <div class="lp-footer-brand">
+        <h4>Klinik <span>Polcasan</span></h4>
+        <p>Sistem Informasi Klinik Fisioterapi Polcasan — Menghadirkan solusi digitalisasi operasional klinik fisioterapi terintegrasi.</p>
+      </div>
+      <div class="lp-footer-links">
+        <h5>Spesialisasi Terapi</h5>
+        <ul>
+          <li><a href="#lp-spesialisasi">Muskuloskeletal</a></li>
+          <li><a href="#lp-spesialisasi">Neuromuskular (Saraf)</a></li>
+          <li><a href="#lp-spesialisasi">Pediatri &amp; Geriatri</a></li>
+          <li><a href="#lp-spesialisasi">Kesehatan Wanita &amp; Sport</a></li>
+        </ul>
+      </div>
+      <div class="lp-footer-links">
+        <h5>Menu Halaman</h5>
+        <ul>
+          <li><a href="#lp-masalah">Masalah</a></li>
+          <li><a href="#lp-tujuan">Tujuan Solusi</a></li>
+          <li><a href="#lp-alur">Alur Pendaftaran</a></li>
+          <li><a href="#" onclick="openLoginModal(); return false;">Akses Staf &amp; Pasien</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="lp-footer-bottom">
+      &copy; 2026 Klinik Polcasan. Hak Cipta Dilindungi. Desain Art Deco &amp; Vintage Modern (White, Black &amp; Pink solid).
+    </div>
+  </footer>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LOGIN PAGE (MODAL)
+     ═══════════════════════════════════════════════════════════ -->
+<div id="loginPage" class="login-container" onclick="closeLoginModalOutside(event)">
+  <div class="login-card" onclick="event.stopPropagation()">
+    <!-- Close button -->
+    <button class="modal-close" onclick="closeLoginModal()" title="Tutup" style="position:absolute; top:20px; left:20px;">
+      <iconify-icon icon="lucide:x"></iconify-icon>
+    </button>
+    <button class="icon-btn login-theme-toggle" onclick="toggleTheme()" title="Ubah Tema" style="position:absolute; top:20px; right:20px;">
+      <iconify-icon class="moon-icon" icon="lucide:moon"></iconify-icon>
+      <iconify-icon class="sun-icon" icon="lucide:sun"></iconify-icon>
+    </button>
+
+    <!-- LEFT ART PANEL -->
+    <div class="login-art-panel">
+      <div class="login-art-logo">
+        <iconify-icon icon="lucide:heart-pulse"></iconify-icon>
+      </div>
+      <h2 class="login-art-title">Klinik <span>Polcasan</span></h2>
+      <p style="font-size:10px; letter-spacing:2px; color:var(--primary); font-weight:700; text-transform:uppercase; margin-top:4px;">Fisioterapi Terpadu</p>
+      <p class="login-art-desc">
+        Sistem Informasi Reservasi Pelayanan dan Pengelolaan Rekam Medis Fisioterapi Modern.
+      </p>
+      <div style="font-size:10px; color:rgba(255,255,255,0.3); margin-top:28px;">◆ Est. 2026 ◆</div>
+    </div>
+
+    <!-- RIGHT FORM PANEL -->
+    <div class="login-form-panel">
+      <!-- Top Tabs Navigation -->
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="modal-tab-login" onclick="switchModalTab('login')">
+          <iconify-icon icon="lucide:log-in"></iconify-icon> Masuk Akun
+        </button>
+        <button class="modal-tab" id="modal-tab-check" onclick="switchModalTab('check')">
+          <iconify-icon icon="lucide:search"></iconify-icon> Cek Antrean
+        </button>
+      </div>
+
+      <!-- TAB 1 CONTENT: LOGIN (MASUK AKUN) -->
+      <div class="modal-tab-content active" id="modal-content-login">
+        <div class="login-tabs">
+          <button class="login-tab active" id="tab-pasien" onclick="switchLoginTab('pasien')">
+            <iconify-icon icon="lucide:user"></iconify-icon> Pasien
+          </button>
+          <button class="login-tab" id="tab-staf" onclick="switchLoginTab('staf')">
+            <iconify-icon icon="lucide:shield-alert"></iconify-icon> Staf
+          </button>
+        </div>
+        
+        <div class="login-form">
+          <div class="login-error" id="loginError">Kredensial salah!</div>
+    
+          <!-- Pasien Login Form -->
+          <div id="pasienLoginForm" style="display:flex;flex-direction:column;gap:12px;">
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:id-card"></iconify-icon>
+              <input type="text" class="login-input" id="loginIdentifier" placeholder="NIK atau No. Telepon" onkeydown="if(event.key==='Enter')handleLoginPasien()">
+            </div>
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:lock"></iconify-icon>
+              <input type="password" class="login-input" id="loginPassword" placeholder="Kata Sandi (Password)" onkeydown="if(event.key==='Enter')handleLoginPasien()">
+            </div>
+            <button class="login-btn" onclick="handleLoginPasien()">
+              <span>Masuk</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </button>
+          </div>
+    
+          <!-- Staf Login Form -->
+          <div id="stafLoginForm" style="display:none;flex-direction:column;gap:12px;">
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:user"></iconify-icon>
+              <input type="text" class="login-input" id="adminUsername" placeholder="Nama Pengguna" onkeydown="if(event.key==='Enter')handleLoginAdmin()">
+            </div>
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:lock"></iconify-icon>
+              <input type="password" class="login-input" id="adminPassword" placeholder="Kata Sandi (Password)" onkeydown="if(event.key==='Enter')handleLoginAdmin()">
+            </div>
+            <button class="login-btn dark-btn" onclick="handleLoginAdmin()">
+              <span>Masuk Sebagai Staf</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- TAB 2 CONTENT: CHECK QUEUE (CEK ANTREAN) -->
+      <div class="modal-tab-content" id="modal-content-check">
+        <h4 style="font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--primary);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Cek Status Antrean</h4>
+        <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-bottom:14px;line-height:1.5;">Masukkan nomor antrean Anda untuk melacak status pemeriksaan fisioterapi hari ini secara real-time.</p>
+        
+        <div class="login-form">
+          <div class="login-error" id="directCheckError">Antrean tidak ditemukan!</div>
+          <div class="login-input-group">
+            <iconify-icon icon="lucide:ticket"></iconify-icon>
+            <input type="text" class="login-input" id="directQueueId" placeholder="Nomor Antrean (misal: A004)" onkeydown="if(event.key==='Enter')handleDirectQueueCheck()">
+          </div>
+          <button class="login-btn" onclick="handleDirectQueueCheck()" id="directCheckBtn">
+            <span>Periksa Status</span> <iconify-icon icon="lucide:search"></iconify-icon>
+          </button>
+        </div>
+
+        <!-- Search Result Card -->
+        <div class="search-result-card" id="queueSearchResult">
+          <div class="search-result-header">
+            <span class="search-result-title" id="resQueueNum">A000</span>
+            <span id="resStatusChip">Status</span>
+          </div>
+          <div class="search-result-body">
+            <div class="detail-row">
+              <span class="detail-label">Pasien</span>
+              <span class="detail-value" id="resPatientName">-</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Layanan</span>
+              <span class="detail-value" id="resLayanan">-</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Terapis</span>
+              <span class="detail-value" id="resTerapis">-</span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Jadwal</span>
+              <span class="detail-value" id="resJadwal">-</span>
+            </div>
+          </div>
+          <div class="search-result-footer" id="resQueueFooter">Waktu Panggil: -</div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════════════ -->
+<header>
+  <a href="#" class="brand" onclick="goHome()">
+    <div class="brand-icon"><iconify-icon icon="lucide:heart-pulse"></iconify-icon></div>
+    <span class="brand-name">Klinik <span>Polcasan</span></span>
+  </a>
+  <div class="header-controls">
+    <button class="icon-btn" onclick="toggleTheme()" title="Ubah Tema" id="themeBtn">
+      <iconify-icon class="moon-icon" icon="lucide:moon"></iconify-icon>
+      <iconify-icon class="sun-icon" icon="lucide:sun"></iconify-icon>
+    </button>
+    <div class="avatar-wrap">
+      <div class="avatar-circle" id="headerAvatar">AD</div>
+      <div class="avatar-info">
+        <span class="avatar-title" id="headerTitle">Administrator</span>
+        <span class="avatar-sub" id="headerSub">Admin · Klinik Polcasan</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="system-container">
+  <!-- NAV BAR -->
+  <nav class="nav-bar" id="mainNav"></nav>
+
+  <main>
+
+    <!-- ══════════ ADMIN: DASHBOARD ══════════ -->
+    <div id="admin-dashboardView" class="page-view role-admin active">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1>Selamat Datang, Admin 👋</h1>
+          <p>Ringkasan operasional Klinik Polcasan hari ini.</p>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-card-icon pink"><iconify-icon icon="lucide:users"></iconify-icon></div>
+          </div>
+          <div class="stat-card-val" id="sTotalPasien">0</div>
+          <div class="stat-card-label">Total Pasien</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-card-icon dark"><iconify-icon icon="lucide:calendar"></iconify-icon></div>
+          </div>
+          <div class="stat-card-val" id="sJanjiHariIni">0</div>
+          <div class="stat-card-label">Janji Hari Ini</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-card-icon orange"><iconify-icon icon="lucide:clock"></iconify-icon></div>
+          </div>
+          <div class="stat-card-val" id="sAntrean">0</div>
+          <div class="stat-card-label">Antrean Menunggu</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-card-icon green"><iconify-icon icon="lucide:banknote"></iconify-icon></div>
+          </div>
+          <div class="stat-card-val" id="sPendapatan">Rp 0</div>
+          <div class="stat-card-label">Pendapatan Hari Ini</div>
+        </div>
+      </div>
+
+      <div class="grid-2col">
+        <div class="luxury-card" style="padding:22px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+            <span class="card-title">📅 Janji Temu Terkini</span>
+            <a href="#" onclick="showPage('admin-pendaftaran')">Lihat Semua →</a>
+          </div>
+          <div class="table-container">
+            <table>
+              <thead><tr><th>No. Antrean</th><th>Nama</th><th>Spesialisasi</th><th>Jam</th><th>Status</th></tr></thead>
+              <tbody id="dashAptTable"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">Memuat...</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="luxury-card" style="padding:22px;">
+          <div class="card-title" style="margin-bottom:14px;">🏥 Spesialisasi Kami</div>
+          <div style="display:flex;flex-direction:column;gap:10px;" id="specList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ADMIN: PENDAFTARAN ══════════ -->
+    <div id="admin-pendaftaranView" class="page-view role-admin">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1>Dashboard Pendaftaran</h1>
+          <p>Kelola janji temu dan check-in pasien hari ini.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('walkInModal')">
+          <iconify-icon icon="lucide:plus"></iconify-icon> Pasien Walk-in
+        </button>
+      </div>
+      <div class="luxury-card">
+        <div class="card-toolbar">
+          <div class="search-wrap">
+            <iconify-icon icon="lucide:search"></iconify-icon>
+            <input type="text" class="search-input" placeholder="Cari nama pasien..." onkeyup="filterAdminApt(this.value)">
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>No. Antrean</th><th>Nama Pasien</th><th>Spesialisasi</th><th>Jam</th><th>Status</th><th style="text-align:right;">Aksi</th></tr></thead>
+            <tbody id="adminAptTable"><tr><td colspan="6" style="text-align:center;padding:20px;">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ADMIN: ANTREAN ══════════ -->
+    <div id="admin-antreanView" class="page-view role-admin">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1>Manajemen Antrean</h1>
+          <p>Tampilan nomor antrean berjalan untuk layar klinik.</p>
+        </div>
+      </div>
+      <div class="queue-display">
+        <span class="queue-display-label">Nomor Antrean Saat Ini</span>
+        <span class="queue-display-number" id="qNumber">—</span>
+        <div class="queue-display-name" id="qName">Belum ada antrean</div>
+        <div class="queue-display-spec" id="qSpec"></div>
+      </div>
+      <div style="text-align:center;margin-bottom:24px;">
+        <button class="btn btn-primary btn-lg" onclick="callNext()"><iconify-icon icon="lucide:skip-forward"></iconify-icon> Panggil Berikutnya</button>
+      </div>
+      <div class="luxury-card">
+        <div class="card-toolbar"><span class="card-title">Daftar Antrean Hari Ini</span></div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>No. Antrean</th><th>Nama</th><th>Spesialisasi</th><th>Status</th><th>Waktu Panggil</th></tr></thead>
+            <tbody id="queueTable"><tr><td colspan="5" style="text-align:center;padding:20px;">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ADMIN/KASIR: PEMBAYARAN ══════════ -->
+    <div id="admin-pembayaranView" class="page-view role-admin role-kasir">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1>Modul Pembayaran</h1>
+          <p>Pencatatan tagihan, asuransi, dan cetak kuitansi digital.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('paymentModal')">
+          <iconify-icon icon="lucide:plus"></iconify-icon> Proses Pembayaran
+        </button>
+      </div>
+      <div class="luxury-card">
+        <div class="card-toolbar"><span class="card-title">Riwayat Pembayaran</span></div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>No. Kuitansi</th><th>Nama Pasien</th><th>Layanan</th><th>Jumlah</th><th>Metode</th><th>Status</th></tr></thead>
+            <tbody id="payTable"><tr><td colspan="6" style="text-align:center;padding:20px;">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ ADMIN: SPESIALISASI ══════════ -->
+    <div id="admin-spesialisasiView" class="page-view role-admin">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1>Spesialisasi Fisioterapi</h1>
+          <p>Daftar layanan fisioterapi dan fisioterapis yang tersedia.</p>
+        </div>
+      </div>
+      <div class="grid-cards" id="specCards"></div>
+    </div>
+
+    <!-- ══════════ KASIR: DASHBOARD ══════════ -->
+    <div id="kasir-dashboardView" class="page-view role-kasir active">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1>Dashboard Kasir 💰</h1>
+          <p>Kelola pembayaran dan cetak kuitansi.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openModal('paymentModal')">
+          <iconify-icon icon="lucide:plus"></iconify-icon> Proses Pembayaran
+        </button>
+      </div>
+      <div class="luxury-card">
+        <div class="card-toolbar"><span class="card-title">Riwayat Pembayaran Hari Ini</span></div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>No. Kuitansi</th><th>Nama</th><th>Layanan</th><th>Jumlah</th><th>Metode</th><th>Status</th></tr></thead>
+            <tbody id="kasirPayTable"><tr><td colspan="6" style="text-align:center;padding:20px;">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ PASIEN: PORTAL ══════════ -->
+    <div id="pasien-portalView" class="page-view role-pasien active">
+      <div class="page-header" style="border-bottom:2px solid var(--border-color);padding-bottom:16px;margin-bottom:24px;">
+        <div class="page-headline">
+          <h1 style="color:var(--primary);font-size:26px;">📋 Portal Pasien</h1>
+          <p>Booking janji temu dan pantau status antrean Anda.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openBookingModal()">
+          <iconify-icon icon="lucide:calendar-plus"></iconify-icon> Buat Janji Temu
+        </button>
+      </div>
+
+      <!-- Profil Pasien -->
+      <div class="luxury-card" style="padding:22px;border-left:4px solid var(--primary);">
+        <h3 style="margin-bottom:14px;color:var(--primary);display:flex;align-items:center;gap:7px;">
+          <iconify-icon icon="lucide:user"></iconify-icon> Data Pribadi
+        </h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;font-size:13px;" id="pasienProfil">
+          <div><strong style="color:var(--text-muted);">Nama:</strong> <span id="pNama">-</span></div>
+          <div><strong style="color:var(--text-muted);">NIK:</strong> <span id="pNIK">-</span></div>
+          <div><strong style="color:var(--text-muted);">No. Telepon:</strong> <span id="pPhone">-</span></div>
+        </div>
+      </div>
+
+      <!-- Janji Temu -->
+      <div class="luxury-card" style="padding:22px;">
+        <h3 style="margin-bottom:14px;display:flex;align-items:center;gap:7px;">
+          <iconify-icon icon="lucide:calendar" style="color:var(--primary);"></iconify-icon> Janji Temu Anda
+        </h3>
+        <div class="apt-list" id="pasienAptList">
+          <div class="alert alert-info">Memuat data...</div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     MODALS
+     ═══════════════════════════════════════════════════════════ -->
+
+<!-- REGISTER -->
+<div class="modal-overlay" id="registerModal" onclick="closeModalOutside(event,'registerModal')">
+  <div class="modal-box" style="width:520px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Registrasi Pasien</h2>
+      <button class="modal-close" onclick="closeModal('registerModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="regAlert"></div>
+      <div class="form-grid" id="regForm">
+        <div class="form-group form-full"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="regNama" placeholder="Sesuai KTP" required></div>
+        <div class="form-group"><label class="form-label">NIK *</label><input class="form-input" id="regNIK" placeholder="16 digit" maxlength="16" required></div>
+        <div class="form-group"><label class="form-label">No. Telepon *</label><input class="form-input" id="regPhone" placeholder="08xxx" required></div>
+        <div class="form-group"><label class="form-label">Tanggal Lahir</label><input class="form-input" id="regTgl" type="date"></div>
+        <div class="form-group"><label class="form-label">Jenis Kelamin</label><select class="form-select" id="regJK"><option value="">—Pilih—</option><option>Laki-laki</option><option>Perempuan</option></select></div>
+        <div class="form-group form-full"><label class="form-label">Email</label><input class="form-input" id="regEmail" type="email" placeholder="email@contoh.com"></div>
+        <div class="form-group form-full"><label class="form-label">Alamat</label><input class="form-input" id="regAlamat" placeholder="Alamat lengkap"></div>
+        <div class="form-divider">Keamanan Akun</div>
+        <div class="form-group"><label class="form-label">Password *</label><input class="form-input" id="regPw" type="password" placeholder="Min. 6 karakter" minlength="6"></div>
+        <div class="form-group"><label class="form-label">Konfirmasi Password *</label><input class="form-input" id="regPwC" type="password" placeholder="Ulangi password"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('registerModal')">Batal</button>
+      <button class="btn btn-primary" id="regBtn" onclick="handleRegister()">Daftar Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<!-- BOOKING -->
+<div class="modal-overlay" id="bookingModal" onclick="closeModalOutside(event,'bookingModal')">
+  <div class="modal-box" style="width:620px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Buat Janji Temu</h2>
+      <button class="modal-close" onclick="closeModal('bookingModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="bookAlert"></div>
+      <div class="booking-progress">
+        <div class="bk-step active" id="bs1"><span class="bk-step-num">1</span>Spesialisasi</div>
+        <div class="bk-step" id="bs2"><span class="bk-step-num">2</span>Jadwal</div>
+        <div class="bk-step" id="bs3"><span class="bk-step-num">3</span>Konfirmasi</div>
+      </div>
+
+      <div class="booking-panel active" id="bkStep1">
+        <h4 style="margin-bottom:12px;font-size:15px;">Pilih Spesialisasi</h4>
+        <div class="spec-select-grid" id="bkSpecGrid"></div>
+        <div style="text-align:right;margin-top:16px;">
+          <button class="btn btn-primary" onclick="goBookStep(2)" id="bkNext1" disabled>Lanjut →</button>
+        </div>
+      </div>
+
+      <div class="booking-panel" id="bkStep2">
+        <h4 style="margin-bottom:12px;font-size:15px;">Pilih Tanggal & Jam</h4>
+        <div class="form-group" style="margin-bottom:14px;">
+          <label class="form-label">Tanggal Kunjungan</label>
+          <input type="date" class="form-input" id="bkDate" onchange="loadSlots()">
+        </div>
+        <div id="slotsContainer"><p style="font-size:13px;color:var(--text-muted);">Pilih tanggal untuk melihat slot tersedia.</p></div>
+        <div style="display:flex;justify-content:space-between;margin-top:16px;">
+          <button class="btn btn-secondary" onclick="goBookStep(1)">← Kembali</button>
+          <button class="btn btn-primary" onclick="goBookStep(3)" id="bkNext2" disabled>Lanjut →</button>
+        </div>
+      </div>
+
+      <div class="booking-panel" id="bkStep3">
+        <div class="confirm-card" id="bkConfirmCard">
+          <h4>Konfirmasi Janji Temu</h4>
+          <div class="deco-line"><span class="deco-diamond">◆</span></div>
+          <div class="confirm-details" id="bkConfirmDetails"></div>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:18px;">
+            <button class="btn btn-secondary" onclick="goBookStep(2)">← Ubah</button>
+            <button class="btn btn-primary btn-lg" onclick="confirmBooking()" id="confirmBtn">Konfirmasi Booking</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-panel" id="bkStep4">
+        <div class="confirm-card">
+          <div class="confirm-icon">✓</div>
+          <h4>Booking Berhasil!</h4>
+          <p style="color:var(--text-muted);font-size:13px;">Nomor antrean Anda:</p>
+          <span class="queue-number" id="bkQueueNum"></span>
+          <div class="confirm-details" id="bkSuccessDetails"></div>
+          <div style="margin-top:18px;"><button class="btn btn-primary" onclick="closeModal('bookingModal');loadPasienApt()">Tutup</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WALK-IN -->
+<div class="modal-overlay" id="walkInModal" onclick="closeModalOutside(event,'walkInModal')">
+  <div class="modal-box" style="width:480px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Pasien Walk-in</h2>
+      <button class="modal-close" onclick="closeModal('walkInModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="wiAlert"></div>
+      <div class="form-grid">
+        <div class="form-group form-full"><label class="form-label">Nama Lengkap *</label><input class="form-input" id="wiNama" required></div>
+        <div class="form-group"><label class="form-label">NIK *</label><input class="form-input" id="wiNIK" maxlength="16" required></div>
+        <div class="form-group"><label class="form-label">No. Telepon *</label><input class="form-input" id="wiPhone" required></div>
+        <div class="form-group form-full"><label class="form-label">Spesialisasi *</label>
+          <select class="form-select" id="wiSpec" required>
+            <option value="">— Pilih —</option>
+            <option>Fisioterapi Muskuloskeletal</option><option>Fisioterapi Neuromuskular</option>
+            <option>Fisioterapi Kardiovaskulopulmonal</option><option>Fisioterapi Pediatri</option>
+            <option>Fisioterapi Geriatri</option><option>Fisioterapi Kesehatan Wanita</option>
+            <option>Fisioterapi Sport</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('walkInModal')">Batal</button>
+      <button class="btn btn-primary" id="wiBtn" onclick="handleWalkIn()">Daftarkan</button>
+    </div>
+  </div>
+</div>
+
+<!-- PAYMENT -->
+<div class="modal-overlay" id="paymentModal" onclick="closeModalOutside(event,'paymentModal')">
+  <div class="modal-box" style="width:500px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Proses Pembayaran</h2>
+      <button class="modal-close" onclick="closeModal('paymentModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="payAlert"></div>
+      <div class="form-grid">
+        <div class="form-group form-full"><label class="form-label">Nama Pasien *</label><input class="form-input" id="payNama" required></div>
+        <div class="form-group form-full"><label class="form-label">Layanan *</label>
+          <select class="form-select" id="payLayanan" required>
+            <option value="">— Pilih —</option>
+            <option>Fisioterapi Muskuloskeletal</option><option>Fisioterapi Neuromuskular</option>
+            <option>Fisioterapi Kardiovaskulopulmonal</option><option>Fisioterapi Pediatri</option>
+            <option>Fisioterapi Geriatri</option><option>Fisioterapi Kesehatan Wanita</option>
+            <option>Fisioterapi Sport</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Jumlah (Rp) *</label><input class="form-input" id="payAmount" type="number" placeholder="250000" required></div>
+        <div class="form-group"><label class="form-label">Metode *</label>
+          <select class="form-select" id="payMethod" required>
+            <option value="">— Pilih —</option>
+            <option>Tunai</option><option>Transfer Bank</option><option>QRIS</option><option>Kartu Debit</option>
+          </select>
+        </div>
+        <div class="form-divider">Asuransi</div>
+        <div class="form-group"><label class="form-label">Gunakan Asuransi?</label>
+          <select class="form-select" id="payIns" onchange="document.getElementById('payInsName').parentElement.classList.toggle('hidden',this.value!=='Ya')">
+            <option>Tidak</option><option>Ya</option>
+          </select>
+        </div>
+        <div class="form-group hidden"><label class="form-label">Nama Asuransi</label><input class="form-input" id="payInsName"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('paymentModal')">Batal</button>
+      <button class="btn btn-primary" id="payBtn" onclick="handlePayment()">Proses</button>
+    </div>
+  </div>
+</div>
+
+<!-- RECEIPT -->
+<div class="modal-overlay" id="receiptModal" onclick="closeModalOutside(event,'receiptModal')">
+  <div class="modal-box" style="width:440px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Kuitansi</h2>
+      <button class="modal-close" onclick="closeModal('receiptModal')">✕</button>
+    </div>
+    <div class="modal-body" id="receiptContent"></div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span id="toastIcon">✅</span><span id="toastMsg"></span></div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+// ── STATE ──
+let currentUser = null;
+let currentRole = null;
+const API_URL = 'https://script.google.com/macros/s/AKfycbw2w2rh0bor9sue4ZWcaooq2Mq64ebv9zALpvCze6jKKYAqdlMgEjUy4Y-8F5ti-KUa/exec';
+const USE_ONLINE_BACKEND = true; // Set to true to connect to Google Apps Script live backend when hosted on GitHub/Vercel
+const IS_DEMO = typeof google === 'undefined' && !USE_ONLINE_BACKEND;
+
+// Booking
+let bkData = { spec:'', date:'', time:'', therapistID:'', therapistName:'' };
+
+// Demo DB
+const todayStr = new Date().toISOString().slice(0,10);
+const nowStr = new Date().toLocaleString('id-ID');
+
+let demoPasien = [
+  { id:'P001', nama:'Siti Aminah', nik:'3326012405950001', phone:'081234567890', password:'123456', email:'siti@mail.com' },
+  { id:'P002', nama:'Budi Utomo', nik:'3326012405950002', phone:'081234567891', password:'123456', email:'budi@mail.com' },
+  { id:'P003', nama:'Ahmad Fauzi', nik:'3326012405950003', phone:'081234567892', password:'123456', email:'fauzi@mail.com' },
+  { id:'P004', nama:'Rini Lestari', nik:'3326012405950004', phone:'081234567893', password:'123456', email:'rini@mail.com' },
+  { id:'P005', nama:'Hendra Wijaya', nik:'3326012405950005', phone:'081234567894', password:'123456', email:'hendra@mail.com' },
+  { id:'P006', nama:'Dewi Sartika', nik:'3326012405950006', phone:'081234567895', password:'123456', email:'dewi@mail.com' },
+  { id:'P007', nama:'Bambang Sugeng', nik:'3326012405950007', phone:'081234567896', password:'123456', email:'bambang@mail.com' },
+  { id:'P008', nama:'Lilis Suryani', nik:'3326012405950008', phone:'081234567897', password:'123456', email:'lilis@mail.com' },
+  { id:'P009', nama:'Joko Widodo', nik:'3326012405950009', phone:'081234567898', password:'123456', email:'joko@mail.com' },
+  { id:'P010', nama:'Megawati Putri', nik:'3326012405950010', phone:'081234567899', password:'123456', email:'mega@mail.com' }
+];
+
+let demoApt = [
+  { appointmentID:'APT001', patientID:'P001', namaPasien:'Siti Aminah', spesialisasi:'Fisioterapi Muskuloskeletal', tanggal:todayStr, jam:'08:00', therapistID:'T001', namaTherapist:'dr. Andi Pratama, Sp.FT', status:'Selesai', nomorAntrean:'A001', tanggalDibuat:nowStr },
+  { appointmentID:'APT002', patientID:'P002', namaPasien:'Budi Utomo', spesialisasi:'Fisioterapi Neuromuskular', tanggal:todayStr, jam:'09:00', therapistID:'T002', namaTherapist:'dr. Sari Dewi, Sp.FT', status:'Selesai', nomorAntrean:'A002', tanggalDibuat:nowStr },
+  { appointmentID:'APT003', patientID:'P003', namaPasien:'Ahmad Fauzi', spesialisasi:'Fisioterapi Kardiovaskulopulmonal', tanggal:todayStr, jam:'10:00', therapistID:'T003', namaTherapist:'dr. Budi Santoso, Sp.FT', status:'Selesai', nomorAntrean:'A003', tanggalDibuat:nowStr },
+  { appointmentID:'APT004', patientID:'P004', namaPasien:'Rini Lestari', spesialisasi:'Fisioterapi Pediatri', tanggal:todayStr, jam:'11:00', therapistID:'T004', namaTherapist:'dr. Maya Putri, Sp.FT', status:'Check-in', nomorAntrean:'A004', tanggalDibuat:nowStr },
+  { appointmentID:'APT005', patientID:'P005', namaPasien:'Hendra Wijaya', spesialisasi:'Fisioterapi Geriatri', tanggal:todayStr, jam:'13:00', therapistID:'T005', namaTherapist:'dr. Hendra Wijaya, Sp.FT', status:'Check-in', nomorAntrean:'A005', tanggalDibuat:nowStr },
+  { appointmentID:'APT006', patientID:'P006', namaPasien:'Dewi Sartika', spesialisasi:'Fisioterapi Kesehatan Wanita', tanggal:todayStr, jam:'14:00', therapistID:'T006', namaTherapist:'dr. Linda Kusuma, Sp.FT', status:'Terjadwal', nomorAntrean:'A006', tanggalDibuat:nowStr },
+  { appointmentID:'APT007', patientID:'P007', namaPasien:'Bambang Sugeng', spesialisasi:'Fisioterapi Sport', tanggal:todayStr, jam:'15:00', therapistID:'T007', namaTherapist:'dr. Riko Firmansyah, Sp.FT', status:'Terjadwal', nomorAntrean:'A007', tanggalDibuat:nowStr },
+  { appointmentID:'APT008', patientID:'P008', namaPasien:'Lilis Suryani', spesialisasi:'Fisioterapi Muskuloskeletal', tanggal:todayStr, jam:'16:00', therapistID:'T001', namaTherapist:'dr. Andi Pratama, Sp.FT', status:'Terjadwal', nomorAntrean:'A008', tanggalDibuat:nowStr },
+  { appointmentID:'APT009', patientID:'P009', namaPasien:'Joko Widodo', spesialisasi:'Fisioterapi Neuromuskular', tanggal:todayStr, jam:'17:00', therapistID:'T002', namaTherapist:'dr. Sari Dewi, Sp.FT', status:'Dibatalkan', nomorAntrean:'A009', tanggalDibuat:nowStr },
+  { appointmentID:'APT010', patientID:'P010', namaPasien:'Megawati Putri', spesialisasi:'Fisioterapi Kardiovaskulopulmonal', tanggal:todayStr, jam:'17:00', therapistID:'T003', namaTherapist:'dr. Budi Santoso, Sp.FT', status:'Terjadwal', nomorAntrean:'A010', tanggalDibuat:nowStr }
+];
+
+let demoQueue = [
+  { nomorAntrean:'A001', namaPasien:'Siti Aminah', spesialisasi:'Fisioterapi Muskuloskeletal', status:'Selesai', tanggal:todayStr, waktuPanggil:'08:05:00' },
+  { nomorAntrean:'A002', namaPasien:'Budi Utomo', spesialisasi:'Fisioterapi Neuromuskular', status:'Selesai', tanggal:todayStr, waktuPanggil:'09:04:00' },
+  { nomorAntrean:'A003', namaPasien:'Ahmad Fauzi', spesialisasi:'Fisioterapi Kardiovaskulopulmonal', status:'Selesai', tanggal:todayStr, waktuPanggil:'10:03:00' },
+  { nomorAntrean:'A004', namaPasien:'Rini Lestari', spesialisasi:'Fisioterapi Pediatri', status:'Dipanggil', tanggal:todayStr, waktuPanggil:'11:02:00' },
+  { nomorAntrean:'A005', namaPasien:'Hendra Wijaya', spesialisasi:'Fisioterapi Geriatri', status:'Menunggu', tanggal:todayStr, waktuPanggil:'' },
+  { nomorAntrean:'A006', namaPasien:'Dewi Sartika', spesialisasi:'Fisioterapi Kesehatan Wanita', status:'Menunggu', tanggal:todayStr, waktuPanggil:'' },
+  { nomorAntrean:'A007', namaPasien:'Bambang Sugeng', spesialisasi:'Fisioterapi Sport', status:'Menunggu', tanggal:todayStr, waktuPanggil:'' },
+  { nomorAntrean:'A008', namaPasien:'Lilis Suryani', spesialisasi:'Fisioterapi Muskuloskeletal', status:'Menunggu', tanggal:todayStr, waktuPanggil:'' },
+  { nomorAntrean:'A010', namaPasien:'Megawati Putri', spesialisasi:'Fisioterapi Kardiovaskulopulmonal', status:'Menunggu', tanggal:todayStr, waktuPanggil:'' }
+];
+
+let demoPayments = [
+  { nomorKuitansi:'KWT-20260623-001', namaPasien:'Siti Aminah', layanan:'Fisioterapi Muskuloskeletal', jumlahTagihan:'250000', metodePembayaran:'QRIS', statusAsuransi:'Tidak', namaAsuransi:'-', statusBayar:'Lunas', tanggalBayar:nowStr },
+  { nomorKuitansi:'KWT-20260623-002', namaPasien:'Budi Utomo', layanan:'Fisioterapi Neuromuskular', jumlahTagihan:'300000', metodePembayaran:'Tunai', statusAsuransi:'Ya', namaAsuransi:'BPJS Kesehatan', statusBayar:'Lunas', tanggalBayar:nowStr },
+  { nomorKuitansi:'KWT-20260623-003', namaPasien:'Ahmad Fauzi', layanan:'Fisioterapi Kardiovaskulopulmonal', jumlahTagihan:'350000', metodePembayaran:'Transfer Bank', statusAsuransi:'Ya', namaAsuransi:'Mandiri Inhealth', statusBayar:'Lunas', tanggalBayar:nowStr },
+  { nomorKuitansi:'KWT-20260623-004', namaPasien:'Rini Lestari', layanan:'Fisioterapi Pediatri', jumlahTagihan:'250000', metodePembayaran:'Kartu Debit', statusAsuransi:'Tidak', namaAsuransi:'-', statusBayar:'Lunas', tanggalBayar:nowStr },
+  { nomorKuitansi:'KWT-20260623-005', namaPasien:'Hendra Wijaya', layanan:'Fisioterapi Geriatri', jumlahTagihan:'280000', metodePembayaran:'QRIS', statusAsuransi:'Tidak', namaAsuransi:'-', statusBayar:'Lunas', tanggalBayar:nowStr }
+];
+
+let demoCounter = 10;
+
+const SPECS = [
+  { name:'Fisioterapi Muskuloskeletal', icon:'lucide:bone', desc:'Gangguan otot, tulang, dan sendi.' },
+  { name:'Fisioterapi Neuromuskular', icon:'lucide:brain', desc:'Rehabilitasi gangguan saraf (stroke, dll).' },
+  { name:'Fisioterapi Kardiovaskulopulmonal', icon:'lucide:heart-pulse', desc:'Terapi jantung dan paru-paru.' },
+  { name:'Fisioterapi Pediatri', icon:'lucide:baby', desc:'Fisioterapi khusus anak-anak.' },
+  { name:'Fisioterapi Geriatri', icon:'lucide:user-round', desc:'Perawatan khusus lansia.' },
+  { name:'Fisioterapi Kesehatan Wanita', icon:'lucide:venus', desc:'Pre/post natal, inkontinensia.' },
+  { name:'Fisioterapi Sport', icon:'lucide:award', desc:'Rehabilitasi cedera olahraga.' }
+];
+
+const THERAPISTS = [
+  { id:'T001', nama:'dr. Andi Pratama, Sp.FT', spec:'Fisioterapi Muskuloskeletal', hari:'Senin,Selasa,Rabu' },
+  { id:'T002', nama:'dr. Sari Dewi, Sp.FT', spec:'Fisioterapi Neuromuskular', hari:'Senin,Rabu,Jumat' },
+  { id:'T003', nama:'dr. Budi Santoso, Sp.FT', spec:'Fisioterapi Kardiovaskulopulmonal', hari:'Selasa,Kamis,Sabtu' },
+  { id:'T004', nama:'dr. Maya Putri, Sp.FT', spec:'Fisioterapi Pediatri', hari:'Senin,Selasa,Kamis' },
+  { id:'T005', nama:'dr. Hendra Wijaya, Sp.FT', spec:'Fisioterapi Geriatri', hari:'Rabu,Kamis,Jumat' },
+  { id:'T006', nama:'dr. Linda Kusuma, Sp.FT', spec:'Fisioterapi Kesehatan Wanita', hari:'Senin,Rabu,Sabtu' },
+  { id:'T007', nama:'dr. Riko Firmansyah, Sp.FT', spec:'Fisioterapi Sport', hari:'Selasa,Kamis,Sabtu' }
+];
+
+// ── SERVER CALLS ──
+function runServer(fn, ...args) {
+  if (typeof google !== 'undefined') {
+    return new Promise((res, rej) => {
+      google.script.run.withSuccessHandler(res).withFailureHandler(rej)[fn](...args);
+    });
+  }
+  
+  if (IS_DEMO) {
+    return demoHandler(fn, args);
+  }
+  
+  // Call Google Apps Script Web App URL via fetch (using POST with text/plain content-type to avoid CORS preflight OPTIONS request)
+  return fetch(API_URL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=utf-8'
+    },
+    body: JSON.stringify({ action: fn, args: args })
+  })
+  .then(response => {
+    if (!response.ok) throw new Error('Network response was not ok');
+    return response.json();
+  })
+  .catch(error => {
+    console.error('Apps Script API Error (falling back to demo mode):', error);
+    showToast('Koneksi backend gagal, menggunakan mode offline.', '⚠️');
+    return demoHandler(fn, args);
+  });
+}
+
+function demoHandler(fn, args) {
+  return new Promise(res => {
+    setTimeout(() => {
+      switch(fn) {
+        case 'loginPatient': {
+          const [id,pw] = args;
+          const p = demoPasien.find(x => (x.nik===id||x.phone===id) && x.password===pw);
+          res(p ? { success:true, patient:{ id:p.id, nama:p.nama, nik:p.nik, noTelepon:p.phone, role:'pasien' }} : { success:false, message:'NIK/Telepon atau password salah.' });
+          break;
+        }
+        case 'loginAdmin': {
+          const [u,p] = args;
+          if(u==='admin'&&p==='admin123') res({ success:true, admin:{ id:'A001', nama:'Administrator', role:'admin' }});
+          else if(u==='kasir'&&p==='kasir123') res({ success:true, admin:{ id:'A002', nama:'Kasir Klinik', role:'kasir' }});
+          else res({ success:false, message:'Username/password salah.' });
+          break;
+        }
+        case 'registerPatient': {
+          const [d] = args;
+          if(demoPasien.find(x=>x.nik===d.nik)) { res({success:false,message:'NIK sudah terdaftar.'}); break; }
+          const pid = 'P'+Date.now();
+          demoPasien.push({ id:pid, nama:d.nama, nik:d.nik, phone:d.noTelepon, password:d.password, email:d.email||'' });
+          res({ success:true, message:'Registrasi berhasil!', patientID:pid });
+          break;
+        }
+        case 'getAvailableSlots': {
+          const slots = [];
+          const ts = THERAPISTS.filter(t=>t.spec===args[1]);
+          const t0 = ts.length ? ts[0] : THERAPISTS[0];
+          for(let h=8;h<16;h++) slots.push({ therapistID:t0.id, namaTherapist:t0.nama, jam:(h<10?'0'+h:h)+':00', tanggal:args[0] });
+          res({ success:true, data:slots });
+          break;
+        }
+        case 'bookAppointment': {
+          demoCounter++;
+          const qn = 'A'+String(demoCounter).padStart(3,'0');
+          const apt = { appointmentID:'APT_'+Date.now(), nomorAntrean:qn, tanggal:args[3], jam:args[4], spesialisasi:args[2], namaTherapist:args[6], status:'Terjadwal' };
+          demoApt.push({ ...apt, patientID:args[0], namaPasien:args[1] });
+          demoQueue.push({ nomorAntrean:qn, namaPasien:args[1], spesialisasi:args[2], status:'Menunggu', tanggal:args[3] });
+          res({ success:true, data:apt });
+          break;
+        }
+        case 'getPatientAppointments': {
+          res({ success:true, data:demoApt.filter(a=>a.patientID===args[0]) });
+          break;
+        }
+        case 'getDashboardStats':
+          res({ success:true, data:{ totalPasien:demoPasien.length, janjiHariIni:demoApt.length, antreanMenunggu:demoQueue.filter(q=>q.status==='Menunggu').length, pendapatanHariIni:demoPayments.reduce((s,p)=>s+(parseInt(p.amount)||0),0) }});
+          break;
+        case 'getTodayAppointments':
+          res({ success:true, data:demoApt });
+          break;
+        case 'getTodayQueue':
+          res({ success:true, data:demoQueue });
+          break;
+        case 'getCurrentServing': {
+          const cur = demoQueue.find(q=>q.status==='Dipanggil');
+          res({ success:true, data:{ current:cur||null, waitingCount:demoQueue.filter(q=>q.status==='Menunggu').length }});
+          break;
+        }
+        case 'callNextQueue': {
+          demoQueue.forEach(q=>{ if(q.status==='Dipanggil') q.status='Selesai'; });
+          const nxt = demoQueue.find(q=>q.status==='Menunggu');
+          if(nxt){ nxt.status='Dipanggil'; res({success:true,data:{nomorAntrean:nxt.nomorAntrean,namaPasien:nxt.namaPasien,spesialisasi:nxt.spesialisasi}}); }
+          else res({success:true,data:null,message:'Tidak ada antrean.'});
+          break;
+        }
+        case 'checkInPatient': {
+          const a = demoApt.find(x=>x.appointmentID===args[0]);
+          if(a) { a.status='Check-in'; res({success:true}); } else res({success:false});
+          break;
+        }
+        case 'addWalkInPatient': {
+          const [d] = args; demoCounter++;
+          const wqn = 'A'+String(demoCounter).padStart(3,'0');
+          const wpid = 'P'+Date.now();
+          demoPasien.push({ id:wpid, nama:d.nama, nik:d.nik, phone:d.noTelepon, password:d.nik });
+          demoApt.push({ appointmentID:'APT_'+Date.now(), patientID:wpid, namaPasien:d.nama, spesialisasi:d.spesialisasi, nomorAntrean:wqn, status:'Terjadwal', jam:new Date().toTimeString().slice(0,5), tanggal:new Date().toISOString().slice(0,10) });
+          demoQueue.push({ nomorAntrean:wqn, namaPasien:d.nama, spesialisasi:d.spesialisasi, status:'Menunggu', tanggal:new Date().toISOString().slice(0,10) });
+          res({ success:true, message:'Walk-in berhasil.', data:{ nomorAntrean:wqn }});
+          break;
+        }
+        case 'processPayment': {
+          const [pd] = args; const kw='KWT-'+Date.now();
+          demoPayments.push({ ...pd, nomorKuitansi:kw, amount:pd.jumlahTagihan });
+          res({ success:true, message:'Pembayaran berhasil.', data:{ nomorKuitansi:kw, tanggalBayar:new Date().toLocaleString('id-ID') }});
+          break;
+        }
+        case 'getPaymentHistory':
+          res({ success:true, data:demoPayments });
+          break;
+        case 'getQueueStatusDirect': {
+          const id = args[0].trim().toUpperCase();
+          const matchedQueue = demoQueue.find(q => q.nomorAntrean === id || q.nomorAntrean.toLowerCase() === id.toLowerCase());
+          if (!matchedQueue) {
+            const matchedApt = demoApt.find(a => a.nomorAntrean === id || a.appointmentID === id);
+            if (matchedApt) {
+              const qEntry = demoQueue.find(q => q.nomorAntrean === matchedApt.nomorAntrean);
+              if (qEntry) {
+                res({
+                  success: true,
+                  data: {
+                    nomorAntrean: qEntry.nomorAntrean,
+                    namaPasien: qEntry.namaPasien,
+                    spesialisasi: qEntry.spesialisasi,
+                    status: qEntry.status,
+                    waktuPanggil: qEntry.waktuPanggil || '-',
+                    tanggal: qEntry.tanggal,
+                    therapist: matchedApt.namaTherapist,
+                    jam: matchedApt.jam
+                  }
+                });
+                break;
+              }
+            }
+            res({ success: false, message: 'Antrean atau ID tidak ditemukan untuk hari ini.' });
+            break;
+          }
+          const apt = demoApt.find(a => a.nomorAntrean === matchedQueue.nomorAntrean);
+          res({
+            success: true,
+            data: {
+              nomorAntrean: matchedQueue.nomorAntrean,
+              namaPasien: matchedQueue.namaPasien,
+              spesialisasi: matchedQueue.spesialisasi,
+              status: matchedQueue.status,
+              waktuPanggil: matchedQueue.waktuPanggil || '-',
+              tanggal: matchedQueue.tanggal,
+              therapist: apt ? apt.namaTherapist : '-',
+              jam: apt ? apt.jam : '-'
+            }
+          });
+          break;
+        }
+        default: res({success:false, message:'Not found'});
+      }
+    }, 400);
+  });
+}
+
+// ── THEME ──
+function toggleTheme() {
+  const t = document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('polcasan-theme', t);
+}
+(function(){ const t=localStorage.getItem('polcasan-theme'); if(t) document.documentElement.setAttribute('data-theme',t); })();
+
+// ── MODAL ──
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+function closeModalOutside(e,id) { if(e.target===document.getElementById(id)) closeModal(id); }
+
+// ── TOAST ──
+function showToast(msg, icon='✅') {
+  const t=document.getElementById('toast');
+  document.getElementById('toastMsg').textContent=msg;
+  document.getElementById('toastIcon').textContent=icon;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// ── NAV SETUP ──
+const NAV_CONFIG = {
+  admin: [
+    { id:'admin-dashboard', icon:'lucide:layout-dashboard', label:'Dashboard' },
+    { id:'admin-pendaftaran', icon:'lucide:clipboard-list', label:'Pendaftaran' },
+    { id:'admin-antrean', icon:'lucide:monitor', label:'Antrean' },
+    { id:'admin-pembayaran', icon:'lucide:wallet', label:'Pembayaran' },
+    { id:'admin-spesialisasi', icon:'lucide:activity', label:'Spesialisasi' }
+  ],
+  kasir: [
+    { id:'kasir-dashboard', icon:'lucide:wallet', label:'Dashboard Kasir' }
+  ],
+  pasien: [
+    { id:'pasien-portal', icon:'lucide:user-check', label:'Portal Saya' }
+  ]
+};
+
+function buildNav(role) {
+  const nav = document.getElementById('mainNav');
+  const items = NAV_CONFIG[role] || [];
+  nav.innerHTML = items.map((it,i)=>`
+    <button class="nav-item ${i===0?'active':''}" id="nav-${it.id}" onclick="showPage('${it.id}')">
+      <iconify-icon icon="${it.icon}"></iconify-icon> ${it.label}
+    </button>
+  `).join('') + `
+    <button class="nav-item" onclick="handleLogout()" style="color:var(--error);margin-left:auto;">
+      <iconify-icon icon="lucide:log-out"></iconify-icon> Keluar
+    </button>
+  `;
+}
+
+function showPage(pageId) {
+  document.querySelectorAll('.page-view').forEach(v=>v.classList.remove('active'));
+  const el = document.getElementById(pageId+'View');
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  const navEl = document.getElementById('nav-'+pageId);
+  if(navEl) navEl.classList.add('active');
+
+  // Load data
+  if(pageId==='admin-dashboard') loadAdminDashboard();
+  if(pageId==='admin-pendaftaran') loadAdminApt();
+  if(pageId==='admin-antrean') loadQueueData();
+  if(pageId==='admin-pembayaran'||pageId==='kasir-dashboard') loadPayments();
+  if(pageId==='admin-spesialisasi') renderSpecCards();
+  if(pageId==='pasien-portal') loadPasienApt();
+}
+
+function goHome() { showPage(currentRole==='admin'?'admin-dashboard':currentRole==='kasir'?'kasir-dashboard':'pasien-portal'); }
+
+// ── LOGIN ──
+function switchLoginTab(tab) {
+  document.querySelectorAll('.login-tab').forEach(t=>t.classList.remove('active'));
+  document.querySelector(`.login-tab[onclick*="${tab}"]`).classList.add('active');
+  document.getElementById('pasienLoginForm').style.display = tab==='pasien'?'flex':'none';
+  document.getElementById('stafLoginForm').style.display = tab==='staf'?'flex':'none';
+  document.getElementById('loginError').style.display='none';
+}
+
+function initials(name) { return name ? name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : 'U'; }
+
+function doLogin(user, role) {
+  currentUser = user;
+  currentRole = role;
+  document.body.classList.remove('not-logged-in');
+  document.body.setAttribute('data-role', role);
+  document.getElementById('headerAvatar').textContent = initials(user.nama);
+  document.getElementById('headerTitle').textContent = user.nama;
+  document.getElementById('headerSub').textContent = role.charAt(0).toUpperCase()+role.slice(1)+' · Klinik Polcasan';
+  buildNav(role);
+  showPage(role==='admin'?'admin-dashboard':role==='kasir'?'kasir-dashboard':'pasien-portal');
+  if(role==='pasien') {
+    document.getElementById('pNama').textContent = user.nama;
+    document.getElementById('pNIK').textContent = user.nik||'-';
+    document.getElementById('pPhone').textContent = user.noTelepon||'-';
+  }
+  closeLoginModal();
+  showToast('Selamat datang, '+user.nama+'!', '👋');
+}
+
+async function handleLoginPasien() {
+  const id = document.getElementById('loginIdentifier').value.trim();
+  const pw = document.getElementById('loginPassword').value;
+  if(!id||!pw) return;
+  document.getElementById('loginError').style.display='none';
+  try {
+    const r = await runServer('loginPatient', id, pw);
+    if(r.success) { doLogin(r.patient, 'pasien'); }
+    else { document.getElementById('loginError').textContent=r.message; document.getElementById('loginError').style.display='block'; }
+  } catch(e) { document.getElementById('loginError').textContent='Terjadi kesalahan.'; document.getElementById('loginError').style.display='block'; }
+}
+
+async function handleLoginAdmin() {
+  const u = document.getElementById('adminUsername').value.trim();
+  const p = document.getElementById('adminPassword').value;
+  if(!u||!p) return;
+  document.getElementById('loginError').style.display='none';
+  try {
+    const r = await runServer('loginAdmin', u, p);
+    if(r.success) { doLogin(r.admin, r.admin.role); }
+    else { document.getElementById('loginError').textContent=r.message; document.getElementById('loginError').style.display='block'; }
+  } catch(e) { document.getElementById('loginError').textContent='Terjadi kesalahan.'; document.getElementById('loginError').style.display='block'; }
+}
+
+function quickLogin(role) {
+  if(role==='admin') { document.getElementById('adminUsername').value='admin'; document.getElementById('adminPassword').value='admin123'; switchLoginTab('staf'); handleLoginAdmin(); }
+  else if(role==='kasir') { document.getElementById('adminUsername').value='kasir'; document.getElementById('adminPassword').value='kasir123'; switchLoginTab('staf'); handleLoginAdmin(); }
+  else { document.getElementById('loginIdentifier').value='3326012405950001'; document.getElementById('loginPassword').value='123456'; switchLoginTab('pasien'); handleLoginPasien(); }
+}
+
+function handleLogout() {
+  currentUser=null; currentRole=null;
+  document.body.classList.add('not-logged-in');
+  document.body.removeAttribute('data-role');
+  showToast('Berhasil keluar.', '👋');
+}
+
+// ── REGISTER ──
+async function handleRegister() {
+  const pw = document.getElementById('regPw').value;
+  if(pw !== document.getElementById('regPwC').value) { document.getElementById('regAlert').innerHTML='<div class="alert alert-error">Password tidak cocok!</div>'; return; }
+  const btn = document.getElementById('regBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
+  document.getElementById('regAlert').innerHTML='';
+  try {
+    const r = await runServer('registerPatient', {
+      nama:document.getElementById('regNama').value.trim(),
+      nik:document.getElementById('regNIK').value.trim(),
+      noTelepon:document.getElementById('regPhone').value.trim(),
+      email:document.getElementById('regEmail').value.trim(),
+      tanggalLahir:document.getElementById('regTgl').value,
+      jenisKelamin:document.getElementById('regJK').value,
+      alamat:document.getElementById('regAlamat').value.trim(),
+      password:pw
+    });
+    if(r.success) {
+      document.getElementById('regAlert').innerHTML='<div class="alert alert-success">✓ '+r.message+'</div>';
+      showToast('Registrasi berhasil! Silakan login.');
+      setTimeout(()=>closeModal('registerModal'),2000);
+    } else { document.getElementById('regAlert').innerHTML='<div class="alert alert-error">'+r.message+'</div>'; }
+  } catch(e) { document.getElementById('regAlert').innerHTML='<div class="alert alert-error">Error.</div>'; }
+  btn.disabled=false; btn.textContent='Daftar Sekarang';
+}
+
+// ── ADMIN DASHBOARD ──
+async function loadAdminDashboard() {
+  try {
+    const s = await runServer('getDashboardStats');
+    if(s.success) {
+      document.getElementById('sTotalPasien').textContent=s.data.totalPasien;
+      document.getElementById('sJanjiHariIni').textContent=s.data.janjiHariIni;
+      document.getElementById('sAntrean').textContent=s.data.antreanMenunggu;
+      document.getElementById('sPendapatan').textContent='Rp '+(s.data.pendapatanHariIni||0).toLocaleString('id-ID');
+    }
+  } catch(e){}
+
+  try {
+    const r = await runServer('getTodayAppointments');
+    const tb = document.getElementById('dashAptTable');
+    if(r.success && r.data.length) {
+      tb.innerHTML = r.data.slice(0,5).map(a=>{
+        const st = a.Status||a.status||'Terjadwal';
+        return `<tr><td><strong>${a.NomorAntrean||a.nomorAntrean}</strong></td><td>${a.NamaPasien||a.namaPasien}</td><td>${a.Spesialisasi||a.spesialisasi}</td><td>${a.Jam||a.jam}</td><td><span class="status-chip ${st.toLowerCase().replace('-','')}">${st}</span></td></tr>`;
+      }).join('');
+    } else { tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">Belum ada janji hari ini.</td></tr>'; }
+  } catch(e){}
+
+  // Spec list sidebar
+  document.getElementById('specList').innerHTML = SPECS.map(s=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border-color);">
+      <span style="font-size:20px;display:flex;align-items:center;color:var(--primary);"><iconify-icon icon="${s.icon}"></iconify-icon></span>
+      <div><div style="font-size:13px;font-weight:700;">${s.name.replace('Fisioterapi ','')}</div><div style="font-size:11px;color:var(--text-muted);">${s.desc}</div></div>
+    </div>
+  `).join('');
+}
+
+// ── ADMIN APT TABLE ──
+let adminAptFilter = '';
+function filterAdminApt(v) { adminAptFilter=v.toLowerCase(); loadAdminApt(); }
+async function loadAdminApt() {
+  const tb = document.getElementById('adminAptTable');
+  tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;"><span class="spinner"></span></td></tr>';
+  try {
+    const r = await runServer('getTodayAppointments');
+    if(r.success && r.data.length) {
+      let data = r.data;
+      if(adminAptFilter) data = data.filter(a=>(a.NamaPasien||a.namaPasien||'').toLowerCase().includes(adminAptFilter));
+      tb.innerHTML = data.map(a=>{
+        const st = a.Status||a.status||'Terjadwal';
+        const sc = st.toLowerCase().replace('-','');
+        return `<tr>
+          <td><strong>${a.NomorAntrean||a.nomorAntrean}</strong></td>
+          <td>${a.NamaPasien||a.namaPasien}</td>
+          <td>${a.Spesialisasi||a.spesialisasi}</td>
+          <td>${a.Jam||a.jam}</td>
+          <td><span class="status-chip ${sc}">${st}</span></td>
+          <td style="text-align:right;">${st==='Terjadwal'?`<button class="action-btn" onclick="checkIn('${a.AppointmentID||a.appointmentID}')">Check-in</button>`:'-'}</td>
+        </tr>`;
+      }).join('');
+    } else { tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-light);">Belum ada data.</td></tr>'; }
+  } catch(e){ tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--error);">Gagal memuat.</td></tr>'; }
+}
+
+async function checkIn(id) {
+  try { await runServer('checkInPatient',id); loadAdminApt(); loadAdminDashboard(); showToast('Check-in berhasil!'); } catch(e){}
+}
+
+// ── QUEUE ──
+async function loadQueueData() {
+  try {
+    const sv = await runServer('getCurrentServing');
+    if(sv.success && sv.data.current) {
+      const c = sv.data.current;
+      document.getElementById('qNumber').textContent = c.NomorAntrean||c.nomorAntrean;
+      document.getElementById('qName').textContent = c.NamaPasien||c.namaPasien;
+      document.getElementById('qSpec').textContent = c.Spesialisasi||c.spesialisasi;
+    } else {
+      document.getElementById('qNumber').textContent='—';
+      document.getElementById('qName').textContent='Belum ada antrean';
+      document.getElementById('qSpec').textContent='';
+    }
+    const q = await runServer('getTodayQueue');
+    const tb = document.getElementById('queueTable');
+    if(q.success && q.data.length) {
+      tb.innerHTML = q.data.map(x=>{
+        const st = x.Status||x.status;
+        const sc = st.toLowerCase().replace(' ','');
+        return `<tr><td><strong>${x.NomorAntrean||x.nomorAntrean}</strong></td><td>${x.NamaPasien||x.namaPasien}</td><td>${x.Spesialisasi||x.spesialisasi}</td><td><span class="status-chip ${sc}">${st}</span></td><td>${x.WaktuPanggil||x.waktuPanggil||'—'}</td></tr>`;
+      }).join('');
+    } else { tb.innerHTML='<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">Belum ada antrean.</td></tr>'; }
+  } catch(e){}
+}
+
+async function callNext() {
+  try {
+    const r = await runServer('callNextQueue');
+    if(r.success&&r.data) {
+      document.getElementById('qNumber').textContent=r.data.nomorAntrean;
+      document.getElementById('qName').textContent=r.data.namaPasien;
+      document.getElementById('qSpec').textContent=r.data.spesialisasi;
+      loadQueueData(); loadAdminDashboard();
+      showToast('Memanggil: '+r.data.nomorAntrean, '📢');
+    } else { showToast(r.message||'Tidak ada antrean.', 'ℹ️'); }
+  } catch(e){ showToast('Gagal memanggil.', '❌'); }
+}
+
+// ── PAYMENTS ──
+async function loadPayments() {
+  const tbs = [document.getElementById('payTable'), document.getElementById('kasirPayTable')].filter(Boolean);
+  tbs.forEach(tb=>{ tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;"><span class="spinner"></span></td></tr>'; });
+  try {
+    const r = await runServer('getPaymentHistory');
+    const html = (r.success&&r.data.length) ? r.data.map(p=>`<tr>
+      <td>${p.NomorKuitansi||p.nomorKuitansi||'-'}</td><td>${p.NamaPasien||p.namaPasien||'-'}</td>
+      <td>${p.Layanan||p.layanan||'-'}</td><td>Rp ${(parseInt(p.JumlahTagihan||p.jumlahTagihan||0)).toLocaleString('id-ID')}</td>
+      <td>${p.MetodePembayaran||p.metodePembayaran||'-'}</td><td><span class="status-chip lunas">Lunas</span></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-light);">Belum ada data.</td></tr>';
+    tbs.forEach(tb=>{ tb.innerHTML=html; });
+  } catch(e){ tbs.forEach(tb=>{ tb.innerHTML='<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--error);">Gagal memuat.</td></tr>'; }); }
+}
+
+async function handlePayment() {
+  const btn=document.getElementById('payBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
+  document.getElementById('payAlert').innerHTML='';
+  const data = {
+    appointmentID:'MANUAL', patientID:'MANUAL',
+    namaPasien:document.getElementById('payNama').value.trim(),
+    layanan:document.getElementById('payLayanan').value,
+    jumlahTagihan:document.getElementById('payAmount').value,
+    metodePembayaran:document.getElementById('payMethod').value,
+    statusAsuransi:document.getElementById('payIns').value,
+    namaAsuransi:document.getElementById('payInsName').value.trim()||'-'
+  };
+  try {
+    const r = await runServer('processPayment', data);
+    if(r.success) {
+      showToast('Pembayaran berhasil!');
+      showReceipt(data, r.data);
+      loadPayments(); loadAdminDashboard();
+      setTimeout(()=>closeModal('paymentModal'),1200);
+    } else { document.getElementById('payAlert').innerHTML='<div class="alert alert-error">'+r.message+'</div>'; }
+  } catch(e){ document.getElementById('payAlert').innerHTML='<div class="alert alert-error">Error.</div>'; }
+  btn.disabled=false; btn.textContent='Proses';
+}
+
+function showReceipt(data, receipt) {
+  document.getElementById('receiptContent').innerHTML = `
+    <div class="confirm-card">
+      <div class="deco-diamond">◆ ◇ ◆ ◇ ◆</div>
+      <h4 style="font-family:var(--font-display);font-size:24px;margin:8px 0 2px;">POLCASAN</h4>
+      <p style="font-size:11px;color:var(--text-muted);">Klinik Fisioterapi</p>
+      <div class="deco-line"><span class="deco-diamond">◆</span></div>
+      <p style="font-size:11px;color:var(--text-muted);">KUITANSI: ${receipt.nomorKuitansi||'-'}</p>
+      <div class="confirm-details">
+        <div class="detail-row"><span class="label">Pasien</span><span class="value">${data.namaPasien}</span></div>
+        <div class="detail-row"><span class="label">Layanan</span><span class="value">${data.layanan}</span></div>
+        <div class="detail-row"><span class="label">Metode</span><span class="value">${data.metodePembayaran}</span></div>
+        ${data.statusAsuransi==='Ya'?`<div class="detail-row"><span class="label">Asuransi</span><span class="value">${data.namaAsuransi}</span></div>`:''}
+        <div class="detail-row" style="border-top:2px solid var(--accent);padding-top:10px;margin-top:6px;">
+          <span class="label" style="font-weight:700;color:var(--text-main);">TOTAL</span>
+          <span class="value" style="font-size:16px;color:var(--primary);">Rp ${parseInt(data.jumlahTagihan).toLocaleString('id-ID')}</span>
+        </div>
+      </div>
+      <p style="color:var(--text-light);font-size:10px;margin-top:12px;">${receipt.tanggalBayar||''}</p>
+      <div class="deco-diamond" style="margin-top:8px;">◇ Terima Kasih ◇</div>
+    </div>
+    <div style="text-align:center;margin-top:14px;"><button class="btn btn-sm btn-outline" onclick="window.print()">🖨️ Cetak</button></div>
+  `;
+  openModal('receiptModal');
+}
+
+// ── WALK-IN ──
+async function handleWalkIn() {
+  const btn=document.getElementById('wiBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
+  document.getElementById('wiAlert').innerHTML='';
+  try {
+    const r = await runServer('addWalkInPatient', {
+      nama:document.getElementById('wiNama').value.trim(),
+      nik:document.getElementById('wiNIK').value.trim(),
+      noTelepon:document.getElementById('wiPhone').value.trim(),
+      spesialisasi:document.getElementById('wiSpec').value
+    });
+    if(r.success) {
+      let msg = '✓ '+r.message;
+      if(r.data?.nomorAntrean) msg += ' Antrean: <strong>'+r.data.nomorAntrean+'</strong>';
+      document.getElementById('wiAlert').innerHTML='<div class="alert alert-success">'+msg+'</div>';
+      showToast('Walk-in berhasil!');
+      loadAdminApt(); loadAdminDashboard();
+      setTimeout(()=>closeModal('walkInModal'),2000);
+    } else { document.getElementById('wiAlert').innerHTML='<div class="alert alert-error">'+r.message+'</div>'; }
+  } catch(e){ document.getElementById('wiAlert').innerHTML='<div class="alert alert-error">Error.</div>'; }
+  btn.disabled=false; btn.textContent='Daftarkan';
+}
+
+// ── SPECIALIZATIONS ──
+function renderSpecCards() {
+  document.getElementById('specCards').innerHTML = SPECS.map((s,i)=>{
+    const t = THERAPISTS.find(x=>x.spec===s.name);
+    return `<div class="therapist-card">
+      <div class="therapist-top">
+        <div class="therapist-title"><h3>${s.name.replace('Fisioterapi ','')}</h3><span>${s.name}</span></div>
+        <div class="therapist-icon"><iconify-icon icon="${s.icon}"></iconify-icon></div>
+      </div>
+      <div class="therapist-bio">${s.desc}</div>
+      ${t?`<div class="therapist-badges"><span class="therapist-badge">👨‍⚕️ ${t.nama}</span><span class="therapist-badge">📅 ${t.hari}</span></div>`:''}
+    </div>`;
+  }).join('');
+}
+
+// ── BOOKING ──
+function openBookingModal() {
+  bkData = { spec:'', date:'', time:'', therapistID:'', therapistName:'' };
+  document.getElementById('bkNext1').disabled=true;
+  document.getElementById('bkNext2').disabled=true;
+  document.getElementById('bkDate').value='';
+  document.getElementById('bkDate').min = new Date().toISOString().split('T')[0];
+  document.getElementById('slotsContainer').innerHTML='<p style="font-size:13px;color:var(--text-muted);">Pilih tanggal untuk melihat slot tersedia.</p>';
+  document.getElementById('bookAlert').innerHTML='';
+  // Build spec grid
+  document.getElementById('bkSpecGrid').innerHTML = SPECS.map(s=>`
+    <div class="spec-select-card" onclick="selectSpec(this,'${s.name}')">
+      <span class="spec-icon"><iconify-icon icon="${s.icon}"></iconify-icon></span><h5>${s.name.replace('Fisioterapi ','')}</h5>
+    </div>
+  `).join('');
+  goBookStep(1);
+  openModal('bookingModal');
+}
+
+function selectSpec(el, spec) {
+  document.querySelectorAll('.spec-select-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  bkData.spec = spec;
+  document.getElementById('bkNext1').disabled=false;
+}
+
+function goBookStep(step) {
+  document.querySelectorAll('.booking-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('bkStep'+step).classList.add('active');
+  for(let i=1;i<=3;i++) {
+    const el=document.getElementById('bs'+i);
+    el.classList.remove('active','done');
+    if(i<step) el.classList.add('done');
+    if(i===step) el.classList.add('active');
+  }
+  if(step===3) renderBookConfirm();
+}
+
+async function loadSlots() {
+  const date = document.getElementById('bkDate').value;
+  if(!date) return;
+  bkData.date=date; bkData.time=''; bkData.therapistID=''; bkData.therapistName='';
+  document.getElementById('bkNext2').disabled=true;
+  document.getElementById('slotsContainer').innerHTML='<div style="text-align:center;padding:20px;"><span class="spinner"></span></div>';
+  try {
+    const r = await runServer('getAvailableSlots', date, bkData.spec);
+    if(r.success && r.data.length) {
+      document.getElementById('slotsContainer').innerHTML = `
+        <p style="font-size:13px;margin-bottom:8px;font-weight:600;">Slot tersedia pada ${formatDate(date)}:</p>
+        <div class="slot-grid">${r.data.map(sl=>`
+          <div class="slot-btn" onclick="selectSlot(this,'${sl.jam}','${sl.therapistID}','${escHtml(sl.namaTherapist)}')">
+            <span class="slot-time">${sl.jam}</span>
+            <span class="slot-therapist">${sl.namaTherapist.split(',')[0]}</span>
+          </div>
+        `).join('')}</div>
+      `;
+    } else { document.getElementById('slotsContainer').innerHTML='<div class="alert alert-info">'+(r.message||'Tidak ada slot.')+'</div>'; }
+  } catch(e){ document.getElementById('slotsContainer').innerHTML='<div class="alert alert-error">Gagal memuat.</div>'; }
+}
+
+function selectSlot(el,jam,tid,tname) {
+  document.querySelectorAll('.slot-btn').forEach(s=>s.classList.remove('selected'));
+  el.classList.add('selected');
+  bkData.time=jam; bkData.therapistID=tid; bkData.therapistName=tname;
+  document.getElementById('bkNext2').disabled=false;
+}
+
+function renderBookConfirm() {
+  document.getElementById('bkConfirmDetails').innerHTML = `
+    <div class="detail-row"><span class="label">Spesialisasi</span><span class="value">${bkData.spec}</span></div>
+    <div class="detail-row"><span class="label">Tanggal</span><span class="value">${formatDate(bkData.date)}</span></div>
+    <div class="detail-row"><span class="label">Jam</span><span class="value">${bkData.time} WIB</span></div>
+    <div class="detail-row"><span class="label">Fisioterapis</span><span class="value">${bkData.therapistName}</span></div>
+    <div class="detail-row"><span class="label">Pasien</span><span class="value">${currentUser.nama}</span></div>
+  `;
+}
+
+async function confirmBooking() {
+  const btn=document.getElementById('confirmBtn'); btn.disabled=true; btn.innerHTML='<span class="spinner"></span>';
+  try {
+    const r = await runServer('bookAppointment', currentUser.id, currentUser.nama, bkData.spec, bkData.date, bkData.time, bkData.therapistID, bkData.therapistName);
+    if(r.success) {
+      document.getElementById('bkQueueNum').textContent=r.data.nomorAntrean;
+      document.getElementById('bkSuccessDetails').innerHTML = `
+        <div class="detail-row"><span class="label">Spesialisasi</span><span class="value">${r.data.spesialisasi}</span></div>
+        <div class="detail-row"><span class="label">Tanggal</span><span class="value">${formatDate(r.data.tanggal)}</span></div>
+        <div class="detail-row"><span class="label">Jam</span><span class="value">${r.data.jam} WIB</span></div>
+        <div class="detail-row"><span class="label">Fisioterapis</span><span class="value">${r.data.namaTherapist}</span></div>
+      `;
+      goBookStep(4);
+      showToast('Booking berhasil! Antrean: '+r.data.nomorAntrean, '🎉');
+    } else { document.getElementById('bookAlert').innerHTML='<div class="alert alert-error">'+r.message+'</div>'; }
+  } catch(e){ document.getElementById('bookAlert').innerHTML='<div class="alert alert-error">Error.</div>'; }
+  btn.disabled=false; btn.textContent='Konfirmasi Booking';
+}
+
+// ── PASIEN APPOINTMENTS ──
+async function loadPasienApt() {
+  if(!currentUser) return;
+  const c = document.getElementById('pasienAptList');
+  c.innerHTML='<div style="text-align:center;padding:20px;"><span class="spinner"></span></div>';
+  try {
+    const r = await runServer('getPatientAppointments', currentUser.id);
+    if(r.success && r.data.length) {
+      c.innerHTML = r.data.sort((a,b)=>(b.Tanggal||b.tanggal||'').localeCompare(a.Tanggal||a.tanggal||'')).map(a=>{
+        const st = a.Status||a.status||'Terjadwal';
+        const sc = st.toLowerCase().replace('-','');
+        return `<div class="apt-item">
+          <div class="apt-info">
+            <h4>${a.Spesialisasi||a.spesialisasi}</h4>
+            <p>📅 ${formatDate(a.Tanggal||a.tanggal)} — 🕐 ${a.Jam||a.jam} WIB</p>
+            <p>👨‍⚕️ ${a.NamaTherapist||a.namaTherapist||'-'}</p>
+          </div>
+          <div class="apt-meta">
+            <span class="antrean">${a.NomorAntrean||a.nomorAntrean}</span>
+            <span class="status-chip ${sc}">${st}</span>
+          </div>
+        </div>`;
+      }).join('');
+    } else { c.innerHTML='<div class="alert alert-info">Belum ada janji temu. Klik "Buat Janji Temu" untuk memulai.</div>'; }
+  } catch(e){ c.innerHTML='<div class="alert alert-error">Gagal memuat data.</div>'; }
+}
+
+// ── UTILS ──
+function formatDate(d) {
+  if(!d) return '-';
+  try {
+    const dt=new Date(d+'T00:00:00');
+    const m=['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const dy=['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    return dy[dt.getDay()]+', '+dt.getDate()+' '+m[dt.getMonth()]+' '+dt.getFullYear();
+  } catch(e){ return d; }
+}
+
+function escHtml(s) { const d=document.createElement('div'); d.textContent=s; return d.innerHTML.replace(/'/g,"\\'"); }
+
+// ── LANDING PAGE HELPERS ──
+function openLoginModal() {
+  document.getElementById('loginPage').classList.add('open');
+  switchModalTab('login');
+}
+
+function closeLoginModal() {
+  document.getElementById('loginPage').classList.remove('open');
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('directCheckError').style.display = 'none';
+}
+
+function closeLoginModalOutside(e) {
+  if (e.target === document.getElementById('loginPage')) {
+    closeLoginModal();
+  }
+}
+
+
+function switchModalTab(tab) {
+  document.querySelectorAll('.modal-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.modal-tab-content').forEach(c => c.classList.remove('active'));
+  
+  document.getElementById('modal-tab-' + tab).classList.add('active');
+  document.getElementById('modal-content-' + tab).classList.add('active');
+  
+  document.getElementById('loginError').style.display = 'none';
+  document.getElementById('directCheckError').style.display = 'none';
+  document.getElementById('queueSearchResult').style.display = 'none';
+  document.getElementById('directQueueId').value = '';
+}
+
+async function handleDirectQueueCheck() {
+  const inputEl = document.getElementById('directQueueId');
+  const id = inputEl.value.trim();
+  const errorEl = document.getElementById('directCheckError');
+  const resultCard = document.getElementById('queueSearchResult');
+  const btn = document.getElementById('directCheckBtn');
+  
+  if(!id) return;
+  errorEl.style.display = 'none';
+  resultCard.style.display = 'none';
+  
+  btn.disabled = true;
+  btn.innerHTML = '<span>Memeriksa...</span> <span class="spinner" style="width:14px;height:14px;border-width:1.5px;"></span>';
+  
+  try {
+    const r = await runServer('getQueueStatusDirect', id);
+    if(r.success && r.data) {
+      document.getElementById('resQueueNum').textContent = r.data.nomorAntrean;
+      document.getElementById('resPatientName').textContent = r.data.namaPasien;
+      document.getElementById('resLayanan').textContent = r.data.spesialisasi;
+      document.getElementById('resTerapis').textContent = r.data.therapist;
+      document.getElementById('resJadwal').textContent = formatDate(r.data.tanggal) + ' (' + r.data.jam + ' WIB)';
+      document.getElementById('resQueueFooter').textContent = 'Waktu Pemanggilan: ' + (r.data.waktuPanggil || '—');
+      
+      const chip = document.getElementById('resStatusChip');
+      chip.className = 'status-chip ' + r.data.status.toLowerCase().replace(' ', '');
+      chip.textContent = r.data.status;
+      
+      resultCard.style.display = 'block';
+    } else {
+      errorEl.textContent = r.message || 'Antrean tidak ditemukan.';
+      errorEl.style.display = 'block';
+    }
+  } catch(e) {
+    errorEl.textContent = 'Gagal melakukan pemeriksaan. Coba lagi.';
+    errorEl.style.display = 'block';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>Periksa Status</span> <iconify-icon icon="lucide:search"></iconify-icon>';
+  }
+}
+
+// ── INIT ──
+document.addEventListener('DOMContentLoaded',()=>{
+  if(IS_DEMO) console.log('%c🏥 Klinik Polcasan — Demo Mode','font-size:14px;color:#C44569;font-weight:bold;');
+});
+</script>
+
+</body>
+</html>

@@ -120,14 +120,14 @@ function initializeSheets() {
   const aptHeaders = ['AppointmentID', 'PatientID', 'NamaPasien', 'Spesialisasi', 'Tanggal', 'Jam', 'TherapistID', 'NamaTherapist', 'Status', 'NomorAntrean', 'TanggalDibuat'];
   const aptSheet = setupSheet(SHEET_NAMES.APPOINTMENTS, aptHeaders);
   const sampleApt = [
-    ['APT001', 'P001', 'Siti Aminah', 'Fisioterapi Muskuloskeletal', today, '08:00', 'T001', 'dr. Andi Pratama, Sp.FT', 'Selesai', 'A001', now],
+    ['APT001', 'P001', 'Siti Aminah', 'Fisioterapi Muskuloskeletal', today, '08:00', 'T001', 'Khoirunnisa, S.Ftr.Ftr., M.fis', 'Selesai', 'A001', now],
     ['APT002', 'P002', 'Budi Utomo', 'Fisioterapi Neuromuskular', today, '09:00', 'T002', 'dr. Sari Dewi, Sp.FT', 'Selesai', 'A002', now],
     ['APT003', 'P003', 'Ahmad Fauzi', 'Fisioterapi Kardiovaskulopulmonal', today, '10:00', 'T003', 'dr. Budi Santoso, Sp.FT', 'Selesai', 'A003', now],
     ['APT004', 'P004', 'Rini Lestari', 'Fisioterapi Pediatri', today, '11:00', 'T004', 'dr. Maya Putri, Sp.FT', 'Check-in', 'A004', now],
     ['APT005', 'P005', 'Hendra Wijaya', 'Fisioterapi Geriatri', today, '13:00', 'T005', 'dr. Hendra Wijaya, Sp.FT', 'Check-in', 'A005', now],
     ['APT006', 'P006', 'Dewi Sartika', 'Fisioterapi Kesehatan Wanita', today, '14:00', 'T006', 'dr. Linda Kusuma, Sp.FT', 'Terjadwal', 'A006', now],
     ['APT007', 'P007', 'Bambang Sugeng', 'Fisioterapi Sport', today, '15:00', 'T007', 'dr. Riko Firmansyah, Sp.FT', 'Terjadwal', 'A007', now],
-    ['APT008', 'P008', 'Lilis Suryani', 'Fisioterapi Muskuloskeletal', today, '16:00', 'T001', 'dr. Andi Pratama, Sp.FT', 'Terjadwal', 'A008', now],
+    ['APT008', 'P008', 'Lilis Suryani', 'Fisioterapi Muskuloskeletal', today, '16:00', 'T001', 'Khoirunnisa, S.Ftr.Ftr., M.fis', 'Terjadwal', 'A008', now],
     ['APT009', 'P009', 'Joko Widodo', 'Fisioterapi Neuromuskular', today, '17:00', 'T002', 'dr. Sari Dewi, Sp.FT', 'Dibatalkan', 'A009', now],
     ['APT010', 'P010', 'Megawati Putri', 'Fisioterapi Kardiovaskulopulmonal', today, '17:00', 'T003', 'dr. Budi Santoso, Sp.FT', 'Terjadwal', 'A010', now]
   ];
@@ -165,7 +165,7 @@ function initializeSheets() {
   const therapistHeaders = ['TherapistID', 'Nama', 'Spesialisasi', 'JadwalHari', 'JamMulai', 'JamSelesai', 'Status'];
   const therapistSheet = setupSheet(SHEET_NAMES.THERAPISTS, therapistHeaders);
   const sampleTherapists = [
-    ['T001', 'dr. Andi Pratama, Sp.FT', 'Fisioterapi Muskuloskeletal', 'Senin,Selasa,Rabu', '08:00', '15:00', 'Aktif'],
+    ['T001', 'Khoirunnisa, S.Ftr.Ftr., M.fis', 'Fisioterapi Muskuloskeletal', 'Senin,Selasa,Rabu', '08:00', '15:00', 'Aktif'],
     ['T002', 'dr. Sari Dewi, Sp.FT', 'Fisioterapi Neuromuskular', 'Senin,Rabu,Jumat', '09:00', '16:00', 'Aktif'],
     ['T003', 'dr. Budi Santoso, Sp.FT', 'Fisioterapi Kardiovaskulopulmonal', 'Selasa,Kamis,Sabtu', '08:00', '14:00', 'Aktif'],
     ['T004', 'dr. Maya Putri, Sp.FT', 'Fisioterapi Pediatri', 'Senin,Selasa,Kamis', '10:00', '17:00', 'Aktif'],
@@ -181,7 +181,7 @@ function initializeSheets() {
   const sampleAdmin = [
     ['A001', 'admin', '123', 'Administrator', 'admin'],
     ['A002', 'kasir', '123', 'Kasir Klinik', 'kasir'],
-    ['T001', 'terapis', '123', 'dr. Andi Pratama, Sp.FT', 'terapis']
+    ['T001', 'terapis', '123', 'Khoirunnisa, S.Ftr.Ftr., M.fis', 'terapis']
   ];
   sampleAdmin.forEach(row => adminSheet.appendRow(row));
 
@@ -189,14 +189,14 @@ function initializeSheets() {
   const recordHeaders = ['RecordID', 'PatientID', 'NamaPasien', 'Diagnosa', 'Spesialisasi', 'Catatan', 'TherapistID', 'NamaTherapist', 'Tanggal'];
   const recordSheet = setupSheet(SHEET_NAMES.RECORDS, recordHeaders);
   const sampleRecords = [
-    ['REC001', 'P001', 'Siti Aminah', 'Low Back Pain', 'Fisioterapi Muskuloskeletal', 'Mengalami nyeri punggung bawah kronis. Dilakukan terapi manual, pemanasan infra-merah, dan edukasi posisi duduk tegak.', 'T001', 'dr. Andi Pratama, Sp.FT', today],
+    ['REC001', 'P001', 'Siti Aminah', 'Low Back Pain', 'Fisioterapi Muskuloskeletal', 'Mengalami nyeri punggung bawah kronis. Dilakukan terapi manual, pemanasan infra-merah, dan edukasi posisi duduk tegak.', 'T001', 'Khoirunnisa, S.Ftr.Ftr., M.fis', today],
     ['REC002', 'P002', 'Budi Utomo', 'Hemiparese Dextra post Stroke', 'Fisioterapi Neuromuskular', 'Terapi latihan gerak pasif dan penguatan otot ekstremitas kanan atas dan bawah.', 'T002', 'dr. Sari Dewi, Sp.FT', today],
     ['REC003', 'P004', 'Rini Lestari', 'Keterlambatan Motorik Kasar', 'Fisioterapi Pediatri', 'Terapi stimulasi merangkak dan berdiri tegak dengan penyangga.', 'T004', 'dr. Maya Putri, Sp.FT', today],
     ['REC004', 'P003', 'Ahmad Fauzi', 'Asma Bronkial', 'Fisioterapi Kardiovaskulopulmonal', 'Terapi inhalasi (nebulisasi) diikuti dengan latihan teknik batuk efektif dan postural drainage. Kondisi dada mulai membaik.', 'T003', 'dr. Budi Santoso, Sp.FT', today],
     ['REC005', 'P005', 'Hendra Wijaya', 'Osteoarthritis Genu', 'Fisioterapi Geriatri', 'Nyeri lutut kiri kronis karena faktor usia. Diberikan terapi TENS dan latihan penguatan otot kuadrisep.', 'T005', 'dr. Hendra Wijaya, Sp.FT', today],
     ['REC006', 'P006', 'Dewi Sartika', 'Frozen Shoulder', 'Fisioterapi Kesehatan Wanita', 'Keterbatasan gerak sendi bahu kanan. Dilakukan mobilisasi sendi dan terapi ultrasound.', 'T006', 'dr. Linda Kusuma, Sp.FT', today],
     ['REC007', 'P007', 'Bambang Sugeng', 'Ankle Sprain Grade II', 'Fisioterapi Sport', 'Cedera pergelangan kaki kanan saat bermain sepak bola. Dilakukan terapi kompres dingin, taping, dan latihan proprioseptif.', 'T007', 'dr. Riko Firmansyah, Sp.FT', today],
-    ['REC008', 'P008', 'Lilis Suryani', 'Cervical Syndrome', 'Fisioterapi Muskuloskeletal', 'Nyeri leher menjalar ke lengan kanan akibat spasme otot leher. Diberikan traksi leher dan infra-merah.', 'T001', 'dr. Andi Pratama, Sp.FT', today],
+    ['REC008', 'P008', 'Lilis Suryani', 'Cervical Syndrome', 'Fisioterapi Muskuloskeletal', 'Nyeri leher menjalar ke lengan kanan akibat spasme otot leher. Diberikan traksi leher and infra-merah.', 'T001', 'Khoirunnisa, S.Ftr.Ftr., M.fis', today],
     ['REC009', 'P009', 'Joko Widodo', 'Hernia Nucleus Pulposus (HNP)', 'Fisioterapi Neuromuskular', 'Saraf terjepit di pinggang. Diberikan terapi traksi lumbal dan edukasi core stability exercises.', 'T002', 'dr. Sari Dewi, Sp.FT', today],
     ['REC010', 'P010', 'Megawati Putri', 'Post-Operative Pulmonary Complications', 'Fisioterapi Kardiovaskulopulmonal', 'Latihan pernapasan dalam (deep breathing exercises) dan ambulasi dini pasca operasi perut.', 'T003', 'dr. Budi Santoso, Sp.FT', today]
   ];

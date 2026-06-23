@@ -1890,7 +1890,7 @@
     <div id="admin-dashboardView" class="page-view role-admin active">
       <div class="page-header">
         <div class="page-headline">
-          <h1>Selamat Datang, Admin 👋</h1>
+          <h1>Selamat Datang, Admin</h1>
           <p>Ringkasan operasional Klinik Polcasan hari ini.</p>
         </div>
       </div>
@@ -2038,7 +2038,7 @@
     <div id="terapis-dashboardView" class="page-view role-terapis">
       <div class="page-header">
         <div class="page-headline">
-          <h1 id="terapisWelcome">Selamat Datang, Terapis 👋</h1>
+          <h1 id="terapisWelcome">Selamat Datang, Terapis</h1>
           <p>Daftar sesi penanganan pasien Anda hari ini.</p>
         </div>
       </div>
@@ -2486,14 +2486,14 @@ let demoPasien = [
 ];
 
 let demoApt = [
-  { appointmentID:'APT001', patientID:'P001', namaPasien:'Siti Aminah', spesialisasi:'Fisioterapi Muskuloskeletal', tanggal:todayStr, jam:'08:00', therapistID:'T001', namaTherapist:'dr. Andi Pratama, Sp.FT', status:'Selesai', nomorAntrean:'A001', tanggalDibuat:nowStr },
+  { appointmentID:'APT001', patientID:'P001', namaPasien:'Siti Aminah', spesialisasi:'Fisioterapi Muskuloskeletal', tanggal:todayStr, jam:'08:00', therapistID:'T001', namaTherapist:'Khoirunnisa, S.Ftr.Ftr., M.fis', status:'Selesai', nomorAntrean:'A001', tanggalDibuat:nowStr },
   { appointmentID:'APT002', patientID:'P002', namaPasien:'Budi Utomo', spesialisasi:'Fisioterapi Neuromuskular', tanggal:todayStr, jam:'09:00', therapistID:'T002', namaTherapist:'dr. Sari Dewi, Sp.FT', status:'Selesai', nomorAntrean:'A002', tanggalDibuat:nowStr },
   { appointmentID:'APT003', patientID:'P003', namaPasien:'Ahmad Fauzi', spesialisasi:'Fisioterapi Kardiovaskulopulmonal', tanggal:todayStr, jam:'10:00', therapistID:'T003', namaTherapist:'dr. Budi Santoso, Sp.FT', status:'Selesai', nomorAntrean:'A003', tanggalDibuat:nowStr },
   { appointmentID:'APT004', patientID:'P004', namaPasien:'Rini Lestari', spesialisasi:'Fisioterapi Pediatri', tanggal:todayStr, jam:'11:00', therapistID:'T004', namaTherapist:'dr. Maya Putri, Sp.FT', status:'Check-in', nomorAntrean:'A004', tanggalDibuat:nowStr },
   { appointmentID:'APT005', patientID:'P005', namaPasien:'Hendra Wijaya', spesialisasi:'Fisioterapi Geriatri', tanggal:todayStr, jam:'13:00', therapistID:'T005', namaTherapist:'dr. Hendra Wijaya, Sp.FT', status:'Check-in', nomorAntrean:'A005', tanggalDibuat:nowStr },
   { appointmentID:'APT006', patientID:'P006', namaPasien:'Dewi Sartika', spesialisasi:'Fisioterapi Kesehatan Wanita', tanggal:todayStr, jam:'14:00', therapistID:'T006', namaTherapist:'dr. Linda Kusuma, Sp.FT', status:'Terjadwal', nomorAntrean:'A006', tanggalDibuat:nowStr },
   { appointmentID:'APT007', patientID:'P007', namaPasien:'Bambang Sugeng', spesialisasi:'Fisioterapi Sport', tanggal:todayStr, jam:'15:00', therapistID:'T007', namaTherapist:'dr. Riko Firmansyah, Sp.FT', status:'Terjadwal', nomorAntrean:'A007', tanggalDibuat:nowStr },
-  { appointmentID:'APT008', patientID:'P008', namaPasien:'Lilis Suryani', spesialisasi:'Fisioterapi Muskuloskeletal', tanggal:todayStr, jam:'16:00', therapistID:'T001', namaTherapist:'dr. Andi Pratama, Sp.FT', status:'Terjadwal', nomorAntrean:'A008', tanggalDibuat:nowStr },
+  { appointmentID:'APT008', patientID:'P008', namaPasien:'Lilis Suryani', spesialisasi:'Fisioterapi Muskuloskeletal', tanggal:todayStr, jam:'16:00', therapistID:'T001', namaTherapist:'Khoirunnisa, S.Ftr.Ftr., M.fis', status:'Terjadwal', nomorAntrean:'A008', tanggalDibuat:nowStr },
   { appointmentID:'APT009', patientID:'P009', namaPasien:'Joko Widodo', spesialisasi:'Fisioterapi Neuromuskular', tanggal:todayStr, jam:'17:00', therapistID:'T002', namaTherapist:'dr. Sari Dewi, Sp.FT', status:'Dibatalkan', nomorAntrean:'A009', tanggalDibuat:nowStr },
   { appointmentID:'APT010', patientID:'P010', namaPasien:'Megawati Putri', spesialisasi:'Fisioterapi Kardiovaskulopulmonal', tanggal:todayStr, jam:'17:00', therapistID:'T003', namaTherapist:'dr. Budi Santoso, Sp.FT', status:'Terjadwal', nomorAntrean:'A010', tanggalDibuat:nowStr }
 ];
@@ -2531,7 +2531,7 @@ const SPECS = [
 ];
 
 const THERAPISTS = [
-  { id:'T001', nama:'dr. Andi Pratama, Sp.FT', spec:'Fisioterapi Muskuloskeletal', hari:'Senin,Selasa,Rabu' },
+  { id:'T001', nama:'Khoirunnisa, S.Ftr.Ftr., M.fis', spec:'Fisioterapi Muskuloskeletal', hari:'Senin,Selasa,Rabu' },
   { id:'T002', nama:'dr. Sari Dewi, Sp.FT', spec:'Fisioterapi Neuromuskular', hari:'Senin,Rabu,Jumat' },
   { id:'T003', nama:'dr. Budi Santoso, Sp.FT', spec:'Fisioterapi Kardiovaskulopulmonal', hari:'Selasa,Kamis,Sabtu' },
   { id:'T004', nama:'dr. Maya Putri, Sp.FT', spec:'Fisioterapi Pediatri', hari:'Senin,Selasa,Kamis' },
@@ -2584,7 +2584,7 @@ function demoHandler(fn, args) {
           const [u,p] = args;
           if(u==='admin' && (p==='admin123' || p==='123')) res({ success:true, admin:{ id:'A001', nama:'Administrator', role:'admin' }});
           else if(u==='kasir' && (p==='kasir123' || p==='123')) res({ success:true, admin:{ id:'A002', nama:'Kasir Klinik', role:'kasir' }});
-          else if(u==='terapis' && (p==='terapis123' || p==='123')) res({ success:true, admin:{ id:'T001', nama:'dr. Andi Pratama, Sp.FT', role:'terapis' }});
+          else if(u==='terapis' && (p==='terapis123' || p==='123')) res({ success:true, admin:{ id:'T001', nama:'Khoirunnisa, S.Ftr.Ftr., M.fis', role:'terapis' }});
           else res({ success:false, message:'Username/password salah.' });
           break;
         }
@@ -3304,14 +3304,14 @@ async function handleDirectQueueCheck() {
 
 // ── REKAM MEDIS & DASHBOARD TERAPIS ──
 let demoRecords = [
-  { RecordID: 'REC001', PatientID: 'P001', NamaPasien: 'Siti Aminah', Diagnosa: 'Low Back Pain', Spesialisasi: 'Fisioterapi Muskuloskeletal', Catatan: 'Mengalami nyeri punggung bawah kronis. Dilakukan terapi manual, pemanasan infra-merah, dan edukasi posisi duduk tegak.', TherapistID: 'T001', NamaTherapist: 'dr. Andi Pratama, Sp.FT', Tanggal: todayStr },
+  { RecordID: 'REC001', PatientID: 'P001', NamaPasien: 'Siti Aminah', Diagnosa: 'Low Back Pain', Spesialisasi: 'Fisioterapi Muskuloskeletal', Catatan: 'Mengalami nyeri punggung bawah kronis. Dilakukan terapi manual, pemanasan infra-merah, dan edukasi posisi duduk tegak.', TherapistID: 'T001', NamaTherapist: 'Khoirunnisa, S.Ftr.Ftr., M.fis', Tanggal: todayStr },
   { RecordID: 'REC002', PatientID: 'P002', NamaPasien: 'Budi Utomo', Diagnosa: 'Hemiparese Dextra post Stroke', Spesialisasi: 'Fisioterapi Neuromuskular', Catatan: 'Terapi latihan gerak pasif dan penguatan otot ekstremitas kanan atas dan bawah.', TherapistID: 'T002', NamaTherapist: 'dr. Sari Dewi, Sp.FT', Tanggal: todayStr },
   { RecordID: 'REC003', PatientID: 'P004', NamaPasien: 'Rini Lestari', Diagnosa: 'Keterlambatan Motorik Kasar', Spesialisasi: 'Fisioterapi Pediatri', Catatan: 'Terapi stimulasi merangkak dan berdiri tegak dengan penyangga.', TherapistID: 'T004', NamaTherapist: 'dr. Maya Putri, Sp.FT', Tanggal: todayStr },
   { RecordID: 'REC004', PatientID: 'P003', NamaPasien: 'Ahmad Fauzi', Diagnosa: 'Asma Bronkial', Spesialisasi: 'Fisioterapi Kardiovaskulopulmonal', Catatan: 'Terapi inhalasi (nebulisasi) diikuti dengan latihan teknik batuk efektif dan postural drainage. Kondisi dada mulai membaik.', TherapistID: 'T003', NamaTherapist: 'dr. Budi Santoso, Sp.FT', Tanggal: todayStr },
   { RecordID: 'REC005', PatientID: 'P005', NamaPasien: 'Hendra Wijaya', Diagnosa: 'Osteoarthritis Genu', Spesialisasi: 'Fisioterapi Geriatri', Catatan: 'Nyeri lutut kiri kronis karena faktor usia. Diberikan terapi TENS dan latihan penguatan otot kuadrisep.', TherapistID: 'T005', NamaTherapist: 'dr. Hendra Wijaya, Sp.FT', Tanggal: todayStr },
   { RecordID: 'REC006', PatientID: 'P006', NamaPasien: 'Dewi Sartika', Diagnosa: 'Frozen Shoulder', Spesialisasi: 'Fisioterapi Kesehatan Wanita', Catatan: 'Keterbatasan gerak sendi bahu kanan. Dilakukan mobilisasi sendi dan terapi ultrasound.', TherapistID: 'T006', NamaTherapist: 'dr. Linda Kusuma, Sp.FT', Tanggal: todayStr },
   { RecordID: 'REC007', PatientID: 'P007', NamaPasien: 'Bambang Sugeng', Diagnosa: 'Ankle Sprain Grade II', Spesialisasi: 'Fisioterapi Sport', Catatan: 'Cedera pergelangan kaki kanan saat bermain sepak bola. Dilakukan terapi kompres dingin, taping, dan latihan proprioseptif.', TherapistID: 'T007', NamaTherapist: 'dr. Riko Firmansyah, Sp.FT', Tanggal: todayStr },
-  { RecordID: 'REC008', PatientID: 'P008', NamaPasien: 'Lilis Suryani', Diagnosa: 'Cervical Syndrome', Spesialisasi: 'Fisioterapi Muskuloskeletal', Catatan: 'Nyeri leher menjalar ke lengan kanan akibat spasme otot leher. Diberikan traksi leher dan infra-merah.', TherapistID: 'T001', NamaTherapist: 'dr. Andi Pratama, Sp.FT', Tanggal: todayStr },
+  { RecordID: 'REC008', PatientID: 'P008', NamaPasien: 'Lilis Suryani', Diagnosa: 'Cervical Syndrome', Spesialisasi: 'Fisioterapi Muskuloskeletal', Catatan: 'Nyeri leher menjalar ke lengan kanan akibat spasme otot leher. Diberikan traksi leher dan infra-merah.', TherapistID: 'T001', NamaTherapist: 'Khoirunnisa, S.Ftr.Ftr., M.fis', Tanggal: todayStr },
   { RecordID: 'REC009', PatientID: 'P009', NamaPasien: 'Joko Widodo', Diagnosa: 'Hernia Nucleus Pulposus (HNP)', Spesialisasi: 'Fisioterapi Neuromuskular', Catatan: 'Saraf terjepit di pinggang. Diberikan terapi traksi lumbal dan edukasi core stability exercises.', TherapistID: 'T002', NamaTherapist: 'dr. Sari Dewi, Sp.FT', Tanggal: todayStr },
   { RecordID: 'REC010', PatientID: 'P010', NamaPasien: 'Megawati Putri', Diagnosa: 'Post-Operative Pulmonary Complications', Spesialisasi: 'Fisioterapi Kardiovaskulopulmonal', Catatan: 'Latihan pernapasan dalam (deep breathing exercises) dan ambulasi dini pasca operasi perut.', TherapistID: 'T003', NamaTherapist: 'dr. Budi Santoso, Sp.FT', Tanggal: todayStr }
 ];
@@ -3624,7 +3624,7 @@ async function handleSaveMedicalRecord() {
 }
 
 async function loadTerapisDashboard() {
-  document.getElementById('terapisWelcome').textContent = 'Selamat Datang, ' + currentUser.nama + ' 👋';
+  document.getElementById('terapisWelcome').textContent = 'Selamat Datang, ' + currentUser.nama;
   const tb = document.getElementById('terapisAptTable');
   tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">Memuat...</td></tr>';
   

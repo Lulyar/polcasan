@@ -13,7 +13,8 @@ const SHEET_NAMES = {
   QUEUE: 'Queue',
   PAYMENTS: 'Payments',
   THERAPISTS: 'Therapists',
-  ADMIN: 'Admin'
+  ADMIN: 'Admin',
+  RECORDS: 'MedicalRecords'
 };
 
 // ─── SERVE HTML & API ─────────────────────────────────────────
@@ -168,9 +169,20 @@ function initializeSheets() {
   const adminSheet = setupSheet(SHEET_NAMES.ADMIN, adminHeaders);
   const sampleAdmin = [
     ['A001', 'admin', 'admin123', 'Administrator', 'admin'],
-    ['A002', 'kasir', 'kasir123', 'Kasir Klinik', 'kasir']
+    ['A002', 'kasir', 'kasir123', 'Kasir Klinik', 'kasir'],
+    ['T000', 'terapis', 'terapis123', 'dr. Andi Pratama, Sp.FT', 'terapis']
   ];
   sampleAdmin.forEach(row => adminSheet.appendRow(row));
+
+  // 7. Sheet: MedicalRecords
+  const recordHeaders = ['RecordID', 'PatientID', 'NamaPasien', 'Diagnosa', 'Spesialisasi', 'Catatan', 'TherapistID', 'NamaTherapist', 'Tanggal'];
+  const recordSheet = setupSheet(SHEET_NAMES.RECORDS, recordHeaders);
+  const sampleRecords = [
+    ['REC001', 'P001', 'Siti Aminah', 'Low Back Pain', 'Fisioterapi Muskuloskeletal', 'Mengalami nyeri punggung bawah kronis. Dilakukan terapi manual, pemanasan infra-merah, dan edukasi posisi duduk tegak.', 'T001', 'dr. Andi Pratama, Sp.FT', today],
+    ['REC002', 'P002', 'Budi Utomo', 'Hemiparese Dextra post Stroke', 'Fisioterapi Neuromuskular', 'Terapi latihan gerak pasif dan penguatan otot ekstremitas kanan atas dan bawah.', 'T002', 'dr. Sari Dewi, Sp.FT', today],
+    ['REC003', 'P004', 'Rini Lestari', 'Keterlambatan Motorik Kasar', 'Fisioterapi Pediatri', 'Terapi stimulasi merangkak dan berdiri tegak dengan penyangga.', 'T004', 'dr. Maya Putri, Sp.FT', today]
+  ];
+  sampleRecords.forEach(row => recordSheet.appendRow(row));
 
   return 'Inisialisasi berhasil dengan 10 data dummy!';
 }
@@ -662,7 +674,29 @@ function getDashboardStats() {
   }
 }
 
-// ─── CEK STATUS ANTREAN TANPA LOGIN ────────────────────────
+// ─── REKAM MEDIS (MEDICAL RECORDS) ──────────────────────────
+function getMedicalRecords() {
+  try {
+    const data = getSheetData(SHEET_NAMES.RECORDS);
+    return { success: true, data: data };
+  } catch (e) {
+    return { success: false, message: 'Error: ' + e.message };
+  }
+}
+
+function addMedicalRecord(patientID, namaPasien, diagnosa, spesialisasi, catatan, therapistID, namaTherapist, tanggal) {
+  try {
+    const sheet = getSheet(SHEET_NAMES.RECORDS);
+    if (!sheet) return { success: false, message: 'Sheet MedicalRecords tidak ditemukan.' };
+    
+    const recordID = 'REC' + Date.now();
+    sheet.appendRow([recordID, patientID, namaPasien, diagnosa, spesialisasi, catatan, therapistID, namaTherapist, tanggal]);
+    
+    return { success: true, message: 'Rekam medis berhasil ditambahkan!' };
+  } catch (e) {
+    return { success: false, message: 'Error: ' + e.message };
+  }
+}
 function getQueueStatusDirect(identifier) {
   try {
     const queue = getSheetData(SHEET_NAMES.QUEUE);

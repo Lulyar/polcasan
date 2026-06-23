@@ -972,9 +972,10 @@
     }
 
     /* ── ROLE VISIBILITY ── */
-    body[data-role="admin"] .role-pasien, body[data-role="admin"] .role-kasir { display:none!important; }
-    body[data-role="kasir"] .role-admin, body[data-role="kasir"] .role-pasien { display:none!important; }
-    body[data-role="pasien"] .role-admin, body[data-role="pasien"] .role-kasir { display:none!important; }
+    body[data-role="admin"] .role-pasien, body[data-role="admin"] .role-kasir, body[data-role="admin"] .role-terapis { display:none!important; }
+    body[data-role="kasir"] .role-admin, body[data-role="kasir"] .role-pasien, body[data-role="kasir"] .role-terapis { display:none!important; }
+    body[data-role="pasien"] .role-admin, body[data-role="pasien"] .role-kasir, body[data-role="pasien"] .role-terapis { display:none!important; }
+    body[data-role="terapis"] .role-admin, body[data-role="terapis"] .role-kasir, body[data-role="terapis"] .role-pasien { display:none!important; }
 
     /* ── RESPONSIVE ── */
     @media(max-width:992px) {
@@ -1743,24 +1744,45 @@
 
       <!-- TAB 1 CONTENT: LOGIN (MASUK AKUN) -->
       <div class="modal-tab-content active" id="modal-content-login">
-        <h4 style="font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--primary);text-align:center;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Akses Masuk Staf &amp; Kasir</h4>
-        <p style="font-size:11px;color:var(--text-muted);text-align:center;margin-bottom:14px;line-height:1.5;">Masukkan nama pengguna dan kata sandi Anda untuk mengakses dashboard manajemen.</p>
+        <div class="login-tabs">
+          <button class="login-tab active" id="tab-admin" onclick="switchLoginTab('admin')">
+            <iconify-icon icon="lucide:user-cog"></iconify-icon> Administrasi
+          </button>
+          <button class="login-tab" id="tab-terapis" onclick="switchLoginTab('terapis')">
+            <iconify-icon icon="lucide:stethoscope"></iconify-icon> Fisioterapis
+          </button>
+        </div>
         
         <div class="login-form">
           <div class="login-error" id="loginError">Kredensial salah!</div>
     
-          <!-- Staf Login Form -->
-          <div id="stafLoginForm" style="display:flex;flex-direction:column;gap:12px;">
+          <!-- Administrasi (Admin/Kasir) Login Form -->
+          <div id="adminLoginForm" style="display:flex;flex-direction:column;gap:12px;">
             <div class="login-input-group">
               <iconify-icon icon="lucide:user"></iconify-icon>
-              <input type="text" class="login-input" id="adminUsername" placeholder="Nama Pengguna" onkeydown="if(event.key==='Enter')handleLoginAdmin()">
+              <input type="text" class="login-input" id="adminUsername" placeholder="Nama Pengguna Staf" onkeydown="if(event.key==='Enter')handleLoginAdmin('admin')">
             </div>
             <div class="login-input-group">
               <iconify-icon icon="lucide:lock"></iconify-icon>
-              <input type="password" class="login-input" id="adminPassword" placeholder="Kata Sandi (Password)" onkeydown="if(event.key==='Enter')handleLoginAdmin()">
+              <input type="password" class="login-input" id="adminPassword" placeholder="Kata Sandi (Password)" onkeydown="if(event.key==='Enter')handleLoginAdmin('admin')">
             </div>
-            <button class="login-btn dark-btn" onclick="handleLoginAdmin()">
-              <span>Masuk Sebagai Staf</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            <button class="login-btn dark-btn" onclick="handleLoginAdmin('admin')">
+              <span>Masuk Administrasi</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </button>
+          </div>
+    
+          <!-- Fisioterapis Login Form -->
+          <div id="terapisLoginForm" style="display:none;flex-direction:column;gap:12px;">
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:user"></iconify-icon>
+              <input type="text" class="login-input" id="terapisUsername" placeholder="Nama Pengguna Terapis" onkeydown="if(event.key==='Enter')handleLoginAdmin('terapis')">
+            </div>
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:lock"></iconify-icon>
+              <input type="password" class="login-input" id="terapisPassword" placeholder="Kata Sandi (Password)" onkeydown="if(event.key==='Enter')handleLoginAdmin('terapis')">
+            </div>
+            <button class="login-btn" onclick="handleLoginAdmin('terapis')">
+              <span>Masuk Terapis</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
             </button>
           </div>
         </div>
@@ -1981,7 +2003,7 @@
     </div>
 
     <!-- ══════════ ADMIN: SPESIALISASI ══════════ -->
-    <div id="admin-spesialisasiView" class="page-view role-admin">
+    <div id="admin-spesialisasiView" class="page-view role-admin role-terapis">
       <div class="page-header">
         <div class="page-headline">
           <h1>Spesialisasi Fisioterapi</h1>
@@ -1989,6 +2011,70 @@
         </div>
       </div>
       <div class="grid-cards" id="specCards"></div>
+    </div>
+
+    <!-- ══════════ TERAPIS: DASHBOARD ══════════ -->
+    <div id="terapis-dashboardView" class="page-view role-terapis">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1 id="terapisWelcome">Selamat Datang, Terapis 👋</h1>
+          <p>Daftar sesi penanganan pasien Anda hari ini.</p>
+        </div>
+      </div>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-card-icon pink"><iconify-icon icon="lucide:user-check"></iconify-icon></div>
+          </div>
+          <div class="stat-card-val" id="sTerapisSesi">0</div>
+          <div class="stat-card-label">Sesi Pasien Saya Hari Ini</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-header">
+            <div class="stat-card-icon dark"><iconify-icon icon="lucide:file-text"></iconify-icon></div>
+          </div>
+          <div class="stat-card-val" id="sTerapisRM">0</div>
+          <div class="stat-card-label">Total Rekam Medis Dibuat</div>
+        </div>
+      </div>
+
+      <div class="luxury-card" style="padding:22px; margin-top: 24px;">
+        <div class="card-title" style="margin-bottom:14px;">📅 Jadwal Sesi Pasien Saya</div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>No. Antrean</th><th>Nama Pasien</th><th>Spesialisasi</th><th>Jam</th><th>Status</th></tr></thead>
+            <tbody id="terapisAptTable"><tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ REKAM MEDIS ══════════ -->
+    <div id="rekam-medisView" class="page-view role-admin role-terapis">
+      <div class="page-header">
+        <div class="page-headline">
+          <h1>Pencatatan Rekam Medis</h1>
+          <p>Kelola dan tinjau riwayat catatan medis fisioterapi pasien.</p>
+        </div>
+        <button class="btn btn-primary" onclick="openMedicalRecordModal()">
+          <iconify-icon icon="lucide:plus"></iconify-icon> Tambah Rekam Medis
+        </button>
+      </div>
+      <div class="luxury-card">
+        <div class="card-toolbar">
+          <div class="search-wrap">
+            <iconify-icon icon="lucide:search"></iconify-icon>
+            <input type="text" class="search-input" id="searchRMInput" placeholder="Cari nama pasien atau diagnosa..." onkeyup="filterMedicalRecords(this.value)">
+          </div>
+        </div>
+        <div class="table-container">
+          <table>
+            <thead><tr><th>Tanggal</th><th>ID Pasien</th><th>Nama Pasien</th><th>Diagnosa</th><th>Spesialisasi</th><th>Fisioterapis</th><th style="text-align:right;">Aksi</th></tr></thead>
+            <tbody id="rekamMedisTable"><tr><td colspan="7" style="text-align:center;padding:20px;">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- ══════════ KASIR: DASHBOARD ══════════ -->
@@ -2080,6 +2166,62 @@
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('registerModal')">Batal</button>
       <button class="btn btn-primary" id="regBtn" onclick="handleRegister()">Daftar Sekarang</button>
+    </div>
+  </div>
+</div>
+
+<!-- MEDICAL RECORD MODAL -->
+<div class="modal-overlay" id="medicalRecordModal" onclick="closeModalOutside(event,'medicalRecordModal')">
+  <div class="modal-box" style="width:560px;">
+    <div class="modal-header">
+      <h2 class="modal-title">Tambah Rekam Medis Pasien</h2>
+      <button class="modal-close" onclick="closeModal('medicalRecordModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="rmAlert"></div>
+      <div class="form-grid" id="rmForm">
+        <div class="form-group form-full">
+          <label class="form-label">Pasien *</label>
+          <select class="form-select" id="rmPatientSelect" required>
+            <option value="">— Pilih Pasien —</option>
+          </select>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Diagnosa Penyakit *</label>
+          <input class="form-input" id="rmDiagnosa" placeholder="Contoh: Low Back Pain / Post Stroke Hemiparese" required>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Rekomendasi Terapi Fisioterapi *</label>
+          <select class="form-select" id="rmSpesialisasi" required>
+            <option value="">— Pilih Spesialisasi —</option>
+            <option value="Fisioterapi Muskuloskeletal">Fisioterapi Muskuloskeletal</option>
+            <option value="Fisioterapi Neuromuskular">Fisioterapi Neuromuskular</option>
+            <option value="Fisioterapi Kardiovaskulopulmonal">Fisioterapi Kardiovaskulopulmonal</option>
+            <option value="Fisioterapi Pediatri">Fisioterapi Pediatri</option>
+            <option value="Fisioterapi Geriatri">Fisioterapi Geriatri</option>
+            <option value="Fisioterapi Kesehatan Wanita">Fisioterapi Kesehatan Wanita</option>
+            <option value="Fisioterapi Sport">Fisioterapi Sport</option>
+          </select>
+        </div>
+        <div class="form-group form-full">
+          <label class="form-label">Catatan &amp; Tindakan Terapi *</label>
+          <textarea class="form-input" id="rmCatatan" placeholder="Detail penanganan fisioterapi, obat, latihan, dll." style="height:100px; resize:none;" required></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tanggal Periksa *</label>
+          <input class="form-input" id="rmTanggal" type="date" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fisioterapis Pemeriksa *</label>
+          <select class="form-select" id="rmTherapistSelect" required>
+            <option value="">— Pilih Fisioterapis —</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('medicalRecordModal')">Batal</button>
+      <button class="btn btn-primary" id="rmBtn" onclick="handleSaveMedicalRecord()">Simpan Catatan</button>
     </div>
   </div>
 </div>
@@ -2365,7 +2507,27 @@ function demoHandler(fn, args) {
           const [u,p] = args;
           if(u==='admin'&&p==='admin123') res({ success:true, admin:{ id:'A001', nama:'Administrator', role:'admin' }});
           else if(u==='kasir'&&p==='kasir123') res({ success:true, admin:{ id:'A002', nama:'Kasir Klinik', role:'kasir' }});
+          else if(u==='terapis'&&p==='terapis123') res({ success:true, admin:{ id:'T001', nama:'dr. Andi Pratama, Sp.FT', role:'terapis' }});
           else res({ success:false, message:'Username/password salah.' });
+          break;
+        }
+        case 'getAllPatients': {
+          res({ success: true, data: demoPasien.map(p => ({ id: p.id, nama: p.nama, nik: p.nik, noTelepon: p.phone, email: p.email, tanggalDaftar: todayStr })) });
+          break;
+        }
+        case 'getTherapists': {
+          res({ success: true, data: THERAPISTS.map(t => ({ TherapistID: t.id, Nama: t.nama, Spesialisasi: t.spec, JadwalHari: t.hari, JamMulai: '08:00', JamSelesai: '15:00', Status: 'Aktif' })) });
+          break;
+        }
+        case 'getMedicalRecords': {
+          res({ success: true, data: demoRecords });
+          break;
+        }
+        case 'addMedicalRecord': {
+          const [patientID, namaPasien, diagnosa, spesialisasi, catatan, therapistID, namaTherapist, tanggal] = args;
+          const rec = { RecordID: 'REC' + Date.now(), PatientID: patientID, NamaPasien: namaPasien, Diagnosa: diagnosa, Spesialisasi: spesialisasi, Catatan: catatan, TherapistID: therapistID, NamaTherapist: namaTherapist, Tanggal: tanggal };
+          demoRecords.push(rec);
+          res({ success: true, message: 'Rekam medis berhasil ditambahkan!' });
           break;
         }
         case 'registerPatient': {
@@ -2520,10 +2682,16 @@ const NAV_CONFIG = {
     { id:'admin-pendaftaran', icon:'lucide:clipboard-list', label:'Pendaftaran' },
     { id:'admin-antrean', icon:'lucide:monitor', label:'Antrean' },
     { id:'admin-pembayaran', icon:'lucide:wallet', label:'Pembayaran' },
+    { id:'rekam-medis', icon:'lucide:file-text', label:'Rekam Medis' },
     { id:'admin-spesialisasi', icon:'lucide:activity', label:'Spesialisasi' }
   ],
   kasir: [
     { id:'kasir-dashboard', icon:'lucide:wallet', label:'Dashboard Kasir' }
+  ],
+  terapis: [
+    { id:'terapis-dashboard', icon:'lucide:layout-dashboard', label:'Dashboard Terapis' },
+    { id:'rekam-medis', icon:'lucide:file-text', label:'Rekam Medis' },
+    { id:'admin-spesialisasi', icon:'lucide:activity', label:'Spesialisasi' }
   ],
   pasien: [
     { id:'pasien-portal', icon:'lucide:user-check', label:'Portal Saya' }
@@ -2559,9 +2727,16 @@ function showPage(pageId) {
   if(pageId==='admin-pembayaran'||pageId==='kasir-dashboard') loadPayments();
   if(pageId==='admin-spesialisasi') renderSpecCards();
   if(pageId==='pasien-portal') loadPasienApt();
+  if(pageId==='terapis-dashboard') loadTerapisDashboard();
+  if(pageId==='rekam-medis') { loadMedicalRecords(); loadPatientsDropdown(); loadTherapistsDropdown(); }
 }
 
-function goHome() { showPage(currentRole==='admin'?'admin-dashboard':currentRole==='kasir'?'kasir-dashboard':'pasien-portal'); }
+function goHome() {
+  if (currentRole === 'admin') showPage('admin-dashboard');
+  else if (currentRole === 'kasir') showPage('kasir-dashboard');
+  else if (currentRole === 'terapis') showPage('terapis-dashboard');
+  else showPage('pasien-portal');
+}
 
 // ── LOGIN ──
 function initials(name) { return name ? name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase() : 'U'; }
@@ -2575,7 +2750,12 @@ function doLogin(user, role) {
   document.getElementById('headerTitle').textContent = user.nama;
   document.getElementById('headerSub').textContent = role.charAt(0).toUpperCase()+role.slice(1)+' · Klinik Polcasan';
   buildNav(role);
-  showPage(role==='admin'?'admin-dashboard':role==='kasir'?'kasir-dashboard':'pasien-portal');
+  
+  if (role === 'admin') showPage('admin-dashboard');
+  else if (role === 'kasir') showPage('kasir-dashboard');
+  else if (role === 'terapis') showPage('terapis-dashboard');
+  else showPage('pasien-portal');
+  
   if(role==='pasien') {
     document.getElementById('pNama').textContent = user.nama;
     document.getElementById('pNIK').textContent = user.nik||'-';
@@ -2585,9 +2765,9 @@ function doLogin(user, role) {
   showToast('Selamat datang, '+user.nama+'!', '👋');
 }
 
-async function handleLoginAdmin() {
-  const u = document.getElementById('adminUsername').value.trim();
-  const p = document.getElementById('adminPassword').value;
+async function handleLoginAdmin(type) {
+  const u = document.getElementById(type === 'admin' ? 'adminUsername' : 'terapisUsername').value.trim();
+  const p = document.getElementById(type === 'admin' ? 'adminPassword' : 'terapisPassword').value;
   if(!u||!p) return;
   document.getElementById('loginError').style.display='none';
   try {
@@ -3042,6 +3222,250 @@ async function handleDirectQueueCheck() {
   } finally {
     btn.disabled = false;
     btn.innerHTML = '<span>Periksa Status</span> <iconify-icon icon="lucide:search"></iconify-icon>';
+  }
+}
+
+// ── REKAM MEDIS & DASHBOARD TERAPIS ──
+let demoRecords = [
+  { RecordID: 'REC001', PatientID: 'P001', NamaPasien: 'Siti Aminah', Diagnosa: 'Low Back Pain', Spesialisasi: 'Fisioterapi Muskuloskeletal', Catatan: 'Mengalami nyeri punggung bawah kronis. Dilakukan terapi manual, pemanasan infra-merah, dan edukasi posisi duduk tegak.', TherapistID: 'T001', NamaTherapist: 'dr. Andi Pratama, Sp.FT', Tanggal: todayStr },
+  { RecordID: 'REC002', PatientID: 'P002', NamaPasien: 'Budi Utomo', Diagnosa: 'Hemiparese Dextra post Stroke', Spesialisasi: 'Fisioterapi Neuromuskular', Catatan: 'Terapi latihan gerak pasif dan penguatan otot ekstremitas kanan atas dan bawah.', TherapistID: 'T002', NamaTherapist: 'dr. Sari Dewi, Sp.FT', Tanggal: todayStr },
+  { RecordID: 'REC003', PatientID: 'P004', NamaPasien: 'Rini Lestari', Diagnosa: 'Keterlambatan Motorik Kasar', Spesialisasi: 'Fisioterapi Pediatri', Catatan: 'Terapi stimulasi merangkak dan berdiri tegak dengan penyangga.', TherapistID: 'T004', NamaTherapist: 'dr. Maya Putri, Sp.FT', Tanggal: todayStr }
+];
+
+let allMedicalRecords = [];
+
+function switchLoginTab(tab) {
+  document.querySelectorAll('.login-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  document.getElementById('adminLoginForm').style.display = tab==='admin'?'flex':'none';
+  document.getElementById('terapisLoginForm').style.display = tab==='terapis'?'flex':'none';
+  document.getElementById('loginError').style.display='none';
+}
+
+function openMedicalRecordModal() {
+  document.getElementById('rmAlert').innerHTML = '';
+  document.getElementById('rmDiagnosa').value = '';
+  document.getElementById('rmCatatan').value = '';
+  document.getElementById('rmTanggal').value = todayStr;
+  
+  if (currentRole === 'terapis') {
+    const therapistSelect = document.getElementById('rmTherapistSelect');
+    therapistSelect.value = currentUser.id;
+    therapistSelect.disabled = true;
+  } else {
+    document.getElementById('rmTherapistSelect').disabled = false;
+    document.getElementById('rmTherapistSelect').value = '';
+  }
+  
+  openModal('medicalRecordModal');
+}
+
+async function loadPatientsDropdown() {
+  const select = document.getElementById('rmPatientSelect');
+  if (select.children.length > 1) return;
+  try {
+    const r = await runServer('getAllPatients');
+    if (r.success) {
+      r.data.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.id;
+        opt.dataset.nama = p.nama;
+        opt.textContent = p.id + ' — ' + p.nama;
+        select.appendChild(opt);
+      });
+    }
+  } catch (e) {
+    console.error('Failed to load patients for dropdown:', e);
+  }
+}
+
+async function loadTherapistsDropdown() {
+  const select = document.getElementById('rmTherapistSelect');
+  if (select.children.length > 1) return;
+  try {
+    const r = await runServer('getTherapists');
+    if (r.success) {
+      r.data.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.TherapistID;
+        opt.dataset.nama = t.Nama;
+        opt.textContent = t.Nama;
+        select.appendChild(opt);
+      });
+    }
+  } catch (e) {
+    console.error('Failed to load therapists for dropdown:', e);
+  }
+}
+
+async function loadMedicalRecords() {
+  const tb = document.getElementById('rekamMedisTable');
+  tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text-light);">Memuat...</td></tr>';
+  try {
+    const r = await runServer('getMedicalRecords');
+    if (r.success) {
+      allMedicalRecords = r.data;
+      renderMedicalRecordsTable(allMedicalRecords);
+    } else {
+      tb.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--error);">${r.message}</td></tr>`;
+    }
+  } catch (e) {
+    tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--error);">Gagal memuat rekam medis.</td></tr>';
+  }
+}
+
+function renderMedicalRecordsTable(records) {
+  const tb = document.getElementById('rekamMedisTable');
+  if (!records || records.length === 0) {
+    tb.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text-light);">Belum ada rekam medis.</td></tr>';
+    return;
+  }
+  
+  tb.innerHTML = records.map(r => `
+    <tr>
+      <td>${formatDate(r.Tanggal)}</td>
+      <td><strong>${r.PatientID}</strong></td>
+      <td>${r.NamaPasien}</td>
+      <td><span style="font-weight:600;color:var(--primary);">${r.Diagnosa}</span></td>
+      <td><span class="spec-badge" style="font-size:11px;padding:3px 8px;border:1px solid var(--border-color);border-radius:4px;display:inline-block;">${r.Spesialisasi}</span></td>
+      <td>${r.NamaTherapist}</td>
+      <td style="text-align:right;">
+        <button class="btn btn-sm btn-outline" onclick="showRecordDetail('${escHtml(r.RecordID)}')">Detail</button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterMedicalRecords(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) {
+    renderMedicalRecordsTable(allMedicalRecords);
+    return;
+  }
+  const filtered = allMedicalRecords.filter(r => 
+    r.NamaPasien.toLowerCase().includes(q) || 
+    r.PatientID.toLowerCase().includes(q) || 
+    r.Diagnosa.toLowerCase().includes(q) ||
+    r.Spesialisasi.toLowerCase().includes(q)
+  );
+  renderMedicalRecordsTable(filtered);
+}
+
+function showRecordDetail(recordId) {
+  const r = allMedicalRecords.find(x => x.RecordID === recordId);
+  if (!r) return;
+  
+  const detailHTML = `
+    <div style="font-family:var(--font-body);color:var(--text-main);display:flex;flex-direction:column;gap:12px;padding:12px 0;">
+      <div style="display:flex;justify-content:space-between;border-bottom:1px double var(--border-color);padding-bottom:10px;margin-bottom:8px;">
+        <span style="font-size:18px;font-family:var(--font-display);font-weight:800;color:var(--primary);">${r.RecordID}</span>
+        <span style="font-size:12px;color:var(--text-muted);">${formatDate(r.Tanggal)}</span>
+      </div>
+      <div><strong>Nama Pasien:</strong> ${r.NamaPasien} (${r.PatientID})</div>
+      <div><strong>Fisioterapis:</strong> ${r.NamaTherapist} (${r.TherapistID})</div>
+      <div style="background:var(--primary-pale);border-left:4px solid var(--primary);padding:10px 14px;border-radius:4px;">
+        <strong>Diagnosa:</strong><br>
+        <span style="font-size:15px;color:var(--primary);font-weight:700;">${r.Diagnosa}</span>
+      </div>
+      <div><strong>Spesialisasi Terapi:</strong><br>${r.Spesialisasi}</div>
+      <div style="background:var(--accent-pale);border-left:4px solid var(--accent);padding:12px 14px;border-radius:4px;">
+        <strong>Catatan &amp; Tindakan Fisioterapi:</strong><br>
+        <span style="white-space:pre-line;line-height:1.5;font-size:13px;">${r.Catatan}</span>
+      </div>
+    </div>
+    <div style="text-align:right;margin-top:14px;">
+      <button class="btn btn-primary" onclick="closeModal('bookingModal')">Tutup</button>
+    </div>
+  `;
+  
+  document.getElementById('bookAlert').innerHTML = '';
+  document.getElementById('bookingModal').querySelector('.modal-title').textContent = 'Detail Rekam Medis';
+  const modalBody = document.getElementById('bookingModal').querySelector('.modal-body');
+  modalBody.innerHTML = detailHTML;
+  openModal('bookingModal');
+}
+
+async function handleSaveMedicalRecord() {
+  const patientSelect = document.getElementById('rmPatientSelect');
+  const patientID = patientSelect.value;
+  const namaPasien = patientSelect.options[patientSelect.selectedIndex]?.dataset.nama || '';
+  const diagnosa = document.getElementById('rmDiagnosa').value.trim();
+  const spesialisasi = document.getElementById('rmSpesialisasi').value;
+  const catatan = document.getElementById('rmCatatan').value.trim();
+  const tanggal = document.getElementById('rmTanggal').value;
+  const therapistSelect = document.getElementById('rmTherapistSelect');
+  const therapistID = therapistSelect.value;
+  const namaTherapist = therapistSelect.options[therapistSelect.selectedIndex]?.dataset.nama || '';
+  
+  const alertEl = document.getElementById('rmAlert');
+  alertEl.innerHTML = '';
+  
+  if (!patientID || !diagnosa || !spesialisasi || !catatan || !tanggal || !therapistID) {
+    alertEl.innerHTML = '<div class="alert alert-error">Mohon lengkapi semua bidang wajib (*).</div>';
+    return;
+  }
+  
+  const btn = document.getElementById('rmBtn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> Menyimpan...';
+  
+  try {
+    const r = await runServer('addMedicalRecord', patientID, namaPasien, diagnosa, spesialisasi, catatan, therapistID, namaTherapist, tanggal);
+    if (r.success) {
+      showToast('Rekam medis berhasil disimpan!');
+      closeModal('medicalRecordModal');
+      loadMedicalRecords();
+    } else {
+      alertEl.innerHTML = `<div class="alert alert-error">${r.message}</div>`;
+    }
+  } catch (e) {
+    alertEl.innerHTML = '<div class="alert alert-error">Gagal menghubungi server.</div>';
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Simpan Catatan';
+  }
+}
+
+async function loadTerapisDashboard() {
+  document.getElementById('terapisWelcome').textContent = 'Selamat Datang, ' + currentUser.nama + ' 👋';
+  const tb = document.getElementById('terapisAptTable');
+  tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">Memuat...</td></tr>';
+  
+  try {
+    const r = await runServer('getTodayAppointments');
+    if (r.success && r.data) {
+      const myApts = r.data.filter(a => a.TherapistID === currentUser.id || a.NamaTherapist === currentUser.nama);
+      document.getElementById('sTerapisSesi').textContent = myApts.length;
+      
+      const recordsRes = await runServer('getMedicalRecords');
+      if (recordsRes.success && recordsRes.data) {
+        const myRecordsCount = recordsRes.data.filter(rm => rm.TherapistID === currentUser.id || rm.NamaTherapist === currentUser.nama).length;
+        document.getElementById('sTerapisRM').textContent = myRecordsCount;
+      }
+      
+      if (myApts.length === 0) {
+        tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-light);">Tidak ada jadwal sesi pasien Anda hari ini.</td></tr>';
+        return;
+      }
+      
+      tb.innerHTML = myApts.map(a => {
+        const st = a.Status || a.status || 'Terjadwal';
+        const sc = st.toLowerCase().replace('-', '');
+        return `
+          <tr>
+            <td><strong>${a.nomorAntrean || a.NomorAntrean}</strong></td>
+            <td>${a.namaPasien || a.NamaPasien}</td>
+            <td>${a.spesialisasi || a.Spesialisasi}</td>
+            <td>${a.jam || a.Jam} WIB</td>
+            <td><span class="status-chip ${sc}">${st}</span></td>
+          </tr>
+        `;
+      }).join('');
+    } else {
+      tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--error);">Gagal memuat sesi pasien.</td></tr>';
+    }
+  } catch (e) {
+    tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--error);">Gagal menghubungi server.</td></tr>';
   }
 }
 

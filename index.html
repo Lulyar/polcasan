@@ -1751,6 +1751,9 @@
           <button class="login-tab" id="tab-terapis" onclick="switchLoginTab('terapis')">
             <iconify-icon icon="lucide:stethoscope"></iconify-icon> Fisioterapis
           </button>
+          <button class="login-tab" id="tab-pasien" onclick="switchLoginTab('pasien')">
+            <iconify-icon icon="lucide:user"></iconify-icon> Pasien
+          </button>
         </div>
         
         <div class="login-form">
@@ -1783,6 +1786,21 @@
             </div>
             <button class="login-btn" onclick="handleLoginAdmin('terapis')">
               <span>Masuk Terapis</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
+            </button>
+          </div>
+
+          <!-- Pasien Login Form -->
+          <div id="pasienLoginForm" style="display:none;flex-direction:column;gap:12px;">
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:user"></iconify-icon>
+              <input type="text" class="login-input" id="pasienUsername" placeholder="NIK atau Nomor Telepon Pasien" onkeydown="if(event.key==='Enter')handleLoginPasienSubmit()">
+            </div>
+            <div class="login-input-group">
+              <iconify-icon icon="lucide:lock"></iconify-icon>
+              <input type="password" class="login-input" id="pasienPassword" placeholder="Kata Sandi (Password)" onkeydown="if(event.key==='Enter')handleLoginPasienSubmit()">
+            </div>
+            <button class="login-btn" onclick="handleLoginPasienSubmit()">
+              <span>Masuk Pasien</span> <iconify-icon icon="lucide:arrow-right"></iconify-icon>
             </button>
           </div>
         </div>
@@ -2130,6 +2148,53 @@
         </h3>
         <div class="apt-list" id="pasienAptList">
           <div class="alert alert-info">Memuat data...</div>
+        </div>
+      </div>
+
+      <!-- Riwayat Rekam Medis -->
+      <div class="luxury-card" style="padding:22px; margin-top:20px;">
+        <h3 style="margin-bottom:14px;display:flex;align-items:center;gap:7px;">
+          <iconify-icon icon="lucide:file-text" style="color:var(--primary);"></iconify-icon> Riwayat Rekam Medis Anda
+        </h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Tanggal</th>
+                <th>Diagnosa</th>
+                <th>Spesialisasi</th>
+                <th>Fisioterapis</th>
+                <th style="text-align:right;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="pasienRMTable">
+              <tr><td colspan="5" style="text-align:center;padding:15px;color:var(--text-light);">Belum ada riwayat rekam medis.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Riwayat Pembayaran -->
+      <div class="luxury-card" style="padding:22px; margin-top:20px;">
+        <h3 style="margin-bottom:14px;display:flex;align-items:center;gap:7px;">
+          <iconify-icon icon="lucide:wallet" style="color:var(--primary);"></iconify-icon> Riwayat Pembayaran &amp; Kuitansi
+        </h3>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>No. Kuitansi</th>
+                <th>Layanan</th>
+                <th>Jumlah</th>
+                <th>Metode</th>
+                <th>Status</th>
+                <th style="text-align:right;">Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="pasienPayTable">
+              <tr><td colspan="6" style="text-align:center;padding:15px;color:var(--text-light);">Belum ada riwayat pembayaran.</td></tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -2725,7 +2790,7 @@ function showPage(pageId) {
   if(pageId==='admin-antrean') loadQueueData();
   if(pageId==='admin-pembayaran'||pageId==='kasir-dashboard') loadPayments();
   if(pageId==='admin-spesialisasi') renderSpecCards();
-  if(pageId==='pasien-portal') loadPasienApt();
+  if(pageId==='pasien-portal') { loadPasienApt(); loadPasienRM(); loadPasienPay(); }
   if(pageId==='terapis-dashboard') loadTerapisDashboard();
   if(pageId==='rekam-medis') { loadMedicalRecords(); loadPatientsDropdown(); loadTherapistsDropdown(); }
 }
@@ -3245,7 +3310,110 @@ function switchLoginTab(tab) {
   document.getElementById('tab-' + tab).classList.add('active');
   document.getElementById('adminLoginForm').style.display = tab==='admin'?'flex':'none';
   document.getElementById('terapisLoginForm').style.display = tab==='terapis'?'flex':'none';
+  document.getElementById('pasienLoginForm').style.display = tab==='pasien'?'flex':'none';
   document.getElementById('loginError').style.display='none';
+}
+
+async function handleLoginPasienSubmit() {
+  const u = document.getElementById('pasienUsername').value.trim();
+  const p = document.getElementById('pasienPassword').value;
+  if(!u||!p) return;
+  document.getElementById('loginError').style.display='none';
+  try {
+    const r = await runServer('loginPatient', u, p);
+    if(r.success) { doLogin(r.patient, 'pasien'); }
+    else { document.getElementById('loginError').textContent=r.message; document.getElementById('loginError').style.display='block'; }
+  } catch(e) { document.getElementById('loginError').textContent='Terjadi kesalahan.'; document.getElementById('loginError').style.display='block'; }
+}
+
+async function loadPasienRM() {
+  if(!currentUser) return;
+  const tb = document.getElementById('pasienRMTable');
+  tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:15px;color:var(--text-light);"><span class="spinner"></span> Memuat...</td></tr>';
+  try {
+    const r = await runServer('getMedicalRecords');
+    if (r.success) {
+      allMedicalRecords = r.data;
+      const myRecords = r.data.filter(x => x.PatientID === currentUser.id);
+      if (myRecords.length > 0) {
+        tb.innerHTML = myRecords.map(r => `
+          <tr>
+            <td>${formatDate(r.Tanggal)}</td>
+            <td><span style="font-weight:600;color:var(--primary);">${r.Diagnosa}</span></td>
+            <td><span class="spec-badge" style="font-size:11px;padding:3px 8px;border:1px solid var(--border-color);border-radius:4px;display:inline-block;">${r.Spesialisasi}</span></td>
+            <td>${r.NamaTherapist}</td>
+            <td style="text-align:right;">
+              <button class="btn btn-sm btn-outline" onclick="showRecordDetail('${escHtml(r.RecordID)}')">Detail</button>
+            </td>
+          </tr>
+        `).join('');
+      } else {
+        tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:15px;color:var(--text-light);">Belum ada riwayat rekam medis.</td></tr>';
+      }
+    } else {
+      tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:15px;color:var(--error);">Gagal memuat rekam medis.</td></tr>';
+    }
+  } catch(e) {
+    tb.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:15px;color:var(--error);">Gagal memuat rekam medis.</td></tr>';
+  }
+}
+
+async function loadPasienPay() {
+  if(!currentUser) return;
+  const tb = document.getElementById('pasienPayTable');
+  tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:15px;color:var(--text-light);"><span class="spinner"></span> Memuat...</td></tr>';
+  try {
+    const r = await runServer('getPaymentHistory');
+    if (r.success) {
+      const myPayments = r.data.filter(x => x.PatientID === currentUser.id);
+      if (myPayments.length > 0) {
+        tb.innerHTML = myPayments.map(p => `
+          <tr>
+            <td><strong>${p.NomorKuitansi || p.nomorKuitansi || '-'}</strong></td>
+            <td>${p.Layanan}</td>
+            <td>Rp ${(parseFloat(p.JumlahTagihan)||0).toLocaleString('id-ID')}</td>
+            <td>${p.MetodePembayaran}</td>
+            <td><span class="status-chip selesai">Lunas</span></td>
+            <td style="text-align:right;">
+              <button class="btn btn-sm btn-outline" onclick="printReceipt('${escHtml(p.PaymentID || p.paymentID)}')">Kuitansi</button>
+            </td>
+          </tr>
+        `).join('');
+      } else {
+        tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:15px;color:var(--text-light);">Belum ada riwayat pembayaran.</td></tr>';
+      }
+    } else {
+      tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:15px;color:var(--error);">Gagal memuat riwayat pembayaran.</td></tr>';
+    }
+  } catch(e) {
+    tb.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:15px;color:var(--error);">Gagal memuat riwayat pembayaran.</td></tr>';
+  }
+}
+
+async function printReceipt(paymentID) {
+  try {
+    const r = await runServer('getPaymentHistory');
+    if (r.success) {
+      const p = r.data.find(x => x.PaymentID === paymentID || x.paymentID === paymentID);
+      if (p) {
+        const data = {
+          namaPasien: p.NamaPasien || p.namaPasien,
+          layanan: p.Layanan || p.layanan,
+          jumlahTagihan: p.JumlahTagihan || p.jumlahTagihan,
+          metodePembayaran: p.MetodePembayaran || p.metodePembayaran,
+          statusAsuransi: p.StatusAsuransi || p.statusAsuransi || 'Tidak',
+          namaAsuransi: p.NamaAsuransi || p.namaAsuransi || '-'
+        };
+        const receipt = {
+          nomorKuitansi: p.NomorKuitansi || p.nomorKuitansi,
+          tanggalBayar: p.TanggalBayar || p.tanggalBayar
+        };
+        showReceipt(data, receipt);
+      }
+    }
+  } catch (e) {
+    showToast('Gagal memuat kuitansi.', '⚠️');
+  }
 }
 
 function openMedicalRecordModal() {
